@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Web.Security;
 
 
+// TODO : utiliser ce context pour se loguer
     public class GPOrderContextInitializer : DropCreateDatabaseAlways<GPOrderContext>
     {
         protected override void Seed(GPOrderContext context)
