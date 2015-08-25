@@ -6,111 +6,121 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using GPOrder.Models;
 
-namespace GPOrder.Controllers
+namespace GPOrder.Views
 {
-    public class SearchUsersController : Controller
+    public class ProductsController : Controller
     {
-        private GPOrderContext db = new GPOrderContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: SearchUsers
+        // GET: Products
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var list = db.Products.Include(path => path.CreateUser).ToList();
+            return View(list);
         }
 
-        // GET: SearchUsers/Details/5
+        // GET: Products/Details/5
+        [Authorize]
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(product);
         }
 
-        // GET: SearchUsers/Create
+        // GET: Products/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: SearchUsers/Create
+        // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserId,Username,Email,Password,FirstName,LastName,Comment,IsApproved,PasswordFailuresSinceLastSuccess,LastPasswordFailureDate,LastActivityDate,LastLockoutDate,LastLoginDate,ConfirmationToken,CreateDate,IsLockedOut,LastPasswordChangedDate,PasswordVerificationToken,PasswordVerificationTokenExpirationDate")] User user)
+        public ActionResult Create([Bind(Include = "Id,Name,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
-                user.UserId = Guid.NewGuid();
-                db.Users.Add(user);
+                product.Id = Guid.NewGuid();
+                product.CreateUser = db.Users.Single(u => u.UserName == User.Identity.Name);
+                db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(product);
         }
 
-        // GET: SearchUsers/Edit/5
+        // GET: Products/Edit/5
+        [Authorize]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(product);
         }
 
-        // POST: SearchUsers/Edit/5
+        // POST: Products/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,Username,Email,Password,FirstName,LastName,Comment,IsApproved,PasswordFailuresSinceLastSuccess,LastPasswordFailureDate,LastActivityDate,LastLockoutDate,LastLoginDate,ConfirmationToken,CreateDate,IsLockedOut,LastPasswordChangedDate,PasswordVerificationToken,PasswordVerificationTokenExpirationDate")] User user)
+        public ActionResult Edit([Bind(Include = "Id,Name,Price")] Product product)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(product).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(product);
         }
 
-        // GET: SearchUsers/Delete/5
+        // GET: Products/Delete/5
+        [Authorize]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
-            if (user == null)
+            Product product = db.Products.Find(id);
+            if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(product);
         }
 
-        // POST: SearchUsers/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
+            Product product = db.Products.Find(id);
+            db.Products.Remove(product);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
