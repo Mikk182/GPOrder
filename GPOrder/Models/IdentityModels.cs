@@ -35,6 +35,15 @@ namespace GPOrder.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Order>()
+                .HasKey(l => l.Id);
+                //.HasRequired(c => c.OrderDate)
+                //.WithOptional()
+                //.WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<OrderLine>()
+                .HasKey(l => l.Id);
+
             modelBuilder.Entity<Product>()
                 .HasKey(l => l.Id)
                 .HasRequired(c => c.CreateUser)
@@ -48,5 +57,6 @@ namespace GPOrder.Models
 
         public System.Data.Entity.DbSet<GPOrder.Models.Product> Products { get; set; }
 
+        public System.Data.Entity.DbSet<GPOrder.Models.Order> Orders { get; set; }
     }
 }
