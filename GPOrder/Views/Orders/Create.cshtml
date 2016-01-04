@@ -1,4 +1,6 @@
-﻿@model GPOrder.Models.Order
+﻿@using JQueryUIHelpers
+
+@model GPOrder.Models.Order
 
 @{
     ViewBag.Title = "Create";
@@ -8,10 +10,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Order</h4>
         <hr />
@@ -19,7 +21,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.JQueryUI().DatepickerFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,17 +30,17 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.JQueryUI().DatepickerFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsLocked, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.OrderLines, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.IsLocked)
-                    @Html.ValidationMessageFor(model => model.IsLocked, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.OrderLines, "OrderLines")
                 </div>
             </div>
         </div>
@@ -56,4 +59,39 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+
+    <script type="text/javascript">
+        function ApplyJQuery() {
+            //$("#OrderLinesDiv input[data-jqui-type='autocomplete']")
+            $.each($("#OrderLinesDiv input[data-jqui-type='autocomplete']"), function( index, value ) {
+                //$(value).autocomplete({
+                //    source: value.dataset.jquiAcompSource,
+                //});
+                $(value).autocomplete({
+                    minLength: 0,
+                    source: function (request, response) {
+                        var url = value.dataset.jquiAcompSource;
+
+                        $.getJSON(url, { term: request.term }, function (data) {
+                            response(data);
+                        })
+                    },
+                    select: function (event, ui) {
+                        $(event.target).parent().children('input[type=hidden]').val(ui.item.id);
+                    },
+                    change: function (event, ui) {
+                        if (!ui.item) {
+                            $(event.target).val('').parent().children('input[type=hidden]').val('');
+                        }
+                    }
+                });
+            });
+        }
+    </script>
 }

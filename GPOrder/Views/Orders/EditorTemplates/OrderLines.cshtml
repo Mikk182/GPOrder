@@ -1,0 +1,12 @@
+﻿@model IEnumerable<GPOrder.Models.OrderLine>
+
+@Ajax.ActionLink("Add", "GetNewOrderLine", new AjaxOptions { InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "OrderLinesDiv", OnComplete = "ApplyJQuery" })
+<div id="OrderLinesDiv">
+    @if (Model != null)
+    {
+        foreach (var orderLine in Model)
+        {
+            @Html.EditorFor(m => m)
+        }
+    }
+</div>

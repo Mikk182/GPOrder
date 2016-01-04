@@ -1,0 +1,47 @@
+﻿@using JQueryUIHelpers
+
+@model GPOrder.Models.OrderLine
+
+@using (Html.BeginCollectionItem(Html.ViewData.TemplateInfo.HtmlFieldPrefix))
+{
+@*@Html.AntiForgeryToken()*@
+
+<div class="form-horizontal">
+    <h4>OrderLine</h4>
+    <hr />
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OrderedQty, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.OrderedQty)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BuyQty, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.BuyQty)
+            @Html.ValidationMessageFor(model => model.BuyQty, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.JQueryUI().AutocompleteFor(model => model.Product.Name, Url.Action("GetProductsNames", "Orders")@*, new { @class = "autocompletewithhidden" }*@)
+            @Html.HiddenFor(model => model.Product.Id)
+            @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+}

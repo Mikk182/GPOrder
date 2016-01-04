@@ -46,17 +46,44 @@ namespace GPOrder.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,OrderDate,IsLocked")] Order order)
+        public ActionResult Create([Bind(Include = "Id,Date,OrderDate,IsLocked,OrderLines")] Order order)
         {
             if (ModelState.IsValid)
             {
                 order.Id = Guid.NewGuid();
                 db.Orders.Add(order);
+                foreach (var ol in order.OrderLines)
+                {
+                    var product = db.Products.Single(p => p.Id == ol.Product.Id);
+                    ol.Product = product;
+                    db.OrderLines.Add(ol);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(order);
+        }
+
+        public PartialViewResult GetNewOrderLine()
+        {
+            ViewData.TemplateInfo.HtmlFieldPrefix = "OrderLines";
+            return PartialView("EditorTemplates/OrderLine", new OrderLine());
+        }
+
+        public ActionResult GetProductsNames(string term)
+        {
+            var result = db.Products
+                .Where(c => c.Name.StartsWith(term))
+                .Take(10)
+                .Select(c => new
+                {
+                    id = c.Id,
+                    value = c.Name,
+                    label = c.Name
+                })
+                .ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Orders/Edit/5
@@ -66,7 +93,7 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = db.Orders.Include(o => o.OrderLines).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();

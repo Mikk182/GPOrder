@@ -58,5 +58,7 @@ namespace GPOrder.Models
         public System.Data.Entity.DbSet<GPOrder.Models.Product> Products { get; set; }
 
         public System.Data.Entity.DbSet<GPOrder.Models.Order> Orders { get; set; }
+
+        public System.Data.Entity.DbSet<GPOrder.Models.OrderLine> OrderLines { get; set; }
     }
 }
