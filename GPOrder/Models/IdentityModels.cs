@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 
 namespace GPOrder.Models
 {
@@ -37,9 +36,9 @@ namespace GPOrder.Models
         {
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id);
-                //.HasRequired(c => c.OrderDate)
-                //.WithOptional()
-                //.WillCascadeOnDelete(false);
+            //.HasRequired(c => c.OrderDate)
+            //.WithOptional()
+            //.WillCascadeOnDelete(false);
 
             modelBuilder.Entity<OrderLine>()
                 .HasKey(l => l.Id);

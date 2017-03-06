@@ -50,14 +50,12 @@ namespace GPOrder.Views
         {
             if (ModelState.IsValid)
             {
-                order.Id = Guid.NewGuid();
-                db.Orders.Add(order);
                 foreach (var ol in order.OrderLines)
                 {
                     var product = db.Products.Single(p => p.Id == ol.Product.Id);
                     ol.Product = product;
-                    db.OrderLines.Add(ol);
                 }
+                db.Orders.Add(order);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
