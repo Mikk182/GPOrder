@@ -54,7 +54,6 @@ namespace GPOrder.Views
         {
             if (ModelState.IsValid)
             {
-                product.Id = Guid.NewGuid();
                 product.CreateUser = db.Users.Single(u => u.UserName == User.Identity.Name);
                 db.Products.Add(product);
                 db.SaveChanges();

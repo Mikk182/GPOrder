@@ -1,0 +1,11 @@
+﻿@model IEnumerable<GPOrder.Models.OrderLine>
+
+<div id="OrderLinesDiv">
+    @if (Model != null)
+    {
+        foreach (var orderLine in Model)
+        {
+            @Html.DisplayFor(m => orderLine)
+        }
+    }
+</div>

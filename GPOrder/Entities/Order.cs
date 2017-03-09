@@ -10,8 +10,9 @@ namespace GPOrder.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsLocked { get; set; }
         public ICollection<OrderLine> OrderLines { get; set; }
@@ -25,7 +26,6 @@ namespace GPOrder.Models
         public Guid Id { get; set; }
         public int OrderedQty { get; set; }
         public int BuyQty { get; set; }
-        public decimal? Weight { get; set; }
         public Product Product { get; set; }
 
     }

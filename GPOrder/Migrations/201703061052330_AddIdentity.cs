@@ -12,14 +12,14 @@ namespace GPOrder.Migrations
             DropPrimaryKey("dbo.Products");
             DropPrimaryKey("dbo.Orders");
             DropPrimaryKey("dbo.OrderLines");
-            //AddColumn("dbo.OrderLines", "Order_Id", c => c.Guid());
+            AddColumn("dbo.OrderLines", "Order_Id", c => c.Guid());
             AlterColumn("dbo.Products", "Id", c => c.Guid(nullable: false, identity: true, defaultValueSql: "newsequentialid()"));
             AlterColumn("dbo.Orders", "Id", c => c.Guid(nullable: false, identity: true, defaultValueSql: "newsequentialid()"));
             AlterColumn("dbo.OrderLines", "Id", c => c.Guid(nullable: false, identity: true, defaultValueSql: "newsequentialid()"));
             AddPrimaryKey("dbo.Products", "Id");
             AddPrimaryKey("dbo.Orders", "Id");
             AddPrimaryKey("dbo.OrderLines", "Id");
-            //CreateIndex("dbo.OrderLines", "Order_Id");
+            CreateIndex("dbo.OrderLines", "Order_Id");
             AddForeignKey("dbo.OrderLines", "Order_Id", "dbo.Orders", "Id");
             AddForeignKey("dbo.OrderLines", "Product_Id", "dbo.Products", "Id");
         }

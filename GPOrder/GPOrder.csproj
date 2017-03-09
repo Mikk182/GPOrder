@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201703061052330_AddIdentity.Designer.cs">
       <DependentUpon>201703061052330_AddIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703072302110_StepOrder.cs" />
+    <Compile Include="Migrations\201703072302110_StepOrder.Designer.cs">
+      <DependentUpon>201703072302110_StepOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -309,6 +313,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\IIS Local.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -385,6 +390,10 @@
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\Orders\EditorTemplates\OrderLine.cshtml" />
     <Content Include="Views\Orders\EditorTemplates\OrderLines.cshtml" />
+    <Content Include="Views\Orders\DisplayTemplates\OrderLine.cshtml" />
+    <Content Include="Views\Orders\DisplayTemplates\OrderLines.cshtml" />
+    <Content Include="Views\Orders\DisplayTemplates\OrderLineForGrid.cshtml" />
+    <Content Include="Views\Orders\DisplayTemplates\OrderLinesForGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -410,6 +419,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703061052330_AddIdentity.resx">
       <DependentUpon>201703061052330_AddIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703072302110_StepOrder.resx">
+      <DependentUpon>201703072302110_StepOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

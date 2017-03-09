@@ -36,6 +36,15 @@
         </dd>
 
     </dl>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.OrderLines, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.DisplayFor(model => model.OrderLines, "OrderLines")
+            </div>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GPOrder.Models;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace GPOrder.Views
 {
@@ -17,7 +18,7 @@ namespace GPOrder.Views
         // GET: Orders
         public ActionResult Index()
         {
-            return View(db.Orders.ToList());
+            return View(db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).ToList());
         }
 
         // GET: Orders/Details/5
@@ -27,7 +28,7 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            var order = db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -38,7 +39,13 @@ namespace GPOrder.Views
         // GET: Orders/Create
         public ActionResult Create()
         {
-            return View();
+            var order = new Order
+            {
+                OrderDate = DateTime.Now,
+                Date = DateTime.Now,
+                OrderLines = new List<OrderLine> { new OrderLine() }
+            };
+            return View(order);
         }
 
         // POST: Orders/Create
@@ -50,6 +57,7 @@ namespace GPOrder.Views
         {
             if (ModelState.IsValid)
             {
+                order.User = db.Users.Single(u => u.UserName == User.Identity.Name);
                 foreach (var ol in order.OrderLines)
                 {
                     var product = db.Products.Single(p => p.Id == ol.Product.Id);
@@ -65,7 +73,6 @@ namespace GPOrder.Views
 
         public PartialViewResult GetNewOrderLine()
         {
-            ViewData.TemplateInfo.HtmlFieldPrefix = "OrderLines";
             return PartialView("EditorTemplates/OrderLine", new OrderLine());
         }
 
@@ -91,7 +98,7 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Include(o => o.OrderLines).Single(o => o.Id == id);
+            var order = db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -104,11 +111,17 @@ namespace GPOrder.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,OrderDate,IsLocked")] Order order)
+        public ActionResult Edit([Bind(Include = "Id,Date,OrderDate,IsLocked,OrderLines")] Order order)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+                foreach (var ol in order.OrderLines)
+                {
+                    var product = db.Products.Single(p => p.Id == ol.Product.Id);
+                    ol.Product = product;
+                    db.Entry(ol).State = ol.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
+                }
+                db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

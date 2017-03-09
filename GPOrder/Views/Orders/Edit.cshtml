@@ -19,18 +19,19 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                @Html.DisplayFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.OrderDate)
+                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+                @Html.JQueryUI().DatepickerFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -65,8 +66,27 @@
     @Styles.Render("~/Content/themes/base/css")
 
     <script type="text/javascript">
-        function ApplyJquery() {
-            $('#OrderLinesDiv .autocomplete').autocomplete();
+        function ApplyJQuery() {
+            $.each($("#OrderLinesDiv input[data-jqui-type='autocomplete']"), function (index, value) {
+                $(value).autocomplete({
+                    minLength: 0,
+                    source: function (request, response) {
+                        var url = value.dataset.jquiAcompSource;
+
+                        $.getJSON(url, { term: request.term }, function (data) {
+                            response(data);
+                        })
+                    },
+                    select: function (event, ui) {
+                        $(event.target).parent().children('input[type=hidden]').val(ui.item.id);
+                    },
+                    change: function (event, ui) {
+                        if (!ui.item) {
+                            $(event.target).val('').parent().children('input[type=hidden]').val('');
+                        }
+                    }
+                });
+            });
         }
     </script>
 }
