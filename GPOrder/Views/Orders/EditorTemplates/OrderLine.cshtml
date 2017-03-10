@@ -6,9 +6,9 @@
 {
     <div class="form-horizontal">
         <h4>OrderLine</h4>
+        @Html.ActionLink("X", string.Empty, null, new { @class = "deleteLink" })
         <hr />
         @Html.HiddenFor(model => model.Id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.OrderedQty, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

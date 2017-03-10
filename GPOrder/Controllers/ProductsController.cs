@@ -12,6 +12,7 @@ using EntityState = System.Data.Entity.EntityState;
 
 namespace GPOrder.Views
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

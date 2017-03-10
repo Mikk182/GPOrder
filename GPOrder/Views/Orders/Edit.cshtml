@@ -65,31 +65,12 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            ApplyJQuery();
-        });
-        function ApplyJQuery() {
-            $.each($("#OrderLinesDiv input[data-jqui-type='autocomplete']"), function (index, value) {
-                $(value).autocomplete({
-                    minLength: 0,
-                    source: function (request, response) {
-                        var url = value.dataset.jquiAcompSource;
+    <script type="text/javascript" src="~/Scripts/Order.js"></script>
 
-                        $.getJSON(url, { term: request.term }, function (data) {
-                            response(data);
-                        });
-                    },
-                    select: function (event, ui) {
-                        $(event.target).parent().children('input[type=hidden]').val(ui.item.id);
-                    },
-                    change: function (event, ui) {
-                        if (!ui.item) {
-                            $(event.target).val('').parent().children('input[type=hidden]').val('');
-                        }
-                    }
-                });
-            });
-        }
+    <script type="text/javascript">
+        var _order = new Order();
+        $(document).ready(function () {
+            _order.ReadyJS();
+        });
     </script>
 }

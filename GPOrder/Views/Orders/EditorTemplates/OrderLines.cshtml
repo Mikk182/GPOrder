@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<GPOrder.Models.OrderLine>
 
-@Ajax.ActionLink("Add", "GetNewOrderLine", new AjaxOptions { InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "OrderLinesDiv", OnComplete = "ApplyJQuery" })
+@Ajax.ActionLink("Add", "GetNewOrderLine", new AjaxOptions { InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "OrderLinesDiv", OnComplete = "_order.ApplyJQuery();_order.SubscribeDeleteLinkClick();" })
 <div id="OrderLinesDiv">
     @if (Model != null)
     {
