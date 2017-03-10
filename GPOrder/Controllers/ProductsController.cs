@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GPOrder.Models;
+using Microsoft.AspNet.Identity;
+using EntityState = System.Data.Entity.EntityState;
 
 namespace GPOrder.Views
 {
@@ -54,9 +56,12 @@ namespace GPOrder.Views
         {
             if (ModelState.IsValid)
             {
-                product.CreateUser = db.Users.Single(u => u.UserName == User.Identity.Name);
-                db.Products.Add(product);
+                var userId = User.Identity.GetUserId();
+                product.CreateUser = db.Users.Single(u => u.Id == userId);
+                
+                db.Entry(product).State = EntityState.Added;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

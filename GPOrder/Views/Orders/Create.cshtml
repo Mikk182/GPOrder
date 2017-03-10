@@ -17,11 +17,10 @@
     <div class="form-horizontal">
         <h4>Order</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.JQueryUI().DatepickerFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.DisplayFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.HiddenFor(model => model.OrderDate)
                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
@@ -32,7 +31,6 @@
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.JQueryUI().DatepickerFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,6 +66,9 @@
     @Styles.Render("~/Content/themes/base/css")
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            ApplyJQuery();
+        });
         function ApplyJQuery() {
             $.each($("#OrderLinesDiv input[data-jqui-type='autocomplete']"), function( index, value ) {
                 $(value).autocomplete({
@@ -77,7 +78,7 @@
 
                         $.getJSON(url, { term: request.term }, function (data) {
                             response(data);
-                        })
+                        });
                     },
                     select: function (event, ui) {
                         $(event.target).parent().children('input[type=hidden]').val(ui.item.id);

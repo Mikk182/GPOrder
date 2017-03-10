@@ -191,25 +191,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201508022259336_InitialCreate.cs" />
-    <Compile Include="Migrations\201508022259336_InitialCreate.Designer.cs">
-      <DependentUpon>201508022259336_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508232245448_Products.cs" />
-    <Compile Include="Migrations\201508232245448_Products.Designer.cs">
-      <DependentUpon>201508232245448_Products.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508272245072_OrdersClass.cs" />
-    <Compile Include="Migrations\201508272245072_OrdersClass.Designer.cs">
-      <DependentUpon>201508272245072_OrdersClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703061052330_AddIdentity.cs" />
-    <Compile Include="Migrations\201703061052330_AddIdentity.Designer.cs">
-      <DependentUpon>201703061052330_AddIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703072302110_StepOrder.cs" />
-    <Compile Include="Migrations\201703072302110_StepOrder.Designer.cs">
-      <DependentUpon>201703072302110_StepOrder.cs</DependentUpon>
+    <Compile Include="Migrations\201703101531113_Initial.cs" />
+    <Compile Include="Migrations\201703101531113_Initial.Designer.cs">
+      <DependentUpon>201703101531113_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -341,7 +325,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -408,20 +394,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508022259336_InitialCreate.resx">
-      <DependentUpon>201508022259336_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508232245448_Products.resx">
-      <DependentUpon>201508232245448_Products.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508272245072_OrdersClass.resx">
-      <DependentUpon>201508272245072_OrdersClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703061052330_AddIdentity.resx">
-      <DependentUpon>201703061052330_AddIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703072302110_StepOrder.resx">
-      <DependentUpon>201703072302110_StepOrder.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703101531113_Initial.resx">
+      <DependentUpon>201703101531113_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

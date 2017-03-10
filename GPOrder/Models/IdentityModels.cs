@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,6 +17,8 @@ namespace GPOrder.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public ICollection<Product> Products { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -36,22 +39,18 @@ namespace GPOrder.Models
         {
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id);
-            //.HasRequired(c => c.OrderDate)
-            //.WithOptional()
-            //.WillCascadeOnDelete(false);
 
             modelBuilder.Entity<OrderLine>()
                 .HasKey(l => l.Id);
 
             modelBuilder.Entity<Product>()
                 .HasKey(l => l.Id)
-                .HasRequired(c => c.CreateUser)
-                .WithOptional()
-                .WillCascadeOnDelete(false);
-            
+                .HasRequired(c => c.CreateUser).WithMany(u => u.Products);
+
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
         }
 
         public System.Data.Entity.DbSet<GPOrder.Models.Product> Products { get; set; }
