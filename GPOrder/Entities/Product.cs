@@ -9,9 +9,17 @@ namespace GPOrder.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
+
+        [Required]
+        [StringLength(128, MinimumLength = 3)]
         public string Name { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal Price { get; set; }
+
         public Unit Unit { get; set; }
+
         public ApplicationUser CreateUser { get; set; }
     }
 
