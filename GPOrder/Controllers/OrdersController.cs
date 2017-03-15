@@ -56,6 +56,7 @@ namespace GPOrder.Views
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Date,OrderDate,IsLocked,OrderLines")] Order order)
         {
+
             if (ModelState.IsValid)
             {
                 order.User = db.Users.Single(u => u.UserName == User.Identity.Name);

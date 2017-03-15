@@ -13,6 +13,7 @@
             @Html.LabelFor(model => model.OrderedQty, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(m => m.OrderedQty)
+                @Html.ValidationMessageFor(model => model.OrderedQty, "", new { @class = "text-danger" })
             </div>
         </div>
 
