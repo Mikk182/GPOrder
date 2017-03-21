@@ -110,7 +110,6 @@ namespace GPOrder.Views
                 var dbGroup = db.Groups.Single(g => g.Id == group.Id);
                 dbGroup.IsLocked = group.IsLocked;
                 dbGroup.Name = group.Name;
-                dbGroup.OwnerUser = group.OwnerUser;
                 dbGroup.OwnerUserId = group.OwnerUserId;
                 dbGroup.ApplicationUsers = dbGroup.ApplicationUsers.Where(au => group.ApplicationUsers.Any(mau => mau.Id == au.Id)).ToList();
 
