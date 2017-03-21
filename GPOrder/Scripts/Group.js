@@ -17,13 +17,9 @@
     this.ApplyJQuery = function () {
 
         //Lien 'Partager'
-        $("#share").click(function () {
-            $("#shareDialog").dialog();
-        });
         $("#copyToClipboardButton").click(function () {
             $("#copyToClipboardText").select();
             document.execCommand("copy");
-            //$("#shareDialog").dialog("close");
         });
         
         // Autocomplete
