@@ -1,0 +1,8 @@
+﻿<div id="shareDialog" title="Partager" class="form-group" style="display: none">
+    @{
+        var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+        var url = urlHelper.Action("Join", "Groups", new { id = Model.Id }, HttpContext.Current.Request.Url.Scheme);
+    }
+    <input id="copyToClipboardText" type="text" value="@url" />
+    <input id="copyToClipboardButton" type="button" value="Copier" />
+</div>

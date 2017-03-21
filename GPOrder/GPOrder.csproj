@@ -421,6 +421,7 @@
     <Content Include="Views\Groups\EditorTemplates\ApplicationUser.cshtml" />
     <Content Include="Views\Groups\EditorTemplates\ApplicationUsers.cshtml" />
     <Content Include="Views\Groups\Join.cshtml" />
+    <Content Include="Views\Groups\_SharePopUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

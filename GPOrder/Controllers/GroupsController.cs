@@ -104,7 +104,17 @@ namespace GPOrder.Views
         {
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = System.Data.Entity.EntityState.Modified;
+                if (group.ApplicationUsers == null)
+                    group.ApplicationUsers = new List<ApplicationUser>();
+
+                var dbGroup = db.Groups.Single(g => g.Id == group.Id);
+                dbGroup.IsLocked = group.IsLocked;
+                dbGroup.Name = group.Name;
+                dbGroup.OwnerUser = group.OwnerUser;
+                dbGroup.OwnerUserId = group.OwnerUserId;
+                dbGroup.ApplicationUsers = dbGroup.ApplicationUsers.Where(au => group.ApplicationUsers.Any(mau => mau.Id == au.Id)).ToList();
+
+                db.Entry(dbGroup).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -162,7 +172,7 @@ namespace GPOrder.Views
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Join([Bind(Include = "Id")] Group group)
+        public ActionResult Join([Bind(Include = "Id,CreateUserId,CreationDate,IsLocked,Name,OwnerUser,OwnerUserId")] Group group)
         {
             try
             {
