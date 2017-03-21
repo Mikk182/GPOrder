@@ -200,6 +200,50 @@ namespace GPOrder.Views
             }
         }
 
+        [Authorize]
+        public ActionResult Leave(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Group group = db.Groups.Include(g => g.OwnerUser).Include(g => g.ApplicationUsers).SingleOrDefault(g => g.Id == id);
+            if (group == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Leave", group);
+        }
+
+        // POST: Groups/Leave/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Leave([Bind(Include = "Id,CreateUserId,CreationDate,IsLocked,Name,OwnerUser,OwnerUserId,ApplicationUsers")] Group group)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            if (group.OwnerUserId == currentUserId)
+                ModelState.AddModelError(string.Empty, "Vous devez nommer quelqu'un d'autre que vous comme administrateur avant de quitter le groupe.");
+
+            if (group.ApplicationUsers.All(au => au.Id != currentUserId))
+                ModelState.AddModelError(string.Empty, "Vous ne pouvez pas quitter un groupe dans lequel vous n'êtes pas.");
+
+            if (!ModelState.IsValid)
+                return View("Leave", group);
+
+            var dbGroup = db.Groups.Include(g => g.OwnerUser).Include(g => g.ApplicationUsers).Single(g => g.Id == group.Id);
+
+            dbGroup.ApplicationUsers = group.ApplicationUsers.Where(au => au.Id != currentUserId).ToList();
+            db.Entry(dbGroup).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

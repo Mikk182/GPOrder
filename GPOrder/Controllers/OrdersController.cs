@@ -14,7 +14,6 @@ namespace GPOrder.Views
     [Authorize]
     public class OrdersController : Controller
     {
-        // Test Modif distante
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Orders

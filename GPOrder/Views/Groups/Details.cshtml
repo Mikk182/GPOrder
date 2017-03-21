@@ -19,12 +19,12 @@
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-        
+
         <dt>
             Inviter
         </dt>
         <dd>
-            @Html.Partial("_SharePopUp")
+            @Html.Partial("_Share")
         </dd>
 
         <dt>
@@ -55,11 +55,17 @@
 
 <p>
     @{
-        var isOwner = User.Identity.GetUserId() == Model.OwnerUser.Id;
+        var userId = User.Identity.GetUserId();
+        var isOwner = userId == Model.OwnerUser.Id;
+        var isInUsers = Model.ApplicationUsers.Any(au => au.Id == userId);
     }
     @if (isOwner)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
+    @if (isInUsers)
+    {
+        @Html.ActionLink("Quitter", "Leave", new { id = Model.Id })
     }
     @Html.ActionLink("Back to List", "Index")
 </p>
