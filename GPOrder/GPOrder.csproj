@@ -185,6 +185,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Role.cs" />
@@ -208,6 +210,14 @@
     <Compile Include="Migrations\201703131751165_CancelOrderEntiersPositif.cs" />
     <Compile Include="Migrations\201703131751165_CancelOrderEntiersPositif.Designer.cs">
       <DependentUpon>201703131751165_CancelOrderEntiersPositif.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703162224197_AddGroups.cs" />
+    <Compile Include="Migrations\201703162224197_AddGroups.Designer.cs">
+      <DependentUpon>201703162224197_AddGroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703162237437_ManyGroupsManyUsers.cs" />
+    <Compile Include="Migrations\201703162237437_ManyGroupsManyUsers.Designer.cs">
+      <DependentUpon>201703162237437_ManyGroupsManyUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -337,6 +347,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Group.js" />
     <Content Include="Scripts\Order.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -400,6 +411,16 @@
     <Content Include="Views\Orders\DisplayTemplates\OrderLinesForGrid.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Groups\DisplayTemplates\ApplicationUsers.cshtml" />
+    <Content Include="Views\Groups\DisplayTemplates\ApplicationUser.cshtml" />
+    <Content Include="Views\Groups\EditorTemplates\ApplicationUser.cshtml" />
+    <Content Include="Views\Groups\EditorTemplates\ApplicationUsers.cshtml" />
+    <Content Include="Views\Groups\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -422,6 +443,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703131751165_CancelOrderEntiersPositif.resx">
       <DependentUpon>201703131751165_CancelOrderEntiersPositif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703162224197_AddGroups.resx">
+      <DependentUpon>201703162224197_AddGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703162237437_ManyGroupsManyUsers.resx">
+      <DependentUpon>201703162237437_ManyGroupsManyUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

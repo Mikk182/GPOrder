@@ -1,0 +1,19 @@
+﻿@model GPOrder.Models.ApplicationUser
+
+@using (Html.BeginCollectionItem(Html.ViewData.TemplateInfo.HtmlFieldPrefix))
+{
+    <div class="form-horizontal">
+        @*<h4>Utilisateur du groupe</h4>
+            <hr />*@
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.UserName)
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.UserName)
+            </div>
+        </div>
+    </div>
+}

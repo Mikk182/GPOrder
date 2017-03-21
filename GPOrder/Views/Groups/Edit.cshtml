@@ -1,0 +1,90 @@
+﻿@model GPOrder.Models.Group
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CreateUserId)
+        @Html.HiddenFor(model => model.CreationDate)
+        @Html.HiddenFor(model => model.IsLocked)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OwnerUser.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.JQueryUI().AutocompleteFor(model => model.OwnerUser.UserName, Url.Action("GetUserNames", "Manage"))
+                @Html.HiddenFor(model => model.OwnerUser.Id)
+                @Html.HiddenFor(model => model.OwnerUserId)
+                @Html.ValidationMessageFor(model => model.OwnerUser.Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ApplicationUsers, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.ApplicationUsers, "ApplicationUsers")
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                <input id="share" type="button" value="Partager" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <div id="shareDialog" title="Partager" class="form-group" style="display: none">
+        @{
+            var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            var url = urlHelper.Action("Join", "Groups", new { id = Model.Id }, HttpContext.Current.Request.Url.Scheme);
+        }
+        <input id="copyToClipboardText" type="text" value="@url" />
+        <input id="copyToClipboardButton" type="button" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+
+    <script type="text/javascript" src="~/Scripts/Group.js"></script>
+
+    <script type="text/javascript">
+        var _group = new Group();
+        $(document).ready(function () {
+            _group.ReadyJS();
+        });
+    </script>
+}

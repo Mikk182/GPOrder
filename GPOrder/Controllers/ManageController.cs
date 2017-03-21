@@ -32,9 +32,9 @@ namespace GPOrder.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -320,6 +320,20 @@ namespace GPOrder.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+        public ActionResult GetUserNames(string term)
+        {
+            var result = UserManager.Users.Where(u => u.UserName.StartsWith(term))
+                .Take(10)
+                .Select(c => new
+                {
+                    id = c.Id,
+                    value = c.UserName,
+                    label = c.UserName
+                })
+                .ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -331,7 +345,7 @@ namespace GPOrder.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -382,6 +396,6 @@ namespace GPOrder.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

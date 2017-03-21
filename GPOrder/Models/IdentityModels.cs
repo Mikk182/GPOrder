@@ -18,7 +18,11 @@ namespace GPOrder.Models
             return userIdentity;
         }
 
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+
+        public virtual ICollection<Group> CreatedGroups { get; set; }
+        public virtual ICollection<Group> OwnedGroups { get; set; }
+        public virtual ICollection<Group> LinkedGroups { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -49,11 +53,30 @@ namespace GPOrder.Models
                 .HasKey(l => l.Id)
                 .HasRequired(c => c.CreateUser).WithMany(u => u.Products);
 
+            modelBuilder.Entity<Group>()
+                .HasKey(l => l.Id)
+                .HasRequired(c => c.CreateUser)
+                .WithMany(u => u.CreatedGroups)
+                .HasForeignKey(u => u.CreateUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Group>()
+                .HasRequired(c => c.OwnerUser)
+                .WithMany(u => u.OwnedGroups)
+                .HasForeignKey(u => u.OwnerUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Group>()
+                .HasMany(u => u.ApplicationUsers)
+                .WithMany(u => u.LinkedGroups);
+
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.LinkedGroups)
+                .WithMany(au => au.ApplicationUsers);
+
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
             modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
         }
+
+        public System.Data.Entity.DbSet<GPOrder.Models.Group> Groups { get; set; }
 
         public System.Data.Entity.DbSet<GPOrder.Models.Product> Products { get; set; }
 
