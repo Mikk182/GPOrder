@@ -183,6 +183,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Shop.cs" />
     <Compile Include="Entities\Unit.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
@@ -218,6 +220,10 @@
     <Compile Include="Migrations\201703162237437_ManyGroupsManyUsers.cs" />
     <Compile Include="Migrations\201703162237437_ManyGroupsManyUsers.Designer.cs">
       <DependentUpon>201703162237437_ManyGroupsManyUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703221332237_ImplementationShops.cs" />
+    <Compile Include="Migrations\201703221332237_ImplementationShops.Designer.cs">
+      <DependentUpon>201703221332237_ImplementationShops.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -423,6 +429,11 @@
     <Content Include="Views\Groups\Join.cshtml" />
     <Content Include="Views\Groups\_Share.cshtml" />
     <Content Include="Views\Groups\Leave.cshtml" />
+    <Content Include="Views\Shops\Create.cshtml" />
+    <Content Include="Views\Shops\Delete.cshtml" />
+    <Content Include="Views\Shops\Details.cshtml" />
+    <Content Include="Views\Shops\Edit.cshtml" />
+    <Content Include="Views\Shops\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -451,6 +462,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703162237437_ManyGroupsManyUsers.resx">
       <DependentUpon>201703162237437_ManyGroupsManyUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703221332237_ImplementationShops.resx">
+      <DependentUpon>201703221332237_ImplementationShops.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

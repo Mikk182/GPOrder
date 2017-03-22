@@ -23,6 +23,11 @@ namespace GPOrder.Models
         public virtual ICollection<Group> CreatedGroups { get; set; }
         public virtual ICollection<Group> OwnedGroups { get; set; }
         public virtual ICollection<Group> LinkedGroups { get; set; }
+
+        public virtual ICollection<Shop> CreatedShop { get; set; }
+        public virtual ICollection<Shop> OwnedShop { get; set; }
+        public virtual ICollection<ShopPicture> PostedPictures { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -32,7 +37,7 @@ namespace GPOrder.Models
         {
             //Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
 
-            Database.SetInitializer<ApplicationDbContext>(new CreateDatabaseIfNotExists<ApplicationDbContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
 
         }
 
@@ -66,6 +71,21 @@ namespace GPOrder.Models
                 .HasMany(u => u.ApplicationUsers)
                 .WithMany(u => u.LinkedGroups);
 
+            modelBuilder.Entity<Shop>()
+                .HasKey(l => l.Id)
+                .HasRequired(c => c.CreateUser)
+                .WithMany(u => u.CreatedShop)
+                .HasForeignKey(u => u.CreateUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Shop>()
+                .HasRequired(c => c.OwnerUser)
+                .WithMany(u => u.OwnedShop)
+                .HasForeignKey(u => u.OwnerUserId).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ShopPicture>()
+                .HasRequired(c => c.CreateUser)
+                .WithMany(u => u.PostedPictures)
+                .HasForeignKey(u => u.CreateUserId).WillCascadeOnDelete(false);
+
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
                 .WithMany(au => au.ApplicationUsers);
@@ -76,12 +96,16 @@ namespace GPOrder.Models
 
         }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.Group> Groups { get; set; }
+        public DbSet<Group> Groups { get; set; }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.Order> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.OrderLine> OrderLines { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
+
+        public DbSet<Shop> Shops { get; set; }
+
+        public DbSet<ShopPicture> ShopPictures { get; set; }
     }
 }
