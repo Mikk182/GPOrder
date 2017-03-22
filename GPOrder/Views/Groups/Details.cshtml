@@ -2,7 +2,7 @@
 @model GPOrder.Models.Group
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Group Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var userId = User.Identity.GetUserId();
@@ -14,7 +14,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Product</h4>
+    <h4>Group</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -26,21 +26,21 @@
         </dd>
 
         <dt>
-            Inviter
+            Invite
         </dt>
         <dd>
             @(isInUsers ? Html.Partial("_Share") : Html.ActionLink("Rejoindre", "Join", new { Model.Id }))
         </dd>
 
         <dt>
-            Créateur
+            Creator
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CreateUser.UserName)
         </dd>
 
         <dt>
-            Administrateur
+            Administrator
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OwnerUser.UserName)
@@ -65,7 +65,7 @@
     }
     @if (isInUsers)
     {
-        @Html.ActionLink("Quitter", "Leave", new { id = Model.Id })
+        @Html.ActionLink("Leave", "Leave", new { id = Model.Id })
     }
     @Html.ActionLink("Back to List", "Index")
 </p>

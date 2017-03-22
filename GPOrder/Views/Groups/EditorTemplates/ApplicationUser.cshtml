@@ -3,16 +3,12 @@
 @using (Html.BeginCollectionItem("ApplicationUsers"))
 {
     <div class="form-horizontal">
-        @*<h4>OrderLine</h4>
-            <hr />*@
-        @Html.ActionLink("X", string.Empty, null, new { @class = "deleteLink" })
-        @Html.HiddenFor(model => model.Id)
-
         <div class="form-group">
-            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(m => m.UserName)
+                @Html.HiddenFor(m => m.Id)
                 @Html.HiddenFor(m => m.UserName)
+                @Html.DisplayFor(m => m.UserName)
+                @Html.ActionLink("Delete", string.Empty, null, new {@class = "deleteLink"})
             </div>
         </div>
     </div>
