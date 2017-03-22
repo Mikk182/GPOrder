@@ -100,14 +100,19 @@ namespace GPOrder.Views
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CreateUserId,CreationDate,IsLocked,Name,OwnerUser,OwnerUserId,ApplicationUsers")] Shop shop)
+        public ActionResult Edit([Bind(Include = "Id,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description")] Shop shop)
         {
+            
             if (ModelState.IsValid)
             {
                 var dbShop = db.Shops.Single(g => g.Id == shop.Id);
+                dbShop.OwnerUserId = shop.OwnerUserId;
                 dbShop.IsLocked = shop.IsLocked;
                 dbShop.Name = shop.Name;
-                dbShop.OwnerUserId = shop.OwnerUserId;
+                dbShop.Adress = shop.Adress;
+                dbShop.PhoneNumber = shop.PhoneNumber;
+                dbShop.Mail = shop.Mail;
+                dbShop.Description = shop.Description;
 
                 db.Entry(dbShop).State = EntityState.Modified;
                 db.SaveChanges();
