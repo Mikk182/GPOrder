@@ -2,11 +2,11 @@
 @model IEnumerable<GPOrder.Models.Group>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Groups";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Groups</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -17,10 +17,10 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            Créateur
+            Creator
         </th>
         <th>
-            Administrateur
+            Administrator
         </th>
         <th></th>
     </tr>
