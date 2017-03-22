@@ -235,9 +235,9 @@ namespace GPOrder.Views
             if (!ModelState.IsValid)
                 return View("Leave", group);
 
-            var dbGroup = db.Groups.Include(g => g.OwnerUser).Include(g => g.ApplicationUsers).Single(g => g.Id == group.Id);
+            var dbGroup = db.Groups.Include(g => g.ApplicationUsers).Single(g => g.Id == group.Id);
 
-            dbGroup.ApplicationUsers = group.ApplicationUsers.Where(au => au.Id != currentUserId).ToList();
+            dbGroup.ApplicationUsers = dbGroup.ApplicationUsers.Where(au => au.Id != currentUserId).ToList();
             db.Entry(dbGroup).State = EntityState.Modified;
             db.SaveChanges();
 
