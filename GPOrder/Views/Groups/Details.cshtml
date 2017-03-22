@@ -4,6 +4,11 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = User.Identity.GetUserId();
+    var isOwner = userId == Model.OwnerUser.Id;
+    var isInUsers = Model.ApplicationUsers.Any(au => au.Id == userId);
+
 }
 
 <h2>Details</h2>
@@ -24,7 +29,7 @@
             Inviter
         </dt>
         <dd>
-            @Html.Partial("_Share")
+            @(isInUsers ? Html.Partial("_Share") : Html.ActionLink("Rejoindre", "Join", new { Model.Id }))
         </dd>
 
         <dt>
@@ -54,11 +59,6 @@
 </div>
 
 <p>
-    @{
-        var userId = User.Identity.GetUserId();
-        var isOwner = userId == Model.OwnerUser.Id;
-        var isInUsers = Model.ApplicationUsers.Any(au => au.Id == userId);
-    }
     @if (isOwner)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
