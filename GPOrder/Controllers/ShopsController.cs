@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using GPOrder.Entities;
 using GPOrder.Models;
+using GPOrder.ValidationHelpers;
 using Microsoft.AspNet.Identity;
 using EntityState = System.Data.Entity.EntityState;
 
@@ -33,7 +37,11 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Shop shop = db.Shops.Include(path => path.OwnerUser).Include(path => path.CreateUser).SingleOrDefault(g => g.Id == id);
+            var shop = db.Shops
+                .Include(path => path.OwnerUser)
+                .Include(path => path.CreateUser)
+                .Include(s => s.ShopPictures.Select(sp => sp.LinkedFile))
+                .SingleOrDefault(g => g.Id == id);
             if (shop == null)
             {
                 return HttpNotFound();
@@ -102,7 +110,7 @@ namespace GPOrder.Views
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description")] Shop shop)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var dbShop = db.Shops.Single(g => g.Id == shop.Id);
@@ -147,6 +155,83 @@ namespace GPOrder.Views
             db.Shops.Remove(shop);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: Shops/AddPicture/5
+        [Authorize]
+        public ActionResult AddPictures(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var shop = db.Shops.Find(id);
+            if (shop == null)
+            {
+                return HttpNotFound();
+            }
+
+            var shopPicture = new ShopPicture
+            {
+                ShopId = id.Value,
+                Shop = shop
+            };
+
+            return View(shopPicture);
+        }
+
+        // POST: Shops/AddPictures/5
+        [HttpPost, ActionName("AddPictures")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPictures(ShopPicture shopPicture, HttpPostedFileBase upload)
+        {
+            try
+            {
+                var dbShop = db.Shops.Single(s => s.Id == shopPicture.ShopId);
+                
+                var userId = User.Identity.GetUserId();
+
+                var shopPic = new ShopPicture
+                {
+                    CreationDate = DateTime.UtcNow,
+                    CreateUser = db.Users.Single(u => u.Id == userId),
+                    Name = System.IO.Path.GetFileName(upload.FileName),
+
+                    LinkedFile = new File
+                    {
+                        FileType = FileType.ShopPicture,
+                        ContentType = upload.ContentType,
+                    },
+
+                    ShopId = dbShop.Id
+                };
+
+                var spv = new ShopPictureValidation();
+                spv.Validate(shopPicture, ModelState);
+                spv.Validate(upload, ModelState);
+
+                if (!ModelState.IsValid)
+                    return View(shopPicture);
+
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    shopPic.LinkedFile.Content = reader.ReadBytes(upload.ContentLength);
+                }
+
+                db.ShopPictures.Add(shopPic);
+                db.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            catch (RetryLimitExceededException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return RedirectToAction("Details", new { Id = shopPicture.ShopId });
         }
 
         protected override void Dispose(bool disposing)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GPOrder.Entities;
 
 namespace GPOrder.Models
 {
@@ -47,7 +48,6 @@ namespace GPOrder.Models
 
     public class ShopPicture
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         [DataType(DataType.DateTime)]
@@ -58,10 +58,15 @@ namespace GPOrder.Models
 
         public bool IsLocked { get; set; }
 
-        [Required]
         [StringLength(100, MinimumLength = 3)]
         public string Name { get; set; }
 
-        public byte[] Image { get; set; }
+        /// <summary>
+        /// JPG, GIF, BMP, PNG ...
+        /// </summary>
+        public File LinkedFile { get; set; }
+
+        public Guid ShopId { get; set; }
+        public Shop Shop { get; set; }
     }
 }

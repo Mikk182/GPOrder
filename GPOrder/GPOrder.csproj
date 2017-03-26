@@ -182,11 +182,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
+    <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
+      <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Entities\File.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
@@ -224,6 +230,26 @@
     <Compile Include="Migrations\201703221332237_ImplementationShops.cs" />
     <Compile Include="Migrations\201703221332237_ImplementationShops.Designer.cs">
       <DependentUpon>201703221332237_ImplementationShops.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703241124213_SeparateFilesFromShopPictures.cs" />
+    <Compile Include="Migrations\201703241124213_SeparateFilesFromShopPictures.Designer.cs">
+      <DependentUpon>201703241124213_SeparateFilesFromShopPictures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703241353422_FilesToShopPictures.cs" />
+    <Compile Include="Migrations\201703241353422_FilesToShopPictures.Designer.cs">
+      <DependentUpon>201703241353422_FilesToShopPictures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703241413336_FilesToShopPictures2.cs" />
+    <Compile Include="Migrations\201703241413336_FilesToShopPictures2.Designer.cs">
+      <DependentUpon>201703241413336_FilesToShopPictures2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703241416039_FilesToShopPictures3.cs" />
+    <Compile Include="Migrations\201703241416039_FilesToShopPictures3.Designer.cs">
+      <DependentUpon>201703241416039_FilesToShopPictures3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703241433464_FilesToShopPictures4.cs" />
+    <Compile Include="Migrations\201703241433464_FilesToShopPictures4.Designer.cs">
+      <DependentUpon>201703241433464_FilesToShopPictures4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -434,6 +460,7 @@
     <Content Include="Views\Shops\Details.cshtml" />
     <Content Include="Views\Shops\Edit.cshtml" />
     <Content Include="Views\Shops\Index.cshtml" />
+    <Content Include="Views\Shops\AddPictures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -465,6 +492,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703221332237_ImplementationShops.resx">
       <DependentUpon>201703221332237_ImplementationShops.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703241124213_SeparateFilesFromShopPictures.resx">
+      <DependentUpon>201703241124213_SeparateFilesFromShopPictures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703241353422_FilesToShopPictures.resx">
+      <DependentUpon>201703241353422_FilesToShopPictures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703241413336_FilesToShopPictures2.resx">
+      <DependentUpon>201703241413336_FilesToShopPictures2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703241416039_FilesToShopPictures3.resx">
+      <DependentUpon>201703241416039_FilesToShopPictures3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703241433464_FilesToShopPictures4.resx">
+      <DependentUpon>201703241433464_FilesToShopPictures4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703260149507_ShopPictureNameNotRequired.resx">
+      <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

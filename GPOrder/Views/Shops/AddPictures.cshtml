@@ -1,0 +1,65 @@
+﻿@model GPOrder.Models.ShopPicture
+
+@{
+    ViewBag.Title = "Add a shop pic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("AddPictures", "Shops", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Shop</h4>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ShopId)
+
+        <div class="col-md-12">
+            @Html.Label("Max 5MB, Images only (jpeg, jpg, png, bmp, gif)")
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LinkedFile, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="LinkedFile" name="upload" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to Shop", "Details", new { Id = Model.ShopId })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryajax")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+
+    <script type="text/javascript" src="~/Scripts/Group.js"></script>
+
+    <script type="text/javascript">
+        var _group = new Group();
+        $(document).ready(function () {
+            _group.ReadyJS();
+        });
+    </script>
+}
+
+

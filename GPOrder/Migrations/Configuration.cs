@@ -28,9 +28,9 @@ namespace GPOrder.Migrations
             //    );
             //
 
-            context.Users.AddOrUpdate(u => u.UserName,
-                    new Models.ApplicationUser { UserName = "Mikk" }
-                );
+            //context.Users.AddOrUpdate(u => u.UserName,
+            //        new Models.ApplicationUser { UserName = "Mikk" }
+            //    );
         }
     }
 }

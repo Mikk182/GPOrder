@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GPOrder.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -27,6 +28,8 @@ namespace GPOrder.Models
         public virtual ICollection<Shop> CreatedShop { get; set; }
         public virtual ICollection<Shop> OwnedShop { get; set; }
         public virtual ICollection<ShopPicture> PostedPictures { get; set; }
+
+        public virtual ICollection<File> Files { get; set; }
 
     }
 
@@ -80,15 +83,40 @@ namespace GPOrder.Models
                 .HasRequired(c => c.OwnerUser)
                 .WithMany(u => u.OwnedShop)
                 .HasForeignKey(u => u.OwnerUserId).WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Shop>()
+            //    .HasMany(s => s.ShopPictures)
+            //    .WithRequired(sp => sp.Shop);
 
             modelBuilder.Entity<ShopPicture>()
+                .HasKey(sp => sp.Id)
                 .HasRequired(c => c.CreateUser)
                 .WithMany(u => u.PostedPictures)
                 .HasForeignKey(u => u.CreateUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<ShopPicture>()
+                .HasKey(sp => sp.Id)
+                .HasRequired(c => c.Shop)
+                .WithMany(u => u.ShopPictures)
+                .HasForeignKey(u => u.ShopId).WillCascadeOnDelete(true);
+            modelBuilder.Entity<ShopPicture>()
+                .HasRequired(sp => sp.LinkedFile)
+                .WithOptional(lf => lf.ShopPicture)
+                //.Map(sp => sp.MapKey("ShopPictureId"))
+                ;
+
+            modelBuilder.Entity<File>()
+                .HasKey(f => f.Id);
+            modelBuilder.Entity<File>()
+                .HasOptional(f => f.ShopPicture)
+                .WithRequired(sp => sp.LinkedFile)
+                //.Map(sp => sp.MapKey("LinkedFileId"))
+                ;
 
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
                 .WithMany(au => au.ApplicationUsers);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.PostedPictures)
+                .WithRequired(au => au.CreateUser);
 
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
@@ -107,5 +135,7 @@ namespace GPOrder.Models
         public DbSet<Shop> Shops { get; set; }
 
         public DbSet<ShopPicture> ShopPictures { get; set; }
+
+        public DbSet<File> Files { get; set; }
     }
 }
