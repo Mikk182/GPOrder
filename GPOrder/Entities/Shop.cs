@@ -29,17 +29,14 @@ namespace GPOrder.Models
         [StringLength(100, MinimumLength = 3)]
         public string Adress { get; set; }
 
-        [Required]
         [StringLength(100, MinimumLength = 3)]
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required]
         [StringLength(100, MinimumLength = 3)]
         [EmailAddress]
         public string Mail { get; set; }
 
-        [Required]
         [StringLength(200, MinimumLength = 3)]
         public string Description { get; set; }
 
