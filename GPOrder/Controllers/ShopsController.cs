@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using GPOrder.Entities;
 using GPOrder.Models;
@@ -15,7 +12,7 @@ using GPOrder.ValidationHelpers;
 using Microsoft.AspNet.Identity;
 using EntityState = System.Data.Entity.EntityState;
 
-namespace GPOrder.Views
+namespace GPOrder.Controllers
 {
     [Authorize]
     public class ShopsController : Controller
@@ -152,6 +149,9 @@ namespace GPOrder.Views
         public ActionResult DeleteConfirmed(Guid id)
         {
             Shop shop = db.Shops.Find(id);
+            if (shop == null)
+                throw new ArgumentException(string.Format("Cannot delete ! The shop with id '{0}' doesn't exist.", id));
+
             db.Shops.Remove(shop);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -189,7 +189,7 @@ namespace GPOrder.Views
             try
             {
                 var dbShop = db.Shops.Single(s => s.Id == shopPicture.ShopId);
-                
+
                 var userId = User.Identity.GetUserId();
 
                 var shopPic = new ShopPicture
@@ -207,17 +207,18 @@ namespace GPOrder.Views
                     ShopId = dbShop.Id
                 };
 
+                // Parametre 'LeaveOpen = true' car la validation a peut etre besoin de relire la stream (sinon le Dispose() du BinaryReader efface le contenu)
+                using (var reader = new System.IO.BinaryReader(upload.InputStream, Encoding.Default, true))
+                {
+                    shopPic.LinkedFile.Content = reader.ReadBytes(upload.ContentLength);
+                }
+
                 var spv = new ShopPictureValidation();
                 spv.Validate(shopPicture, ModelState);
                 spv.Validate(upload, ModelState);
 
                 if (!ModelState.IsValid)
                     return View(shopPicture);
-
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    shopPic.LinkedFile.Content = reader.ReadBytes(upload.ContentLength);
-                }
 
                 db.ShopPictures.Add(shopPic);
                 db.SaveChanges();
