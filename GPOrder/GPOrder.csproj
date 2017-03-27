@@ -461,6 +461,7 @@
     <Content Include="Views\Shops\Edit.cshtml" />
     <Content Include="Views\Shops\Index.cshtml" />
     <Content Include="Views\Shops\AddPictures.cshtml" />
+    <Content Include="Views\Shops\ShowPicture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

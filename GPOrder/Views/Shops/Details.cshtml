@@ -68,7 +68,9 @@
         {
             var description = string.Format("{0} by {1} on {2}", shopPicture.Name, shopPicture.CreateUser.UserName, shopPicture.CreationDate);
             <div class="col-md-3">
-                <img id="@shopPicture.Id" class="img-thumbnail" alt="@description" title="@description" src="data:@shopPicture.LinkedFile.ContentType;base64,@Convert.ToBase64String(shopPicture.LinkedFile.Content)" />
+                <a href="@Url.Action("ShowPicture",new {shopPicture.Id})">
+                    <img id="@shopPicture.Id" class="img-thumbnail" alt="@description" title="@description" src="data:@shopPicture.LinkedFile.ContentType;base64,@Convert.ToBase64String(shopPicture.LinkedFile.Content)" />
+                </a>
             </div>
         }
     </div>

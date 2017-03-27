@@ -235,6 +235,21 @@ namespace GPOrder.Controllers
             return RedirectToAction("Details", new { Id = shopPicture.ShopId });
         }
 
+        // GET: Shops/ShowPictures/5
+        [Authorize]
+        public ActionResult ShowPicture(Guid id)
+        {
+            var shopPicture = db.ShopPictures
+                .Include(sp => sp.CreateUser)
+                .Include(sp => sp.LinkedFile)
+                .SingleOrDefault(sp => sp.Id == id);
+
+            if (shopPicture == null)
+                return HttpNotFound();
+
+            return View(shopPicture);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
