@@ -83,9 +83,6 @@ namespace GPOrder.Models
                 .HasRequired(c => c.OwnerUser)
                 .WithMany(u => u.OwnedShop)
                 .HasForeignKey(u => u.OwnerUserId).WillCascadeOnDelete(false);
-            //modelBuilder.Entity<Shop>()
-            //    .HasMany(s => s.ShopPictures)
-            //    .WithRequired(sp => sp.Shop);
 
             modelBuilder.Entity<ShopPicture>()
                 .HasKey(sp => sp.Id)
@@ -99,17 +96,19 @@ namespace GPOrder.Models
                 .HasForeignKey(u => u.ShopId).WillCascadeOnDelete(true);
             modelBuilder.Entity<ShopPicture>()
                 .HasRequired(sp => sp.LinkedFile)
-                .WithOptional(lf => lf.ShopPicture)
-                //.Map(sp => sp.MapKey("ShopPictureId"))
-                ;
+                .WithOptional(lf => lf.ShopPicture);
+
+            modelBuilder.Entity<ShopLink>()
+                .HasKey(sl => sl.Id)
+                .HasRequired(c => c.Shop)
+                .WithMany(u => u.ShopLinks)
+                .HasForeignKey(u => u.ShopId).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<File>()
                 .HasKey(f => f.Id);
             modelBuilder.Entity<File>()
                 .HasOptional(f => f.ShopPicture)
-                .WithRequired(sp => sp.LinkedFile)
-                //.Map(sp => sp.MapKey("LinkedFileId"))
-                ;
+                .WithRequired(sp => sp.LinkedFile);
 
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
@@ -135,6 +134,8 @@ namespace GPOrder.Models
         public DbSet<Shop> Shops { get; set; }
 
         public DbSet<ShopPicture> ShopPictures { get; set; }
+
+        public DbSet<ShopLink> ShopLinks { get; set; }
 
         public DbSet<File> Files { get; set; }
     }

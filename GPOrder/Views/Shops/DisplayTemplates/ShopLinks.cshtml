@@ -1,0 +1,11 @@
+﻿@model IEnumerable<GPOrder.Models.ShopLink>
+
+<div id="ShopLinksDiv">
+    @if (Model != null)
+    {
+        foreach (var shopLink in Model)
+        {
+            @Html.DisplayFor(m => shopLink)
+        }
+    }
+</div>

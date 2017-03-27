@@ -61,19 +61,22 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.ShopLinks)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShopLinks, "ShopLinks")
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.ShopPictures)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShopPictures, "ShopPictures")
+        </dd>
     </dl>
-
-    <div class="col-md-12">
-        @foreach (var shopPicture in Model.ShopPictures)
-        {
-            var description = string.Format("{0} by {1} on {2}", shopPicture.Name, shopPicture.CreateUser.UserName, shopPicture.CreationDate);
-            <div class="col-md-3">
-                <a href="@Url.Action("ShowPicture",new {shopPicture.Id})">
-                    <img id="@shopPicture.Id" class="img-thumbnail" alt="@description" title="@description" src="data:@shopPicture.LinkedFile.ContentType;base64,@Convert.ToBase64String(shopPicture.LinkedFile.Content)" />
-                </a>
-            </div>
-        }
-    </div>
+    
 </div>
 
 <p>

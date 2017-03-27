@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace GPOrder.Controllers
             var shop = db.Shops
                 .Include(path => path.OwnerUser)
                 .Include(path => path.CreateUser)
+                .Include(s => s.ShopLinks)
                 .Include(s => s.ShopPictures.Select(sp => sp.LinkedFile))
                 .SingleOrDefault(g => g.Id == id);
             if (shop == null)
@@ -59,7 +61,7 @@ namespace GPOrder.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Adress,PhoneNumber,Mail,Description")] Shop shop)
+        public ActionResult Create([Bind(Include = "Id,Name,Adress,PhoneNumber,Mail,Description,ShopLinks")] Shop shop)
         {
             if (ModelState.IsValid)
             {
@@ -76,6 +78,11 @@ namespace GPOrder.Controllers
             return View(shop);
         }
 
+        public PartialViewResult GetNewShopLink()
+        {
+            return PartialView("EditorTemplates/ShopLink", new ShopLink());
+        }
+
         // GET: Shops/Edit/5
         [Authorize]
         public ActionResult Edit(Guid? id)
@@ -85,7 +92,12 @@ namespace GPOrder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Shop shop = db.Shops.Include(g => g.OwnerUser).SingleOrDefault(g => g.Id == id);
+            Shop shop = db.Shops
+                .Include(g => g.CreateUser)
+                .Include(g => g.OwnerUser)
+                .Include(s => s.ShopLinks)
+                .Include(s => s.ShopPictures.Select(sp => sp.LinkedFile))
+                .SingleOrDefault(g => g.Id == id);
             if (shop == null)
             {
                 return HttpNotFound();
@@ -105,12 +117,12 @@ namespace GPOrder.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description")] Shop shop)
+        public ActionResult Edit([Bind(Include = "Id,CreateUserId,CreationDate,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description,ShopLinks")] Shop shop)
         {
 
             if (ModelState.IsValid)
             {
-                var dbShop = db.Shops.Single(g => g.Id == shop.Id);
+                var dbShop = db.Shops.Include(s => s.ShopLinks).Single(g => g.Id == shop.Id);
                 dbShop.OwnerUserId = shop.OwnerUserId;
                 dbShop.IsLocked = shop.IsLocked;
                 dbShop.Name = shop.Name;
@@ -118,6 +130,25 @@ namespace GPOrder.Controllers
                 dbShop.PhoneNumber = shop.PhoneNumber;
                 dbShop.Mail = shop.Mail;
                 dbShop.Description = shop.Description;
+
+                if (dbShop.ShopLinks == null)
+                    dbShop.ShopLinks = new List<ShopLink>();
+                // Removing ShopLinks
+                var spsToDelete = dbShop.ShopLinks.Where(dbsl => !shop.ShopLinks.Select(sl => sl.Id).Contains(dbsl.Id));
+                db.ShopLinks.RemoveRange(spsToDelete);
+                // Updating ShopLinks
+                foreach (var sl in shop.ShopLinks.Where(sp => sp.Id != Guid.Empty))
+                {
+                    var dbsl = dbShop.ShopLinks.Single(dsl => dsl.Id == sl.Id);
+                    dbsl.Url = sl.Url;
+                    db.Entry(dbsl).State = EntityState.Modified;
+                }
+                // Inserting ShopLinks
+                foreach (var sl in shop.ShopLinks.Where(sp => sp.Id == Guid.Empty))
+                {
+                    sl.ShopId = shop.Id;
+                    db.Entry(sl).State = EntityState.Added;
+                }
 
                 db.Entry(dbShop).State = EntityState.Modified;
                 db.SaveChanges();

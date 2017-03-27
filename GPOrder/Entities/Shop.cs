@@ -44,6 +44,8 @@ namespace GPOrder.Models
         public string Description { get; set; }
 
         public ICollection<ShopPicture> ShopPictures { get; set; }
+
+        public ICollection<ShopLink> ShopLinks { get; set; }
     }
 
     public class ShopPicture
@@ -65,6 +67,20 @@ namespace GPOrder.Models
         /// JPG, GIF, BMP, PNG ...
         /// </summary>
         public File LinkedFile { get; set; }
+
+        public Guid ShopId { get; set; }
+        public Shop Shop { get; set; }
+    }
+
+    public class ShopLink
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public Guid Id { get; set; }
+
+        [Url]
+        [StringLength(1024, MinimumLength = 3)]
+        public string Url { get; set; }
 
         public Guid ShopId { get; set; }
         public Shop Shop { get; set; }

@@ -1,0 +1,14 @@
+﻿@model GPOrder.Models.ShopLink
+
+    @using (Html.BeginCollectionItem("ShopLinks"))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.Url)
+                    @Html.DisplayFor(m => m.Url)
+                </div>
+            </div>
+        </div>
+    }

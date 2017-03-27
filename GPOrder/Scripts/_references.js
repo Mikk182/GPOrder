@@ -22,3 +22,4 @@
 /// <reference path="jquery-ui-1.10.0.js" />
 /// <reference path="jquery-ui.unobtrusive-3.0.0.min.js" />
 /// <reference path="group.js" />
+/// <reference path="shop.js" />

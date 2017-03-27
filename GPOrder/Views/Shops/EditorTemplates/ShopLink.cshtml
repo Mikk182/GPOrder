@@ -1,0 +1,16 @@
+﻿@model GPOrder.Models.ShopLink
+
+@using (Html.BeginCollectionItem("ShopLinks"))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.ShopId)
+                @Html.EditorFor(m => m.Url)
+                @Html.ValidationMessageFor(m => m.Url, "", new { @class = "text-danger" })
+                @Html.ActionLink("Delete", string.Empty, null, new { @class = "deleteLink" })
+            </div>
+        </div>
+    </div>
+}

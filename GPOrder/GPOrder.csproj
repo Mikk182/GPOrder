@@ -186,6 +186,10 @@
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703270937206_ShopLinks.cs" />
+    <Compile Include="Migrations\201703270937206_ShopLinks.Designer.cs">
+      <DependentUpon>201703270937206_ShopLinks.cs</DependentUpon>
+    </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
@@ -359,6 +363,7 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Shop.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -462,6 +467,14 @@
     <Content Include="Views\Shops\Index.cshtml" />
     <Content Include="Views\Shops\AddPictures.cshtml" />
     <Content Include="Views\Shops\ShowPicture.cshtml" />
+    <Content Include="Views\Shops\DisplayTemplates\ShopLink.cshtml" />
+    <Content Include="Views\Shops\DisplayTemplates\ShopLinks.cshtml" />
+    <Content Include="Views\Shops\EditorTemplates\ShopLink.cshtml" />
+    <Content Include="Views\Shops\EditorTemplates\ShopLinks.cshtml" />
+    <Content Include="Views\Shops\EditorTemplates\ShopPictures.cshtml" />
+    <Content Include="Views\Shops\EditorTemplates\ShopPicture.cshtml" />
+    <Content Include="Views\Shops\DisplayTemplates\ShopPicture.cshtml" />
+    <Content Include="Views\Shops\DisplayTemplates\ShopPictures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -511,6 +524,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703260149507_ShopPictureNameNotRequired.resx">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703270937206_ShopLinks.resx">
+      <DependentUpon>201703270937206_ShopLinks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

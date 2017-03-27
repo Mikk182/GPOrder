@@ -1,0 +1,11 @@
+﻿@model IEnumerable<GPOrder.Models.ShopPicture>
+
+<div id="ShopPicturesDiv">
+    @if (Model != null)
+    {
+        foreach (var shopPicture in Model)
+        {
+            @Html.EditorFor(m => shopPicture)
+        }
+    }
+</div>
