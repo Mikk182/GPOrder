@@ -40,6 +40,7 @@ namespace GPOrder.Controllers
                 .Include(path => path.CreateUser)
                 .Include(s => s.ShopLinks)
                 .Include(s => s.ShopPictures.Select(sp => sp.LinkedFile))
+                .Include(s => s.ShopPictures.Select(sp => sp.CreateUser))
                 .SingleOrDefault(g => g.Id == id);
             if (shop == null)
             {
@@ -97,6 +98,7 @@ namespace GPOrder.Controllers
                 .Include(g => g.OwnerUser)
                 .Include(s => s.ShopLinks)
                 .Include(s => s.ShopPictures.Select(sp => sp.LinkedFile))
+                .Include(s => s.ShopPictures.Select(sp => sp.CreateUser))
                 .SingleOrDefault(g => g.Id == id);
             if (shop == null)
             {
