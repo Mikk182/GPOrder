@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201703271400146_ShopsRemoveRequired.Designer.cs">
       <DependentUpon>201703271400146_ShopsRemoveRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703281124223_ShopPictDeleteFile.cs" />
+    <Compile Include="Migrations\201703281124223_ShopPictDeleteFile.Designer.cs">
+      <DependentUpon>201703281124223_ShopPictDeleteFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
@@ -534,6 +538,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703271400146_ShopsRemoveRequired.resx">
       <DependentUpon>201703271400146_ShopsRemoveRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281124223_ShopPictDeleteFile.resx">
+      <DependentUpon>201703281124223_ShopPictDeleteFile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

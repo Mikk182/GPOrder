@@ -119,12 +119,12 @@ namespace GPOrder.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CreateUserId,CreationDate,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description,ShopLinks")] Shop shop)
+        public ActionResult Edit([Bind(Include = "Id,CreateUserId,CreationDate,OwnerUserId,IsLocked,Name,Adress,PhoneNumber,Mail,Description,ShopPictures,ShopLinks")] Shop shop)
         {
 
             if (ModelState.IsValid)
             {
-                var dbShop = db.Shops.Include(s => s.ShopLinks).Single(g => g.Id == shop.Id);
+                var dbShop = db.Shops.Include(s => s.ShopLinks).Include(s => s.ShopPictures.Select(sp => sp.LinkedFile)).Single(g => g.Id == shop.Id);
                 dbShop.OwnerUserId = shop.OwnerUserId;
                 dbShop.IsLocked = shop.IsLocked;
                 dbShop.Name = shop.Name;
@@ -133,11 +133,18 @@ namespace GPOrder.Controllers
                 dbShop.Mail = shop.Mail;
                 dbShop.Description = shop.Description;
 
+                if (dbShop.ShopPictures == null)
+                    dbShop.ShopPictures = new List<ShopPicture>();
+                // Removing ShopPictures
+                var spsToDelete = dbShop.ShopPictures.Where(dbsl => !shop.ShopPictures.Select(sl => sl.Id).Contains(dbsl.Id)).ToArray();
+                db.Files.RemoveRange(spsToDelete.Select(sp => sp.LinkedFile));
+                db.ShopPictures.RemoveRange(spsToDelete);
+
                 if (dbShop.ShopLinks == null)
                     dbShop.ShopLinks = new List<ShopLink>();
                 // Removing ShopLinks
-                var spsToDelete = dbShop.ShopLinks.Where(dbsl => !shop.ShopLinks.Select(sl => sl.Id).Contains(dbsl.Id));
-                db.ShopLinks.RemoveRange(spsToDelete);
+                var slsToDelete = dbShop.ShopLinks.Where(dbsl => !shop.ShopLinks.Select(sl => sl.Id).Contains(dbsl.Id));
+                db.ShopLinks.RemoveRange(slsToDelete);
                 // Updating ShopLinks
                 foreach (var sl in shop.ShopLinks.Where(sp => sp.Id != Guid.Empty))
                 {

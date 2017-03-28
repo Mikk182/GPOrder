@@ -96,7 +96,7 @@ namespace GPOrder.Models
                 .HasForeignKey(u => u.ShopId).WillCascadeOnDelete(true);
             modelBuilder.Entity<ShopPicture>()
                 .HasRequired(sp => sp.LinkedFile)
-                .WithOptional(lf => lf.ShopPicture);
+                .WithOptional(lf => lf.ShopPicture).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<ShopLink>()
                 .HasKey(sl => sl.Id)
