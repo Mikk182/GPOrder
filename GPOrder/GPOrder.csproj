@@ -182,6 +182,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\GroupedOrdersController.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
@@ -197,6 +198,10 @@
     <Compile Include="Migrations\201703281124223_ShopPictDeleteFile.cs" />
     <Compile Include="Migrations\201703281124223_ShopPictDeleteFile.Designer.cs">
       <DependentUpon>201703281124223_ShopPictDeleteFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703281334270_ModifyOrders.cs" />
+    <Compile Include="Migrations\201703281334270_ModifyOrders.Designer.cs">
+      <DependentUpon>201703281334270_ModifyOrders.cs</DependentUpon>
     </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -271,6 +276,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="ViewModels\ShopGroupedOrders.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -483,6 +489,13 @@
     <Content Include="Views\Shops\EditorTemplates\ShopPicture.cshtml" />
     <Content Include="Views\Shops\DisplayTemplates\ShopPicture.cshtml" />
     <Content Include="Views\Shops\DisplayTemplates\ShopPictures.cshtml" />
+    <Content Include="Views\GroupedOrders\Index.cshtml" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\GroupedOrdersGrid.cshtml" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\GroupedOrderGrid.cshtml" />
+    <Content Include="Views\GroupedOrders\Details.cshtml" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\Orders.cshtml" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\Order.cshtml" />
+    <Content Include="Views\Orders\ChooseShop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -541,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703281124223_ShopPictDeleteFile.resx">
       <DependentUpon>201703281124223_ShopPictDeleteFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703281334270_ModifyOrders.resx">
+      <DependentUpon>201703281334270_ModifyOrders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

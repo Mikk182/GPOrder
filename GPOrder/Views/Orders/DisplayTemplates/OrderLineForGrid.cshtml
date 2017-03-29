@@ -1,7 +1,3 @@
 ﻿@model GPOrder.Models.OrderLine
 
-@{
-    var displayText = string.Format("{0} x {1} | {2} € => {3} €", Model.OrderedQty, Model.Product.Name, Model.Product.Price, Model.OrderedQty * Model.Product.Price);
-}
-
-@Html.DisplayFor(m => displayText)
+@Html.DisplayFor(m => m.Description)

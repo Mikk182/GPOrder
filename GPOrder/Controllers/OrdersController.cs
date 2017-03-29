@@ -7,19 +7,44 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using GPOrder.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using EntityState = System.Data.Entity.EntityState;
 
-namespace GPOrder.Views
+namespace GPOrder.Controllers
 {
     [Authorize]
     public class OrdersController : Controller
     {
+        private ApplicationUserManager _userManager;
+
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public OrdersController()
+        {
+        }
+
+        public OrdersController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Orders
         public ActionResult Index()
         {
-            return View(db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).ToList());
+            return View(db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines).ToList());
         }
 
         // GET: Orders/Details/5
@@ -29,7 +54,7 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var order = db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).Single(o => o.Id == id);
+            var order = db.Orders.Include(o => o.OrderLines).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -37,15 +62,42 @@ namespace GPOrder.Views
             return View(order);
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
+        public ActionResult ChooseShop()
         {
+            var shops = db.Shops.Include(s => s.CreateUser).Include(s => s.OwnerUser);
+            return View(shops);
+        }
+
+        // GET: Orders/Create
+        public ActionResult Create(Guid? shopId, Guid? groupedOrderId)
+        {
+            if (!shopId.HasValue)
+                return RedirectToAction("ChooseShop");
+
+            var currentUser = UserManager.FindById(User.Identity.GetUserId());
+
+            GroupedOrder groupedOrder;
+            if (groupedOrderId.HasValue)
+            {
+                groupedOrder = db.GroupedOrders.Include(go => go.LinkedShop).Single(go => go.Id == groupedOrderId.Value);
+            }
+            else
+            {
+                groupedOrder = new GroupedOrder
+                {
+                    LinkedShop = db.Shops.Single(s => s.Id == shopId)
+                };
+            }
+
             var order = new Order
             {
+                CreationDate = DateTime.Now,
+                CreateUser = currentUser,
                 OrderDate = DateTime.Now,
-                Date = DateTime.Now,
+                GroupedOrder = groupedOrder,
                 OrderLines = new List<OrderLine> { new OrderLine() }
             };
+
             return View(order);
         }
 
@@ -54,20 +106,28 @@ namespace GPOrder.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,OrderDate,IsLocked,OrderLines")] Order order)
+        public ActionResult Create([Bind(Include = "Id,CreationDate,OrderDate,EstimatedPrice,IsLocked,CreateUser,GroupedOrder,OrderLines")] Order order)
         {
-
             if (ModelState.IsValid)
             {
-                order.User = db.Users.Single(u => u.UserName == User.Identity.Name);
-                foreach (var ol in order.OrderLines)
+                var createUser = db.Users.Single(u => u.Id == order.CreateUser.Id);
+                order.CreateUser = createUser;
+                if (order.GroupedOrder.Id != Guid.Empty)
                 {
-                    var product = db.Products.Single(p => p.Id == ol.Product.Id);
-                    ol.Product = product;
+                    order.GroupedOrder = db.GroupedOrders.Include(go => go.LinkedShop).Single(go => go.Id == order.GroupedOrder.Id);
+                }
+                else
+                {
+                    order.GroupedOrder = new GroupedOrder
+                    {
+                        CreateUser = createUser,
+                        CreationDate = order.CreationDate,
+                        LinkedShop = db.Shops.Single(s => s.Id == order.GroupedOrder.LinkedShop.Id)
+                    };
                 }
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "GroupedOrders", new { shopId = order.GroupedOrder.LinkedShop.Id });
             }
 
             return View(order);
@@ -78,21 +138,6 @@ namespace GPOrder.Views
             return PartialView("EditorTemplates/OrderLine", new OrderLine());
         }
 
-        public ActionResult GetProductsNames(string term)
-        {
-            var result = db.Products
-                .Where(c => c.Name.StartsWith(term))
-                .Take(10)
-                .Select(c => new
-                {
-                    id = c.Id,
-                    value = c.Name,
-                    label = c.Name
-                })
-                .ToList();
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
         // GET: Orders/Edit/5
         public ActionResult Edit(Guid? id)
         {
@@ -100,7 +145,7 @@ namespace GPOrder.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var order = db.Orders.Include(o => o.OrderLines).Include(o => o.OrderLines.Select(ol => ol.Product)).Single(o => o.Id == id);
+            var order = db.Orders.Include(o => o.CreateUser).Include(o => o.GroupedOrder.LinkedShop).Include(o => o.OrderLines).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -113,19 +158,17 @@ namespace GPOrder.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,OrderDate,IsLocked,OrderLines")] Order order)
+        public ActionResult Edit([Bind(Include = "Id,CreationDate,OrderDate,EstimatedPrice,IsLocked,CreateUser,GroupedOrder,OrderLines")] Order order)
         {
             if (ModelState.IsValid)
             {
                 foreach (var ol in order.OrderLines)
                 {
-                    var product = db.Products.Single(p => p.Id == ol.Product.Id);
-                    ol.Product = product;
                     db.Entry(ol).State = ol.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
                 }
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "GroupedOrders");
             }
             return View(order);
         }

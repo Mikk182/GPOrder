@@ -43,6 +43,8 @@ namespace GPOrder.Models
         public ICollection<ShopPicture> ShopPictures { get; set; }
 
         public ICollection<ShopLink> ShopLinks { get; set; }
+
+        public ICollection<GroupedOrder> GroupedOrders { get; set; }
     }
 
     public class ShopPicture

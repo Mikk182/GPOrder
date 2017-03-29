@@ -1,0 +1,23 @@
+﻿@model GPOrder.Models.GroupedOrder
+
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.CreateUser.UserName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.CreationDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.LinkedShop.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.DeliveryBoy.UserName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => modelItem.LimitDate)
+    </td>
+    <td>
+        @Html.ActionLink("Rejoindre", "Create", "Orders", new { shopId = Model.LinkedShop.Id, groupedOrderId = Model.Id }, null)
+        @Html.ActionLink("Details", "Details", new { id = Model.Id })
+    </td>
+</tr>

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<GPOrder.Models.GroupedOrder>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LinkedShop)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeliveryBoy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LimitDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        @Html.DisplayFor(m => item, "GroupedOrderGrid")
+    }
+
+</table>

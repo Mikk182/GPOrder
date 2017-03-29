@@ -31,6 +31,10 @@ namespace GPOrder.Models
 
         public virtual ICollection<File> Files { get; set; }
 
+        public virtual ICollection<GroupedOrder> CreateUserGroupedOrders { get; set; }
+        public virtual ICollection<GroupedOrder> DeliveryBoyGroupedOrders { get; set; }
+
+        public virtual ICollection<Order> CreateUserOrders { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -51,8 +55,24 @@ namespace GPOrder.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<GroupedOrder>()
+                .HasKey(l => l.Id)
+                .HasRequired(go => go.CreateUser)
+                .WithMany(o => o.CreateUserGroupedOrders).WillCascadeOnDelete(false);
+            modelBuilder.Entity<GroupedOrder>()
+                .HasOptional(go => go.DeliveryBoy)
+                .WithMany(o => o.DeliveryBoyGroupedOrders).WillCascadeOnDelete(false);
+            modelBuilder.Entity<GroupedOrder>()
+                .HasMany(go => go.Orders)
+                .WithRequired(o => o.GroupedOrder).WillCascadeOnDelete(true);
+            modelBuilder.Entity<GroupedOrder>()
+                .HasRequired(go => go.LinkedShop)
+                .WithMany(o => o.GroupedOrders).WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Order>()
-                .HasKey(l => l.Id);
+                .HasKey(l => l.Id)
+                .HasRequired(o => o.CreateUser)
+                .WithMany(u => u.CreateUserOrders);
 
             modelBuilder.Entity<OrderLine>()
                 .HasKey(l => l.Id);
@@ -83,6 +103,9 @@ namespace GPOrder.Models
                 .HasRequired(c => c.OwnerUser)
                 .WithMany(u => u.OwnedShop)
                 .HasForeignKey(u => u.OwnerUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Shop>()
+                .HasMany(s => s.GroupedOrders)
+                .WithRequired(go => go.LinkedShop);
 
             modelBuilder.Entity<ShopPicture>()
                 .HasKey(sp => sp.Id)
@@ -116,6 +139,15 @@ namespace GPOrder.Models
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.PostedPictures)
                 .WithRequired(au => au.CreateUser);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.CreateUserGroupedOrders)
+                .WithRequired(au => au.CreateUser);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.DeliveryBoyGroupedOrders)
+                .WithOptional(au => au.DeliveryBoy);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.CreateUserOrders)
+                .WithRequired(au => au.CreateUser);
 
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
@@ -126,6 +158,8 @@ namespace GPOrder.Models
         public DbSet<Group> Groups { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<GroupedOrder> GroupedOrders { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 

@@ -1,0 +1,64 @@
+﻿@model GPOrder.Models.GroupedOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>GroupedOrder</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateUser.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LinkedShop)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinkedShop.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveryBoy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliveryBoy.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimitDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimitDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orders)
+        </dt>
+
+        @Html.DisplayFor(model => model.Orders, "Orders")
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index", new { shopId = Model.LinkedShop.Id })
+</p>

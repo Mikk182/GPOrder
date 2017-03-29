@@ -2,26 +2,12 @@
 
 @using (Html.BeginCollectionItem("OrderLines"))
 {
-    <div class="form-horizontal">
-        <h4>OrderLine</h4>
-        @Html.ActionLink("X", string.Empty, null, new { @class = "deleteLink" })
-        <hr />
+    <div class="col-md-10">
         @Html.HiddenFor(model => model.Id)
-        <div class="form-group">
-            @Html.LabelFor(model => model.OrderedQty, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.OrderedQty)
-                @Html.ValidationMessageFor(model => model.OrderedQty, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.JQueryUI().AutocompleteFor(model => model.Product.Name, Url.Action("GetProductsNames", "Orders"))
-                @Html.HiddenFor(model => model.Product.Id)
-                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.EditorFor(m => m.Description)
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        @Html.ActionLink("Delete", string.Empty, null, new { @class = "deleteLink" })
+        <hr />
     </div>
 }

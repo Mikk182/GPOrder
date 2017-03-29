@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.Order
+
+@Html.HiddenFor(model => model.Id)
+@{ var description = string.Format("Created by {0} on {1} for {2}. Price = {3}", Model.CreateUser.UserName, Model.CreationDate, Model.OrderDate, Model.EstimatedPrice); }
+
+@Html.DisplayFor(m => description)
+
+@if (Model.CreateUser.Id == User.Identity.GetUserId())
+{
+    @Html.ActionLink("Edit", "Edit", "Orders", new { Model.Id }, null)
+}
+else
+{
+    @Html.ActionLink("Detail", "Details", "Orders", new { Model.Id }, null)
+}
