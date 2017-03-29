@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -162,13 +163,43 @@ namespace GPOrder.Controllers
         {
             if (ModelState.IsValid)
             {
-                foreach (var ol in order.OrderLines)
+                if (order.OrderLines == null)
+                    order.OrderLines = new List<OrderLine>();
+
+                var dbOrder = db.Orders.Include(o => o.CreateUser).Include(o => o.GroupedOrder).Include(o => o.OrderLines).Single(o => o.Id == order.Id);
+                if (dbOrder.OrderLines == null)
+                    dbOrder.OrderLines = new List<OrderLine>();
+
+                dbOrder.OrderDate = order.OrderDate;
+                dbOrder.EstimatedPrice = order.EstimatedPrice;
+
+                var orderLinesToDelete = dbOrder.OrderLines != null ?
+                    dbOrder.OrderLines.Where(dbol => !order.OrderLines.Select(ol => ol.Id).Contains(dbol.Id)) : new List<OrderLine>();
+                db.OrderLines.RemoveRange(orderLinesToDelete);
+
+                foreach (var orderLine in order.OrderLines.Where(ol => ol.Id != Guid.Empty))
                 {
-                    db.Entry(ol).State = ol.Id == Guid.Empty ? EntityState.Added : EntityState.Modified;
+                    var dbOrderLine = dbOrder.OrderLines.Single(ol => ol.Id == orderLine.Id);
+                    dbOrderLine.Description = orderLine.Description;
+                    db.Entry(dbOrderLine).State = EntityState.Modified;
                 }
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index", "GroupedOrders");
+
+                foreach (var orderLine in order.OrderLines.Where(ol => ol.Id == Guid.Empty))
+                {
+                    //db.Entry(orderLine).State = EntityState.Added;
+                    dbOrder.OrderLines.Add(orderLine);
+                }
+                try
+                {
+                    db.Entry(dbOrder).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException e)
+                {
+                    throw e;
+                }
+
+                return RedirectToAction("Details", "GroupedOrders", new { order.GroupedOrder.Id });
             }
             return View(order);
         }
@@ -180,7 +211,7 @@ namespace GPOrder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+            Order order = db.Orders.Include(o => o.GroupedOrder.Orders).Single(o => o.Id == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -193,10 +224,17 @@ namespace GPOrder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Order order = db.Orders.Find(id);
+            var groupedOrderIsRemoved = false;
+            var order = db.Orders.Include(o => o.GroupedOrder.Orders).Single(o => o.Id == id);
+            if (order.GroupedOrder?.Orders != null && order.GroupedOrder.Orders.Count == 1)
+            {
+                db.GroupedOrders.Remove(order.GroupedOrder);
+                groupedOrderIsRemoved = true;
+            }
             db.Orders.Remove(order);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return !groupedOrderIsRemoved ? RedirectToAction("Details", "GroupedOrders", new {order.GroupedOrder_Id}) : RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)

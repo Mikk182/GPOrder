@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using GPOrder.Models;
 using GPOrder.ViewModels;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace GPOrder.Controllers
@@ -41,7 +42,11 @@ namespace GPOrder.Controllers
         // GET: GroupedOrders
         public ActionResult Index(Guid? shopId)
         {
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = db.Users.Single(u => u.Id == currentUserId);
+            var usersInMyGroups = currentUser.LinkedGroups.SelectMany(g => g.ApplicationUsers.Select(u => u.Id));
             var groupedOrders = db.GroupedOrders.Include(go => go.CreateUser).Include(go => go.LinkedShop);
+            groupedOrders = groupedOrders.Where(go => usersInMyGroups.Contains(go.CreateUser.Id));
             if (shopId.HasValue)
                 groupedOrders = groupedOrders.Where(go => go.LinkedShop.Id == shopId);
 

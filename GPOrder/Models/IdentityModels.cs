@@ -58,24 +58,27 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrder>()
                 .HasKey(l => l.Id)
                 .HasRequired(go => go.CreateUser)
-                .WithMany(o => o.CreateUserGroupedOrders).WillCascadeOnDelete(false);
+                .WithMany(o => o.CreateUserGroupedOrders).HasForeignKey(o => o.CreateUser_Id).WillCascadeOnDelete(false);
             modelBuilder.Entity<GroupedOrder>()
                 .HasOptional(go => go.DeliveryBoy)
-                .WithMany(o => o.DeliveryBoyGroupedOrders).WillCascadeOnDelete(false);
+                .WithMany(o => o.DeliveryBoyGroupedOrders).HasForeignKey(go => go.DeliveryBoy_Id).WillCascadeOnDelete(false);
             modelBuilder.Entity<GroupedOrder>()
                 .HasMany(go => go.Orders)
                 .WithRequired(o => o.GroupedOrder).WillCascadeOnDelete(true);
             modelBuilder.Entity<GroupedOrder>()
                 .HasRequired(go => go.LinkedShop)
-                .WithMany(o => o.GroupedOrders).WillCascadeOnDelete(false);
+                .WithMany(o => o.GroupedOrders).HasForeignKey(go => go.LinkedShop_Id).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id)
                 .HasRequired(o => o.CreateUser)
-                .WithMany(u => u.CreateUserOrders);
+                .WithMany(u => u.CreateUserOrders).HasForeignKey(o => o.CreateUser_Id);
 
             modelBuilder.Entity<OrderLine>()
-                .HasKey(l => l.Id);
+                .HasKey(l => l.Id)
+                .HasRequired(ol => ol.Order)
+                .WithMany(ol => ol.OrderLines)
+                .HasForeignKey(ol => ol.Order_Id);
 
             modelBuilder.Entity<Product>()
                 .HasKey(l => l.Id)

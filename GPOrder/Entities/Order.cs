@@ -12,17 +12,21 @@ namespace GPOrder.Models
         public Guid Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; }
-        //public Guid CreateUserId { get; set; }
-        public ApplicationUser CreateUser { get; set; }
-        //public Guid? DeliveryBoyId { get; set; }
-        public ApplicationUser DeliveryBoy { get; set; }
+        
+        public string CreateUser_Id { get; set; }
+        public virtual ApplicationUser CreateUser { get; set; }
+        
+        public string DeliveryBoy_Id { get; set; }
+        public virtual ApplicationUser DeliveryBoy { get; set; }
+        
         [DataType(DataType.Date)]
         public DateTime? LimitDate { get; set; }
         public bool IsLocked { get; set; }
-        //public Guid? LinkedShopyId { get; set; }
-        public Shop LinkedShop { get; set; }
+        
+        public Guid? LinkedShop_Id { get; set; }
+        public virtual Shop LinkedShop { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 
     public class Order
@@ -33,8 +37,9 @@ namespace GPOrder.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; }
+        public string CreateUser_Id { get; set; }
         [Required]
-        public ApplicationUser CreateUser { get; set; }
+        public virtual ApplicationUser CreateUser { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
         public bool IsLocked { get; set; }
@@ -42,9 +47,10 @@ namespace GPOrder.Models
         public decimal EstimatedPrice { get; set; }
         public decimal? RealPrice { get; set; }
 
-        public ICollection<OrderLine> OrderLines { get; set; }
+        public virtual ICollection<OrderLine> OrderLines { get; set; }
 
-        public GroupedOrder GroupedOrder { get; set; }
+        public Guid GroupedOrder_Id { get; set; }
+        public virtual GroupedOrder GroupedOrder { get; set; }
     }
     
     public class OrderLine
@@ -54,5 +60,8 @@ namespace GPOrder.Models
         public Guid Id { get; set; }
         [StringLength(100, MinimumLength = 3)]
         public string Description { get; set; }
+
+        public Guid Order_Id { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

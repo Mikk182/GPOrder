@@ -8,6 +8,10 @@
 <h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
+@if (Model.GroupedOrder?.Orders != null && Model.GroupedOrder.Orders.Count(o => o.Id != Model.Id) == 0)
+{
+    <h3 class="text-danger">Warning, this is the last order in the group. By deleting this, the group will be removed.</h3>
+}
 <div>
     <h4>Order</h4>
     <hr />
@@ -43,7 +47,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
         </div>
     }
 </div>

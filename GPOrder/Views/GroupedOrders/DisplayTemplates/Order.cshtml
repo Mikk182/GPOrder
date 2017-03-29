@@ -9,6 +9,8 @@
 @if (Model.CreateUser.Id == User.Identity.GetUserId())
 {
     @Html.ActionLink("Edit", "Edit", "Orders", new { Model.Id }, null)
+    @(" | ")
+    @Html.ActionLink("Delete", "Delete", "Orders", new { Model.Id }, null)
 }
 else
 {
