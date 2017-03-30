@@ -1,4 +1,5 @@
-﻿@model GPOrder.Models.GroupedOrder
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.GroupedOrder
 
 <tr>
     <td>
@@ -17,7 +18,10 @@
         @Html.DisplayFor(modelItem => modelItem.LimitDate)
     </td>
     <td>
-        @Html.ActionLink("Rejoindre", "Create", "Orders", new { shopId = Model.LinkedShop.Id, groupedOrderId = Model.Id }, null)
-        @Html.ActionLink("Details", "Details", new { id = Model.Id })
+        @if (Model.Orders.All(o => o.CreateUser_Id != User.Identity.GetUserId()))
+        {
+            @Html.ActionLink("Rejoindre", "Create", "Orders", new { shopId = Model.LinkedShop.Id, groupedOrderId = Model.Id }, null)
+        }
+        @Html.ActionLink("Details", "Details", new {id = Model.Id})
     </td>
 </tr>
