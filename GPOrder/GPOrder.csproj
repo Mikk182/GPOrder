@@ -215,6 +215,10 @@
     <Compile Include="Migrations\201703292148333_OrderAddForeignKey3.Designer.cs">
       <DependentUpon>201703292148333_OrderAddForeignKey3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703301553042_FixOrder.cs" />
+    <Compile Include="Migrations\201703301553042_FixOrder.Designer.cs">
+      <DependentUpon>201703301553042_FixOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
@@ -578,6 +582,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703292148333_OrderAddForeignKey3.resx">
       <DependentUpon>201703292148333_OrderAddForeignKey3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703301553042_FixOrder.resx">
+      <DependentUpon>201703301553042_FixOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
