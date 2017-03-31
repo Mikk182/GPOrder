@@ -90,7 +90,7 @@ namespace GPOrder.Controllers
                 CreateUser = currentUser,
                 OrderDate = DateTime.Now,
                 GroupedOrder = groupedOrder,
-                OrderLines = new List<OrderLine> {new OrderLine()}
+                OrderLines = new List<OrderLine> { new OrderLine() }
             };
 
             return View(order);
@@ -104,6 +104,9 @@ namespace GPOrder.Controllers
         public ActionResult Create(
             [Bind(Include = "Id,CreationDate,OrderDate,EstimatedPrice,IsLocked,CreateUser,GroupedOrder,OrderLines")] Order order)
         {
+            if (order.OrderLines == null || !order.OrderLines.Any())
+                ModelState.AddModelError("OrderLines", "Cannot creat an order whitout lines");
+
             if (ModelState.IsValid)
             {
                 var createUser = db.Users.Single(u => u.Id == order.CreateUser.Id);
@@ -124,7 +127,7 @@ namespace GPOrder.Controllers
                 }
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index", "GroupedOrders", new {shopId = order.GroupedOrder.LinkedShop.Id});
+                return RedirectToAction("Index", "GroupedOrders", new { shopId = order.GroupedOrder.LinkedShop.Id });
             }
 
             return View(order);
@@ -162,6 +165,9 @@ namespace GPOrder.Controllers
         public ActionResult Edit(
             [Bind(Include = "Id,CreationDate,OrderDate,EstimatedPrice,IsLocked,CreateUser,GroupedOrder,OrderLines")] Order order)
         {
+            if (order.OrderLines == null || !order.OrderLines.Any())
+                ModelState.AddModelError("OrderLines", "Cannot create an order whitout lines");
+
             if (ModelState.IsValid)
             {
                 if (order.OrderLines == null)
@@ -205,7 +211,7 @@ namespace GPOrder.Controllers
                     throw e;
                 }
 
-                return RedirectToAction("Details", "GroupedOrders", new {order.GroupedOrder.Id});
+                return RedirectToAction("Details", "GroupedOrders", new { order.GroupedOrder.Id });
             }
             return View(order);
         }
