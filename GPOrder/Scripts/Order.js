@@ -19,7 +19,7 @@
             });
             firstInput.blur(function(){
                 if ($(this).val().length === 0 && firstInputValue) {
-                    $(this).val(firstInputValue).addClass('watermark').validate();
+                    $(this).val(firstInputValue).addClass('watermark');
                 }
             });
         }

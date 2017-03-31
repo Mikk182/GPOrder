@@ -52,7 +52,8 @@ namespace GPOrder.Controllers
 
             var groupedOrders = db.GroupedOrders
                 .Where(go => usersInMyGroups.Contains(go.CreateUser.Id)
-                    || go.CreateUser.Id == currentUserId);
+                    || go.CreateUser.Id == currentUserId
+                    || go.Orders.Any(o => o.CreateUser_Id == currentUserId));
 
             if (shopId.HasValue)
                 groupedOrders = groupedOrders.Where(go => go.LinkedShop.Id == shopId);

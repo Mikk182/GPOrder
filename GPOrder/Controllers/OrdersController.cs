@@ -110,7 +110,7 @@ namespace GPOrder.Controllers
             [Bind(Include = "Id,CreationDate,OrderDate,EstimatedPrice,IsLocked,CreateUser,GroupedOrder,OrderLines")] Order order)
         {
             if (order.OrderLines == null || !order.OrderLines.Any())
-                ModelState.AddModelError("OrderLines", "Cannot creat an order whitout lines");
+                ModelState.AddModelError("OrderLines", "Cannot creat an order without lines");
 
             if (ModelState.IsValid)
             {
@@ -132,7 +132,7 @@ namespace GPOrder.Controllers
                 }
                 db.Orders.Add(order);
                 db.SaveChanges();
-                return RedirectToAction("Index", "GroupedOrders", new { shopId = order.GroupedOrder.LinkedShop.Id });
+                return RedirectToAction("Index", "GroupedOrders");
             }
 
             return View(order);
