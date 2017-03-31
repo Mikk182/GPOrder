@@ -64,22 +64,21 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @{
-        var isOwner = User.Identity.GetUserId() == item.OwnerUser.Id;
-                }
-                @if (isOwner)
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    @(" | ")
-                }
                 @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @{
+                    var isOwner = User.Identity.GetUserId() == item.OwnerUser.Id;
+                }
                 @if (isOwner)
                 {
+                    @(" | ")
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                     @(" | ")
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 }
+                @(" | ")
                 @Html.ActionLink("Order", "Index", "GroupedOrders", new { shopId = item.Id }, null)
             </td>
+
         </tr>
     }
 
