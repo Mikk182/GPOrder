@@ -74,7 +74,7 @@ namespace GPOrder.Controllers
             GroupedOrder groupedOrder;
             if (groupedOrderId.HasValue)
             {
-                groupedOrder = db.GroupedOrders.Include(go => go.LinkedShop).Single(go => go.Id == groupedOrderId.Value);
+                groupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrderId.Value);
             }
             else
             {
@@ -90,7 +90,12 @@ namespace GPOrder.Controllers
                 CreateUser = currentUser,
                 OrderDate = DateTime.Now,
                 GroupedOrder = groupedOrder,
-                OrderLines = new List<OrderLine> { new OrderLine() }
+                OrderLines = new List<OrderLine> { 
+                    new OrderLine
+                    {
+                        Description = string.Format("je suis partant pour une commande au {0}", groupedOrder.LinkedShop.Name)
+                    } 
+                }
             };
 
             return View(order);

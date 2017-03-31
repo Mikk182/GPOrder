@@ -80,7 +80,7 @@
     <script type="text/javascript" src="~/Scripts/Order.js"></script>
 
     <script type="text/javascript">
-        var _order = new Order();
+        var _order = new Order({ "IsOnCreation": true });
         $(document).ready(function () {
             _order.ReadyJS();
         });
