@@ -1,4 +1,5 @@
-﻿@model GPOrder.Models.GroupedOrder
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.GroupedOrder
 
 @{
     ViewBag.Title = "Details";
@@ -59,6 +60,9 @@
     </dl>
 </div>
 <p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
-    @Html.ActionLink("Back to List", "Index", new { shopId = Model.LinkedShop.Id })
+    @Html.ActionLink("Back to List", "Index")
+    @if (Model.Orders.All(o => o.CreateUser_Id != User.Identity.GetUserId()))
+    {
+        @Html.ActionLink("Join", "Create", "Orders", new { shopId = Model.LinkedShop.Id, groupedOrderId = Model.Id }, null)
+    }
 </p>

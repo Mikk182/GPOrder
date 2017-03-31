@@ -1,8 +1,13 @@
-﻿@model GPOrder.Models.Group
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.Group
 
 @{
     ViewBag.Title = "Edit Group";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    
+    var userId = User.Identity.GetUserId();
+    var isOwner = userId == Model.OwnerUser.Id;
+    var isInUsers = Model.ApplicationUsers.Any(au => au.Id == userId);
 }
 
 <h2>Edit</h2>
@@ -32,7 +37,7 @@
             @Html.Label("Invite", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.Partial("_Share")
+                    @(isInUsers ? Html.Partial("_Share") : Html.ActionLink("Join", "Join", new { Model.Id }))
                 </div>
             </div>
         </div>
@@ -67,6 +72,22 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
+    @if (isOwner)
+    {
+        @(" | ")
+        @Html.ActionLink("Details", "Details", new { id = Model.Id })
+        @(" | ")
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+    }
+    @if (!isInUsers)
+    {
+        @*@Html.ActionLink("Join", "Join", new { id = Model.Id })*@
+    }
+    else
+    {
+        @(" | ")
+        @Html.ActionLink("Leave", "Leave", new { id = Model.Id })
+    }
 </div>
 
 @section Scripts {

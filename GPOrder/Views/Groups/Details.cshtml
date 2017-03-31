@@ -29,7 +29,7 @@
             Invite
         </dt>
         <dd>
-            @(isInUsers ? Html.Partial("_Share") : Html.ActionLink("Rejoindre", "Join", new { Model.Id }))
+            @(isInUsers ? Html.Partial("_Share") : Html.ActionLink("Join", "Join", new { Model.Id }))
         </dd>
 
         <dt>
@@ -59,15 +59,24 @@
 </div>
 
 <p>
+    @Html.ActionLink("Back to List", "Index")
     @if (isOwner)
     {
+        @(" | ")
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        @(" | ")
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
     }
-    @if (isInUsers)
+    @if (!isInUsers)
     {
+        @*@(" | ")*@
+        @*@Html.ActionLink("Join", "Join", new { id = Model.Id })*@
+    }
+    else
+    {
+        @(" | ")
         @Html.ActionLink("Leave", "Leave", new { id = Model.Id })
     }
-    @Html.ActionLink("Back to List", "Index")
 </p>
 
 @section Scripts {

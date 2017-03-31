@@ -1,8 +1,12 @@
-﻿@model GPOrder.Models.Group
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.Group
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = User.Identity.GetUserId();
+    var isOwner = userId == Model.OwnerUser.Id;
 }
 
 <h2>Join</h2>
@@ -65,6 +69,13 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
+    @if (isOwner)
+    {
+        @(" | ")
+        @Html.ActionLink("Details", "Details", new { id = Model.Id })
+        @(" | ")
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
 </div>
 
 @section Scripts {

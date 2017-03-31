@@ -68,11 +68,14 @@
 }
 
 <p>
+    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
+    @(" | ")
+    @Html.ActionLink("Details", "Details", "Orders", new { Model.Id }, null)
     @if (Model.CreateUser.Id == User.Identity.GetUserId())
     {
+        @(" | ")
         @Html.ActionLink("Delete", "Delete", "Orders", new { Model.Id }, null)
     }
-    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
 </p>
 
 @section Scripts {

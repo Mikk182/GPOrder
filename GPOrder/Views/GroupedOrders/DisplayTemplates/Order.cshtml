@@ -6,13 +6,11 @@
 
 @Html.DisplayFor(m => description)
 
+@Html.ActionLink("Detail", "Details", "Orders", new { Model.Id }, null)
 @if (Model.CreateUser.Id == User.Identity.GetUserId())
 {
+    @(" | ")
     @Html.ActionLink("Edit", "Edit", "Orders", new { Model.Id }, null)
     @(" | ")
     @Html.ActionLink("Delete", "Delete", "Orders", new { Model.Id }, null)
-}
-else
-{
-    @Html.ActionLink("Detail", "Details", "Orders", new { Model.Id }, null)
 }

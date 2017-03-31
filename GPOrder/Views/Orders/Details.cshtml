@@ -1,4 +1,5 @@
-﻿@model GPOrder.Models.Order
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.Order
 
 @{
     ViewBag.Title = "Details";
@@ -36,7 +37,7 @@
         </dd>
 
     </dl>
-    
+
     <div class="form-group">
         @Html.LabelFor(model => model.OrderLines, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -47,6 +48,10 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
+    @if (Model.CreateUser.Id == User.Identity.GetUserId())
+    {
+        @(" | ")
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
 </p>

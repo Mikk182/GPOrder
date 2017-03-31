@@ -1,8 +1,12 @@
-﻿@model GPOrder.Models.Shop
+﻿@using Microsoft.AspNet.Identity
+@model GPOrder.Models.Shop
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = User.Identity.GetUserId();
+    var isOwner = userId == Model.OwnerUser.Id;
 }
 
 <h2>Edit</h2>
@@ -85,6 +89,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ShopPictures, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="checkbox">
+                @Html.ActionLink("Add a pic", "AddPictures", new { Model.Id })
                 @Html.EditorFor(model => model.ShopPictures, "ShopPictures")
             </div>
         </div>
@@ -99,8 +104,16 @@
 }
 
 <div>
-    @Html.ActionLink("Add a pic", "AddPictures", new { Model.Id })
     @Html.ActionLink("Back to List", "Index")
+    @if (isOwner)
+    {
+        @(" | ")
+        @Html.ActionLink("Details", "Details", new { id = Model.Id })
+        @(" | ")
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
+    }
+    @(" | ")
+    @Html.ActionLink("Order", "Index", "GroupedOrders")
 </div>
 
 @section Scripts {

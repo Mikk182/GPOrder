@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var userId = User.Identity.GetUserId();
+    var isOwner = userId == Model.OwnerUser.Id;
 }
 
 <h2>Details</h2>
@@ -21,14 +24,14 @@
         </dd>
 
         <dt>
-            Créateur
+            Creator
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CreateUser.UserName)
         </dd>
 
         <dt>
-            Administrateur
+            Administrator
         </dt>
         <dd>
             @Html.DisplayFor(model => model.OwnerUser.UserName)
@@ -61,35 +64,36 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.ShopLinks)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ShopLinks, "ShopLinks")
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.ShopPictures)
         </dt>
         <dd>
+            @Html.ActionLink("Add a pic", "AddPictures", new { Model.Id })
             @Html.DisplayFor(model => model.ShopPictures, "ShopPictures")
         </dd>
     </dl>
-    
+
 </div>
 
 <p>
-    @{
-        var userId = User.Identity.GetUserId();
-        var isOwner = userId == Model.OwnerUser.Id;
-    }
+    @Html.ActionLink("Back to List", "Index")
     @if (isOwner)
     {
+        @(" | ")
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        @(" | ")
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
     }
-    @Html.ActionLink("Add a pic", "AddPictures", new { Model.Id })
-    @Html.ActionLink("Back to List", "Index")
+    @(" | ")
+    @Html.ActionLink("Order", "Index", "GroupedOrders", new { shopId = Model.Id }, null)
 </p>
 
 @section Scripts {
