@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201703301553042_FixOrder.Designer.cs">
       <DependentUpon>201703301553042_FixOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703311015169_Order_GroupOrder_FK.cs" />
+    <Compile Include="Migrations\201703311015169_Order_GroupOrder_FK.Designer.cs">
+      <DependentUpon>201703311015169_Order_GroupOrder_FK.cs</DependentUpon>
+    </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
@@ -585,6 +589,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703301553042_FixOrder.resx">
       <DependentUpon>201703301553042_FixOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703311015169_Order_GroupOrder_FK.resx">
+      <DependentUpon>201703311015169_Order_GroupOrder_FK.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

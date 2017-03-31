@@ -73,6 +73,9 @@ namespace GPOrder.Models
                 .HasKey(l => l.Id)
                 .HasRequired(o => o.CreateUser)
                 .WithMany(u => u.CreateUserOrders).HasForeignKey(o => o.CreateUser_Id);
+            modelBuilder.Entity<Order>()
+                .HasRequired(o => o.GroupedOrder)
+                .WithMany(u => u.Orders).HasForeignKey(o => o.GroupedOrder_Id);
 
             modelBuilder.Entity<OrderLine>()
                 .HasKey(l => l.Id)

@@ -247,7 +247,7 @@ namespace GPOrder.Controllers
             db.SaveChanges();
 
             return !groupedOrderIsRemoved
-                ? RedirectToAction("Details", "GroupedOrders", new {order.GroupedOrder_Id})
+                ? RedirectToAction("Details", "GroupedOrders", new {Id = order.GroupedOrder_Id})
                 : RedirectToAction("Index", "Home");
         }
 
