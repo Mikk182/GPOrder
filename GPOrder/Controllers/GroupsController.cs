@@ -60,7 +60,9 @@ namespace GPOrder.Views
             {
                 group.CreationDate = DateTime.UtcNow;
                 var userId = User.Identity.GetUserId();
-                group.OwnerUser = group.CreateUser = db.Users.Single(u => u.Id == userId);
+                var currentUser = db.Users.Single(u => u.Id == userId);
+                group.OwnerUser = group.CreateUser = currentUser;
+                group.ApplicationUsers = new List<ApplicationUser> { currentUser };
 
                 db.Entry(group).State = EntityState.Added;
                 db.SaveChanges();
