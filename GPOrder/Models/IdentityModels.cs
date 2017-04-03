@@ -73,7 +73,7 @@ namespace GPOrder.Models
                 .WithMany(o => o.GroupedOrders).HasForeignKey(go => go.LinkedShop_Id).WillCascadeOnDelete(false);
             modelBuilder.Entity<GroupedOrder>()
                 .HasMany(go => go.GroupedOrderEvents)
-                .WithRequired(goe => goe.GroupedOrder).HasForeignKey(goe => goe.GroupedOrder_Id).WillCascadeOnDelete(false);
+                .WithRequired(goe => goe.GroupedOrder).HasForeignKey(goe => goe.GroupedOrderId).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id)
@@ -146,7 +146,8 @@ namespace GPOrder.Models
                 .WithRequired(sp => sp.LinkedFile);
 
             modelBuilder.Entity<Event>()
-                .HasKey(e => e.Id);
+                .HasKey(e => e.Id)
+                .ToTable("Events");
             modelBuilder.Entity<Event>()
                 .HasRequired(e => e.CreateUser)
                 .WithMany(u => u.CreateUserEvent).HasForeignKey(e => e.CreateUserId).WillCascadeOnDelete(false);
@@ -155,11 +156,10 @@ namespace GPOrder.Models
                 .WithMany(u => u.ConcernedUserByEvent);
             modelBuilder.Entity<GroupedOrderEvent>()
                 .HasKey(goe => goe.Id)
-                .HasRequired(goe => goe.Event)
-                .WithOptional(e => e.GroupedOrderEvent).WillCascadeOnDelete(false);
+                .ToTable("GroupedOrderEvents");
             modelBuilder.Entity<GroupedOrderEvent>()
                 .HasRequired(goe => goe.GroupedOrder)
-                .WithMany(go => go.GroupedOrderEvents).HasForeignKey(goe => goe.GroupedOrder_Id).WillCascadeOnDelete(false);
+                .WithMany(go => go.GroupedOrderEvents).HasForeignKey(goe => goe.GroupedOrderId).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)

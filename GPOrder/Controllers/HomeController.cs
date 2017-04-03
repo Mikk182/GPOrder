@@ -3,11 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GPOrder.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace GPOrder.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationUserManager _userManager;
+
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public HomeController()
+        {
+        }
+
+        public HomeController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -25,6 +53,13 @@ namespace GPOrder.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public PartialViewResult MyEvents()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var events = db.Events.Where(e => e.Users.Any(u => u.Id == currentUserId));
+            return PartialView(events);
         }
     }
 }

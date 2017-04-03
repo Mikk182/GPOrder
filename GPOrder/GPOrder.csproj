@@ -182,7 +182,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\DeliveryBoyController.cs" />
+    <Compile Include="Controllers\DeliveryBoyController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\GroupedOrdersController.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
@@ -232,6 +234,18 @@
     <Compile Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.cs" />
     <Compile Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.Designer.cs">
       <DependentUpon>201704020017180_GroupedOrderEvents_LimitDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704031141224_GroupedOrderEventInheritance.cs" />
+    <Compile Include="Migrations\201704031141224_GroupedOrderEventInheritance.Designer.cs">
+      <DependentUpon>201704031141224_GroupedOrderEventInheritance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704031154180_GroupedOrderEventlimitDateNullable.cs" />
+    <Compile Include="Migrations\201704031154180_GroupedOrderEventlimitDateNullable.Designer.cs">
+      <DependentUpon>201704031154180_GroupedOrderEventlimitDateNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704031207020_GroupedOrderEventlimitDateNullable1.cs" />
+    <Compile Include="Migrations\201704031207020_GroupedOrderEventlimitDateNullable1.Designer.cs">
+      <DependentUpon>201704031207020_GroupedOrderEventlimitDateNullable1.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -537,6 +551,8 @@
     <Content Include="Views\Orders\ChooseShop.cshtml" />
     <Content Include="Views\DeliveryBoy\AskForDeliveryBoy.cshtml" />
     <Content Include="Views\DeliveryBoy\BecomingDeliveryBoy.cshtml" />
+    <Content Include="Views\DeliveryBoy\AcceptDeliveryBoyRequest.cshtml" />
+    <Content Include="Views\Home\MyEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -619,6 +635,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.resx">
       <DependentUpon>201704020017180_GroupedOrderEvents_LimitDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704031141224_GroupedOrderEventInheritance.resx">
+      <DependentUpon>201704031141224_GroupedOrderEventInheritance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704031154180_GroupedOrderEventlimitDateNullable.resx">
+      <DependentUpon>201704031154180_GroupedOrderEventlimitDateNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704031207020_GroupedOrderEventlimitDateNullable1.resx">
+      <DependentUpon>201704031207020_GroupedOrderEventlimitDateNullable1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

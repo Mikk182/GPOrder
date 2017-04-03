@@ -1,6 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity
 @model GPOrder.Models.GroupedOrder
 
+@{
+    var currentUserId = User.Identity.GetUserId();
+}
 <tr>
     <td>
         @Html.DisplayFor(modelItem => modelItem.CreateUser.UserName)
@@ -14,12 +17,19 @@
     <td>
         @if (Model.DeliveryBoy != null)
         {
-            @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
-            @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName));
+            if (Model.DeliveryBoy_Id == currentUserId)
+            {
+                @("You're the delivery boy.")
+            }
+            else
+            {
+                @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+                @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName))
+            }
         }
         else
         {
-            @("Cette comande n'a pas de delivery boy. ")
+            @("This order hasn't any delivery boy. ")
             @Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
         }
     </td>

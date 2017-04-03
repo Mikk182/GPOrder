@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using GPOrder.Models;
 
-namespace GPOrder.Entities
+namespace GPOrder.Models
 {
     public enum EventType
     {
@@ -29,20 +28,24 @@ namespace GPOrder.Entities
         public string Description { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
-
-        public virtual GroupedOrderEvent GroupedOrderEvent { get; set; }
     }
 
-    public class GroupedOrderEvent
+    public enum GroupedOrderEventStatus
     {
-        [Key]
-        public Guid Id { get; set; }
+        Submitted = 1 << 0,
+        Accepted = 1 << 1,
+        Refused = 1 << 2
+    }
 
-        public virtual Event Event {get; set; }
+    public class GroupedOrderEvent : Event
+    {
+        public GroupedOrderEventStatus EventStatus { get; set; }
 
+        [Required]
+        [DataType(DataType.DateTime)]
         public DateTime LimitDateTime { get; set; }
 
-        public Guid GroupedOrder_Id { get; set; }
+        public Guid GroupedOrderId { get; set; }
         public virtual GroupedOrder GroupedOrder { get; set; }
     }
 }
