@@ -182,7 +182,9 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\DeliveryBoyController.cs" />
     <Compile Include="Controllers\GroupedOrdersController.cs" />
+    <Compile Include="Entities\Event.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
@@ -222,6 +224,19 @@
     <Compile Include="Migrations\201703311015169_Order_GroupOrder_FK.cs" />
     <Compile Include="Migrations\201703311015169_Order_GroupOrder_FK.Designer.cs">
       <DependentUpon>201703311015169_Order_GroupOrder_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704020011361_GroupedOrderEvents.cs" />
+    <Compile Include="Migrations\201704020011361_GroupedOrderEvents.Designer.cs">
+      <DependentUpon>201704020011361_GroupedOrderEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.cs" />
+    <Compile Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.Designer.cs">
+      <DependentUpon>201704020017180_GroupedOrderEvents_LimitDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -393,6 +408,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\IIS Local.pubxml" />
     <None Include="Properties\PublishProfiles\IISLocal.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -516,6 +535,8 @@
     <Content Include="Views\GroupedOrders\DisplayTemplates\Orders.cshtml" />
     <Content Include="Views\GroupedOrders\DisplayTemplates\Order.cshtml" />
     <Content Include="Views\Orders\ChooseShop.cshtml" />
+    <Content Include="Views\DeliveryBoy\AskForDeliveryBoy.cshtml" />
+    <Content Include="Views\DeliveryBoy\BecomingDeliveryBoy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -592,6 +613,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703311015169_Order_GroupOrder_FK.resx">
       <DependentUpon>201703311015169_Order_GroupOrder_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704020011361_GroupedOrderEvents.resx">
+      <DependentUpon>201704020011361_GroupedOrderEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704020017180_GroupedOrderEvents_LimitDateTime.resx">
+      <DependentUpon>201704020017180_GroupedOrderEvents_LimitDateTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

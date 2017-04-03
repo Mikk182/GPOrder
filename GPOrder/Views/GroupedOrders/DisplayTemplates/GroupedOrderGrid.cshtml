@@ -12,7 +12,16 @@
         @Html.DisplayFor(modelItem => modelItem.LinkedShop.Name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => modelItem.DeliveryBoy.UserName)
+        @if (Model.DeliveryBoy != null)
+        {
+            @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+            @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName));
+        }
+        else
+        {
+            @("Cette comande n'a pas de delivery boy. ")
+            @Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+        }
     </td>
     <td>
         @Html.DisplayFor(modelItem => modelItem.LimitDate)

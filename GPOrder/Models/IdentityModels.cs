@@ -35,6 +35,9 @@ namespace GPOrder.Models
         public virtual ICollection<GroupedOrder> DeliveryBoyGroupedOrders { get; set; }
 
         public virtual ICollection<Order> CreateUserOrders { get; set; }
+
+        public virtual ICollection<Event> CreateUserEvent { get; set; }
+        public virtual ICollection<Event> ConcernedUserByEvent { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -68,6 +71,9 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrder>()
                 .HasRequired(go => go.LinkedShop)
                 .WithMany(o => o.GroupedOrders).HasForeignKey(go => go.LinkedShop_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<GroupedOrder>()
+                .HasMany(go => go.GroupedOrderEvents)
+                .WithRequired(goe => goe.GroupedOrder).HasForeignKey(goe => goe.GroupedOrder_Id).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id)
@@ -139,6 +145,22 @@ namespace GPOrder.Models
                 .HasOptional(f => f.ShopPicture)
                 .WithRequired(sp => sp.LinkedFile);
 
+            modelBuilder.Entity<Event>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Event>()
+                .HasRequired(e => e.CreateUser)
+                .WithMany(u => u.CreateUserEvent).HasForeignKey(e => e.CreateUserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Users)
+                .WithMany(u => u.ConcernedUserByEvent);
+            modelBuilder.Entity<GroupedOrderEvent>()
+                .HasKey(goe => goe.Id)
+                .HasRequired(goe => goe.Event)
+                .WithOptional(e => e.GroupedOrderEvent).WillCascadeOnDelete(false);
+            modelBuilder.Entity<GroupedOrderEvent>()
+                .HasRequired(goe => goe.GroupedOrder)
+                .WithMany(go => go.GroupedOrderEvents).HasForeignKey(goe => goe.GroupedOrder_Id).WillCascadeOnDelete(false);
+
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
                 .WithMany(au => au.ApplicationUsers);
@@ -154,6 +176,12 @@ namespace GPOrder.Models
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.CreateUserOrders)
                 .WithRequired(au => au.CreateUser);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.CreateUserEvent)
+                .WithRequired(au => au.CreateUser);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.ConcernedUserByEvent)
+                .WithMany(e => e.Users);
 
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
@@ -178,5 +206,8 @@ namespace GPOrder.Models
         public DbSet<ShopLink> ShopLinks { get; set; }
 
         public DbSet<File> Files { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+        public DbSet<GroupedOrderEvent> GroupedOrderEvents { get; set; }
     }
 }

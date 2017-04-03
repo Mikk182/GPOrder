@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GPOrder.Entities;
 
 namespace GPOrder.Models
 {
@@ -27,6 +28,8 @@ namespace GPOrder.Models
         public virtual Shop LinkedShop { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
+
+        public virtual ICollection<GroupedOrderEvent> GroupedOrderEvents { get; set; }
     }
 
     public class Order

@@ -1,0 +1,58 @@
+﻿@model GPOrder.Models.GroupedOrder
+
+@{
+    ViewBag.Title = "BecomingDeliveryBoy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>BecomingDeliveryBoy</h2>
+
+@using (Html.BeginForm("BecomingDeliveryBoy", "DeliveryBoy"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>GroupedOrder</h4>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateUser.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.CreateUser.UserName)
+                @Html.DisplayFor(model => model.CreateUser.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreateUser.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.CreationDate)
+                @Html.DisplayFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LinkedShop.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.LinkedShop.Name)
+                @Html.HiddenFor(m => m.LinkedShop.Adress)
+                @Html.DisplayFor(model => model.LinkedShop.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LinkedShop.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Valid" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "GroupedOrders")
+</div>
