@@ -58,8 +58,18 @@ namespace GPOrder.Controllers
         public PartialViewResult MyEvents()
         {
             var currentUserId = User.Identity.GetUserId();
-            var events = db.Events.Where(e => e.Users.Any(u => u.Id == currentUserId));
-            return PartialView(events);
+            
+            return PartialView(GetUserEvents(currentUserId));
+        }
+
+        private IEnumerable<IEvent> GetUserEvents(string userId)
+        {
+            IEnumerable<IEvent> eventList = new List<IEvent>();
+
+            var groupedOrderEvents = db.GroupedOrderEvents.Where(e => e.Users.Any(u => u.Id == userId));
+            eventList = eventList.Concat(groupedOrderEvents);
+
+            return eventList;
         }
     }
 }

@@ -549,6 +549,7 @@
     <Content Include="Views\DeliveryBoy\BecomingDeliveryBoy.cshtml" />
     <Content Include="Views\DeliveryBoy\AcceptDeliveryBoyRequest.cshtml" />
     <Content Include="Views\Home\MyEvents.cshtml" />
+    <Content Include="Views\Home\DisplayTemplates\GroupedOrderEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

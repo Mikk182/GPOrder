@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Net;
 using System.Web;
-using System.Web.Caching;
 using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.UI.WebControls;
-using GPOrder.Entities;
 using GPOrder.Models;
-using GPOrder.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
@@ -115,10 +108,7 @@ namespace GPOrder.Controllers
                 db.Entry(groupedOrderEvent).State = EntityState.Added;
                 db.SaveChanges();
 
-                var groupedOrderLink = string.Format("<a href='{0}'>Order</a>", Url.Action("Details", "GroupedOrders", new { dbGroupedOrder.Id }));
-                var acceptLink = string.Format("<a href='{0}'>Accept</a>", Url.Action("AcceptDeliveryBoyRequest", "DeliveryBoy", new { groupedOrderEvent.Id }));
-                var description = string.Format("Hello {0}, I want to become delivery boy on this {1}. {2}",
-                    dbGroupedOrder.DeliveryBoy.UserName, groupedOrderLink, acceptLink);
+                var description = "Hello {0}, I want to become delivery boy on this {1}. {2}";
 
                 groupedOrderEvent.Description = description;
                 db.Entry(groupedOrderEvent).State = EntityState.Modified;
@@ -151,7 +141,7 @@ namespace GPOrder.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AcceptDeliveryBoyRequest(
-            [Bind(Include = "Id,GroupedOrder,LimitDateTime")] GroupedOrderEvent groupedOrderEvent)
+            [Bind(Include = "Id,CreateUser,GroupedOrder,LimitDateTime")] GroupedOrderEvent groupedOrderEvent)
         {
             if (ModelState.IsValid)
                 return View(groupedOrderEvent);

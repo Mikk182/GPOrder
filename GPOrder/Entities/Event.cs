@@ -11,6 +11,22 @@ namespace GPOrder.Models
         BecomingDeliveryBoy = 1 << 1
     }
 
+    public interface IEvent
+    {
+        Guid Id { get; set; }
+        
+        DateTime CreationDate { get; set; }
+
+        string CreateUserId { get; set; }
+        ApplicationUser CreateUser { get; set; }
+
+        EventType EventType { get; set; }
+
+        string Description { get; set; }
+
+        ICollection<ApplicationUser> Users { get; set; }
+    }
+
     public class Event
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -37,7 +53,7 @@ namespace GPOrder.Models
         Refused = 1 << 2
     }
 
-    public class GroupedOrderEvent : Event
+    public class GroupedOrderEvent : Event, IEvent
     {
         public GroupedOrderEventStatus EventStatus { get; set; }
 

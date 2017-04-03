@@ -1,6 +1,6 @@
-﻿@model IEnumerable<GPOrder.Models.Event>
+﻿@model IEnumerable<GPOrder.Models.IEvent>
 
 @foreach (var myevent in Model)
 {
-    <p>@myevent.Description</p>
+    @Html.DisplayFor(m => myevent)
 }
