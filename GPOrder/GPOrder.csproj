@@ -187,6 +187,7 @@
     </Compile>
     <Compile Include="Controllers\GroupedOrdersController.cs" />
     <Compile Include="Entities\Event.cs" />
+    <Compile Include="Helpers\ClaimsIdentity.Extensions.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
@@ -247,10 +248,9 @@
     <Compile Include="Migrations\201704031207020_GroupedOrderEventlimitDateNullable1.Designer.cs">
       <DependentUpon>201704031207020_GroupedOrderEventlimitDateNullable1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
+    <Compile Include="Migrations\201704031640543_add culture and timezone in user identity.cs" />
+    <Compile Include="Migrations\201704031640543_add culture and timezone in user identity.Designer.cs">
+      <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
     </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -422,10 +422,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\IIS Local.pubxml" />
     <None Include="Properties\PublishProfiles\IISLocal.pubxml" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -644,6 +640,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704031207020_GroupedOrderEventlimitDateNullable1.resx">
       <DependentUpon>201704031207020_GroupedOrderEventlimitDateNullable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704031640543_add culture and timezone in user identity.resx">
+      <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

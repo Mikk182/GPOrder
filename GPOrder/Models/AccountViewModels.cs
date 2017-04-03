@@ -84,6 +84,14 @@ namespace GPOrder.Models
         [Display(Name = "Confirm password")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Culture")]
+        public string UiCulture { get; set; }
+
+        [Required]
+        [Display(Name = "TimeZone")]
+        public string TimeZone { get; set; }
     }
 
     public class ResetPasswordViewModel
