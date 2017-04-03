@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity;
 
 namespace GPOrder.Helpers
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         public static string GetUiCulture(this ClaimsIdentity claimsIdentity)
         {

@@ -62,7 +62,7 @@ namespace GPOrder.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterViewModel : ChangeCultureViewModel
     {
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
@@ -84,14 +84,6 @@ namespace GPOrder.Models
         [Display(Name = "Confirm password")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Culture")]
-        public string UiCulture { get; set; }
-
-        [Required]
-        [Display(Name = "TimeZone")]
-        public string TimeZone { get; set; }
     }
 
     public class ResetPasswordViewModel

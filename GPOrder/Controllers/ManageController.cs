@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using GPOrder.Helpers;
+using GPOrder.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using GPOrder.Models;
 
 namespace GPOrder.Controllers
 {
@@ -56,6 +57,7 @@ namespace GPOrder.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.ChangeCultureSuccess ? "Your culture and timezone have been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -242,6 +244,46 @@ namespace GPOrder.Controllers
             return View(model);
         }
 
+        public ActionResult ChangeCulture()
+        {
+            var user = User.Identity as ClaimsIdentity;
+            var model = new ChangeCultureViewModel
+            {
+                //set view default
+                UiCulture = user.GetUiCulture(),
+                TimeZone = user.GetTimeZone()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeCulture(ChangeCultureViewModel model)
+        {
+            model.CheckCultureAndTimeZone(ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                user.UiCulture = model.UiCulture;
+                user.TimeZone = model.TimeZone;
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCultureSuccess });
+                }
+                AddErrors(result);
+            }
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
@@ -389,6 +431,7 @@ namespace GPOrder.Controllers
         {
             AddPhoneSuccess,
             ChangePasswordSuccess,
+            ChangeCultureSuccess,
             SetTwoFactorSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,

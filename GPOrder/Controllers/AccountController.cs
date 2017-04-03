@@ -1,14 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using GPOrder.Helpers;
+using GPOrder.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using GPOrder.Models;
 
 namespace GPOrder.Controllers
 {
@@ -149,21 +147,13 @@ namespace GPOrder.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (CultureInfo.GetCultures(CultureTypes.AllCultures).All(c => c.TwoLetterISOLanguageName != model.UiCulture))
-            {
-                ModelState.AddModelError("UiCulture", "invalid culture");
-            }
-
-            if (TimeZoneInfo.GetSystemTimeZones().All(t => t.Id != model.TimeZone))
-            {
-                ModelState.AddModelError("TimeZone", "invalid timeZone");
-            }
+            model.CheckCultureAndTimeZone(ModelState);
 
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.UserName, 
+                    UserName = model.UserName,
                     Email = model.Email,
                     UiCulture = model.UiCulture,
                     TimeZone = model.TimeZone

@@ -59,6 +59,17 @@ namespace GPOrder.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeCultureViewModel
+    {
+        [Required]
+        [Display(Name = "Culture")]
+        public string UiCulture { get; set; }
+
+        [Required]
+        [Display(Name = "TimeZone")]
+        public string TimeZone { get; set; }
+    }
+
     public class AddPhoneNumberViewModel
     {
         [Required]
