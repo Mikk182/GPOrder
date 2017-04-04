@@ -51,8 +51,7 @@ namespace GPOrder
                         }
                         catch (CultureNotFoundException ex)
                         {
-                            //TODO: log error
-                            var msg = string.Format("culture not found for : {0}", userLanguage.First());
+                            Logger.TraceError(ex, "[LocalizationControllerFactory] culture not found for : {0}", userLanguage.First());
                         }
                     }
                 }

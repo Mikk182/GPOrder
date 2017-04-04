@@ -66,6 +66,10 @@
       <HintPath>..\packages\ILN.MVC.Datetimepicker.1.0.0\lib\ILN.MVC.Datetimepicker.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="JQueryUIHelpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=1440f6df3b58b47e, processorArchitecture=MSIL">
       <HintPath>..\packages\jQueryUIHelpers.Mvc5.3.0.0\lib\net45\JQueryUIHelpers.dll</HintPath>
       <Private>True</Private>
@@ -194,6 +198,7 @@
     <Compile Include="Helpers\ChangeCulture.Validator.cs" />
     <Compile Include="Helpers\ClaimsIdentity.Extensions.cs" />
     <Compile Include="Helpers\HtmlHelper.SelectListItems.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>
