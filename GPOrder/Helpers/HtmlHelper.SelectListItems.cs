@@ -27,7 +27,7 @@ namespace GPOrder.Helpers
                 {
                     Value = t.Id,
                     Text = t.DisplayName,
-                    Selected = Equals(t, TimeZoneInfo.Local)
+                    Selected = Equals(t, TimeZoneInfo.Local) // TODO: get TZ from CurrentUICulture
                 });
         }
     }

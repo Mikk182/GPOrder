@@ -254,6 +254,16 @@
     <Compile Include="Migrations\201704031640543_add culture and timezone in user identity.Designer.cs">
       <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resources.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="ValidationHelpers\ShopPictureValidation .cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
@@ -647,6 +657,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704031640543_add culture and timezone in user identity.resx">
       <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resources.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
