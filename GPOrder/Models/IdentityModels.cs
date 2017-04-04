@@ -168,6 +168,9 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrderEvent>()
                 .HasRequired(goe => goe.GroupedOrder)
                 .WithMany(go => go.GroupedOrderEvents).HasForeignKey(goe => goe.GroupedOrderId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<GroupedOrderEventAskDeliveryBoy>()
+                .HasKey(goe => goe.Id)
+                .ToTable("GroupedOrderEventsAskDeliveryBoy");
 
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
@@ -217,5 +220,6 @@ namespace GPOrder.Models
 
         public DbSet<Event> Events { get; set; }
         public DbSet<GroupedOrderEvent> GroupedOrderEvents { get; set; }
+        public DbSet<GroupedOrderEventAskDeliveryBoy> GroupedOrderEventsAskDeliveryBoy { get; set; }
     }
 }

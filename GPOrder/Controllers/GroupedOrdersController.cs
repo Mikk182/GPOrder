@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -81,7 +82,14 @@ namespace GPOrder.Controllers
             }
             return View(groupedOrder);
         }
-        
+
+        public PartialViewResult GetGroupedOrderEvents(Guid groupedOrderId)
+        {
+            var groupedOrderEvents = db.GroupedOrderEvents.Where(e =>
+                e.GroupedOrderId == groupedOrderId);
+            return PartialView(groupedOrderEvents);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

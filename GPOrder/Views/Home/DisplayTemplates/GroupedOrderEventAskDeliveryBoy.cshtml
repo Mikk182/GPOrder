@@ -1,0 +1,8 @@
+﻿@model GPOrder.Models.GroupedOrderEventAskDeliveryBoy
+
+@{
+    var groupedOrderLink = Html.ActionLink("Order", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null);
+    var acceptLink = Html.ActionLink("Accept", "AcceptDeliveryBoyRequest", "DeliveryBoy", new { Model.Id }, null);
+}
+
+<p>@Html.Raw(string.Format(Model.Description,Model.CreateUser.UserName, Model.GroupedOrder.DeliveryBoy.UserName, groupedOrderLink, acceptLink))</p>

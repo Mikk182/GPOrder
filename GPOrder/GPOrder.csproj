@@ -258,6 +258,10 @@
     <Compile Include="Migrations\201704031640543_add culture and timezone in user identity.Designer.cs">
       <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704041410561_SpecializedEvents.cs" />
+    <Compile Include="Migrations\201704041410561_SpecializedEvents.Designer.cs">
+      <DependentUpon>201704041410561_SpecializedEvents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -481,6 +485,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\GroupedOrderEventAskDeliveryBoy.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -575,9 +582,13 @@
     <Content Include="Views\DeliveryBoy\AskForDeliveryBoy.cshtml" />
     <Content Include="Views\DeliveryBoy\BecomingDeliveryBoy.cshtml" />
     <Content Include="Views\DeliveryBoy\AcceptDeliveryBoyRequest.cshtml" />
-    <Content Include="Views\Home\MyEvents.cshtml" />
     <Content Include="Views\Home\DisplayTemplates\GroupedOrderEvent.cshtml" />
     <Content Include="Views\Manage\ChangeCulture.cshtml" />
+    <Content Include="Views\Home\DisplayTemplates\GroupedOrderEventAskDeliveryBoy.cshtml" />
+    <Content Include="Views\GroupedOrders\DisplayTemplates\GroupedOrderEvent.cshtml" />
+    <Content Include="Views\Home\MyEvents.cshtml" />
+    <Content Include="Views\GroupedOrders\GetGroupedOrderEvents.cshtml" />
+    <Content Include="Views\DeliveryBoy\LeaveDeliveryBoy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -672,6 +683,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704031640543_add culture and timezone in user identity.resx">
       <DependentUpon>201704031640543_add culture and timezone in user identity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704041410561_SpecializedEvents.resx">
+      <DependentUpon>201704041410561_SpecializedEvents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

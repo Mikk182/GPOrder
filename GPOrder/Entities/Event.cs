@@ -8,7 +8,9 @@ namespace GPOrder.Models
     public enum EventType
     {
         NoType = 1 << 0,
-        BecomingDeliveryBoy = 1 << 1
+        BecomingDeliveryBoy = 1 << 1,
+        AcceptDeliveryBoyRequest = 1 << 2,
+        LeaveDeliveryBoyFunction = 1 << 3
     }
 
     public interface IEvent
@@ -57,11 +59,14 @@ namespace GPOrder.Models
     {
         public GroupedOrderEventStatus EventStatus { get; set; }
 
+        public Guid GroupedOrderId { get; set; }
+        public virtual GroupedOrder GroupedOrder { get; set; }
+    }
+
+    public class GroupedOrderEventAskDeliveryBoy : GroupedOrderEvent
+    {
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime LimitDateTime { get; set; }
-
-        public Guid GroupedOrderId { get; set; }
-        public virtual GroupedOrder GroupedOrder { get; set; }
     }
 }

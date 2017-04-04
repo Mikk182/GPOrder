@@ -1,0 +1,12 @@
+﻿@using GPOrder.Models
+@using Microsoft.AspNet.Identity
+@model GPOrder.Models.GroupedOrderEventAskDeliveryBoy
+
+@{
+    var acceptLink = Html.ActionLink("Accept", "AcceptDeliveryBoyRequest", "DeliveryBoy", new { Model.Id }, null);
+    var isUserCanAccept = Model.Users.Any(u => u.Id == User.Identity.GetUserId());
+    var isAcceptableEvent = Model.EventStatus == GroupedOrderEventStatus.Submitted;
+    var canShowAcceptLink = isUserCanAccept && isAcceptableEvent;
+}
+
+<p>@Html.Raw(string.Format(Model.Description, Model.CreateUser.UserName, Model.Users.Single().UserName, "this order", canShowAcceptLink ? acceptLink.ToString() : string.Empty))</p>

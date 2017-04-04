@@ -42,6 +42,10 @@
 
         <dd>
             @Html.DisplayFor(model => model.DeliveryBoy.UserName)
+            @if (Model.DeliveryBoy_Id == User.Identity.GetUserId())
+            {
+                @Html.ActionLink("Leave", "LeaveDeliveryBoy", "DeliveryBoy", new { Model.Id }, null)
+            }
         </dd>
 
         <dt>
@@ -57,6 +61,13 @@
         </dt>
 
         @Html.DisplayFor(model => model.Orders, "Orders")
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupedOrderEvents)
+        </dt>
+        <dd>
+            @{ Html.RenderAction("GetGroupedOrderEvents", "GroupedOrders", new { groupedOrderId = Model.Id });}
+        </dd>
     </dl>
 </div>
 <p>
