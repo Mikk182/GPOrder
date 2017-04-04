@@ -30,6 +30,12 @@ namespace GPOrder
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/iln_datetimepicker").Include(
+                      "~/Scripts/moment.min.js"
+                      ,"~/Scripts/bootstrap-datetimepicker.js"
+                      ,"~/Scripts/iln/datetimepicker.js"
+                      ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
@@ -38,6 +44,10 @@ namespace GPOrder
                         "~/Content/themes/base/jquery.ui.core.css",
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/iln_datetimepicker_css").Include(
+                      "~/Content/bootstrap-datetimepicker.min.css"
+                      ));
         }
     }
 }

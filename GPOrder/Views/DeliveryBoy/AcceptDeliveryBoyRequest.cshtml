@@ -60,8 +60,8 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.LimitDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.JQueryUI().DatepickerFor(model => model.LimitDateTime, new { @class = "form-control" })
+            <div class="col-md-3">
+                @Html.DisplayFor(model => model.LimitDateTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LimitDateTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,13 +77,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index", "GroupedOrders")
 </div>
-
-@section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryajax")*@
-    @Scripts.Render("~/bundles/jqueryui")
-
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/base/css")
-}
