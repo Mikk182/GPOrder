@@ -1,4 +1,7 @@
-﻿@using ILN.MVC.Datetimepicker
+﻿@using System.Globalization
+@using System.Security.Claims
+@using GPOrder.Helpers
+@using ILN.MVC.Datetimepicker
 @model GPOrder.Models.GroupedOrderEventAskDeliveryBoy
 
 @{
@@ -54,8 +57,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LimitDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-3">
-                @Html.DateTimeFor(model => model.LimitDateTime)
-                @Html.ValidationMessageFor(model => model.LimitDateTime, "", new {@class = "text-danger"})
+                @{
+                    var userCulture = ((ClaimsIdentity)User.Identity).GetUiCulture();
+                    var cultureInfo = new CultureInfo(userCulture);
+                    var pattern = string.Format("{0} {1}", cultureInfo.DateTimeFormat.ShortDatePattern, cultureInfo.DateTimeFormat.ShortTimePattern);
+                    var format = MomentJsHelpers.GenerateMomentJSFormatString(pattern, fTolerant: true, fCulture: cultureInfo);
+                }
+                @Html.DateTimeFor(model => model.LimitDateTime, new DatetimepickerOptions { locale = userCulture.Substring(0, 2), format = format })
+                @Html.ValidationMessageFor(model => model.LimitDateTime, "", new { @class = "text-danger" })
             </div>
         </div>
 
