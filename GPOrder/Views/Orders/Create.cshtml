@@ -1,12 +1,18 @@
-﻿@model GPOrder.Models.Order
+﻿@using GPOrder.Helpers
+
+@model GPOrder.Models.Order
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    // on est dans la vue LimitDate est censé être dans le Tz user
+    var isTooLate = Model.GroupedOrder?.LimitDate != null
+        && DateTime.UtcNow.ConvertTimeFromUtc(User) > Model.GroupedOrder.LimitDate.Value;
 }
 
 <h2>Create</h2>
-@if (Model.GroupedOrder?.LimitDate != null && Model.GroupedOrder.LimitDate.Value < DateTime.Now)
+@if (isTooLate)
 {
     <h3 class="text-danger">Warning, the limit date time of this order is passed. You're modifications may won't be taken by the delivery boy.</h3>
 }

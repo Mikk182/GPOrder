@@ -1,4 +1,4 @@
-﻿---------------------------------------------------------------------------------------------------------------------------------
+﻿o-------------------------------------------------------------------------------------------------------------------------------o
 |																																|
 |	Petit mémo pour la gestion des timezones ! ;)																				|
 |																																|
@@ -10,14 +10,14 @@
 |																																|
 |	Il faut traiter chaque date au cas par cas mais d'une manière générale, voici quelques règles de base :						|
 |																																|
-|		● éviter d'utiliser le Tz local																							|
+|		● éviter d'utiliser le Tz local (DateTime.Now)																		|
 |		● toutes les dates générées doivent l'être en UTC																		|
 |		● les dates qui viennent de l'IHM doivent être converties UserTz >> UTC pour être traitées et persistées				|
 |		● les dates que l'on génère ou récupère en base doivent être converties UTC >> UserTz avant d'être envoyées à l'IHM		|
 |																																|
 |	Utiliser les méthodes d'extensions!																							|
 |																																|
-|		● DateTime ConvertTimeToUtc(this DateTime dateTime, IPrincipal user)														|
+|		● DateTime ConvertTimeToUtc(this DateTime dateTime, IPrincipal user)													|
 |		● DateTime ConvertTimeFromUtc(this DateTime dateTime, IPrincipal user)													|
 |																																|
----------------------------------------------------------------------------------------------------------------------------------
+o-------------------------------------------------------------------------------------------------------------------------------o
