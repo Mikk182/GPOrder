@@ -354,6 +354,7 @@
     <Compile Include="ViewModels\ShopGroupedOrders.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\TimeZones.txt" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -595,10 +596,9 @@
     <Content Include="Views\Home\MyEvents.cshtml" />
     <Content Include="Views\GroupedOrders\GetGroupedOrderEvents.cshtml" />
     <Content Include="Views\DeliveryBoy\LeaveDeliveryBoy.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Project_Readme.html" />
   </ItemGroup>

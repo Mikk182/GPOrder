@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using GPOrder.Helpers;
 using GPOrder.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -47,12 +48,18 @@ namespace GPOrder.Controllers
         {
             var groupedOrder = db.GroupedOrders.Single(go => go.Id == id);
 
-            if (groupedOrder.DeliveryBoy == null)
-                return View("BecomingDeliveryBoy", groupedOrder);
+            // dans 15min dans le tz user
+            var newDate = DateTime.UtcNow.AddMinutes(15).ConvertTimeFromUtc(User);
 
-            var groupedOrderEvent = new GroupedOrderEventAskDeliveryBoy()
+            if (groupedOrder.DeliveryBoy == null)
             {
-                LimitDateTime = DateTime.UtcNow,
+                groupedOrder.LimitDate = newDate;
+                return View("BecomingDeliveryBoy", groupedOrder);
+            }
+
+            var groupedOrderEvent = new GroupedOrderEventAskDeliveryBoy
+            {
+                LimitDateTime = newDate,
                 GroupedOrderId = groupedOrder.Id,
                 GroupedOrder = groupedOrder
             };
@@ -72,7 +79,11 @@ namespace GPOrder.Controllers
             {
                 var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrder.Id);
                 dbGroupedOrder.DeliveryBoy_Id = User.Identity.GetUserId();
-                dbGroupedOrder.LimitDate = groupedOrder.LimitDate;
+
+                //stockage de la date en utc
+                dbGroupedOrder.LimitDate = groupedOrder.LimitDate.HasValue
+                    ? groupedOrder.LimitDate.Value.ConvertTimeToUtc(User)
+                    : (DateTime?)null;
 
                 db.Entry(dbGroupedOrder).State = EntityState.Modified;
 
@@ -116,6 +127,10 @@ namespace GPOrder.Controllers
                 groupedOrderEventAskDeliveryBoy.Users = new List<ApplicationUser> { currentGroupedOrderDeliveryBoy };
                 groupedOrderEventAskDeliveryBoy.EventStatus = GroupedOrderEventStatus.Submitted;
 
+                //stockage de la date en utc
+                groupedOrderEventAskDeliveryBoy.LimitDateTime =
+                    groupedOrderEventAskDeliveryBoy.LimitDateTime.ConvertTimeToUtc(User);
+
                 db.Entry(groupedOrderEventAskDeliveryBoy).State = EntityState.Added;
                 db.SaveChanges();
 
@@ -142,7 +157,7 @@ namespace GPOrder.Controllers
 
             return View("AcceptDeliveryBoyRequest", groupedOrderEvent);
         }
-        
+
         /// <summary>
         /// POST: DeliveryBoy/AcceptDeliveryBoyRequest
         /// </summary>

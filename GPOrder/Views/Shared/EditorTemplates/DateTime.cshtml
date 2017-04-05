@@ -1,0 +1,11 @@
+﻿@using System.Security.Claims
+@using GPOrder.Helpers
+@using ILN.MVC.Datetimepicker
+
+@model DateTime?
+
+@{
+    var userCulture = (User.Identity as ClaimsIdentity).GetUiCulture();
+}
+
+@Html.DateTimeFor(model => model, new DatetimepickerOptions { locale = userCulture.TwoLetterISOLanguageName })

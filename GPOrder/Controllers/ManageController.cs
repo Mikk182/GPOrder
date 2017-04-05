@@ -250,8 +250,8 @@ namespace GPOrder.Controllers
             var model = new ChangeCultureViewModel
             {
                 //set view default
-                UiCulture = user.GetUiCulture(),
-                TimeZone = user.GetTimeZone()
+                UiCulture = user.GetUiCulture().Name,
+                TimeZone = user.GetTimeZone().Id
             };
             return View(model);
         }

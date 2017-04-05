@@ -29,14 +29,13 @@ namespace GPOrder
         {
             public override IController CreateController(RequestContext requestContext, string controllerName)
             {
-                var controller = base.CreateController(requestContext, controllerName);
-
                 var principal = requestContext.HttpContext.User.Identity as ClaimsIdentity;
                 // si l'utilisateur est logué on set CurrentUICulture à partir de son choix
                 if (principal != null && principal.IsAuthenticated)
                 {
-                    var userCulture = CultureInfo.GetCultureInfo(principal.GetUiCulture());
+                    var userCulture = principal.GetUiCulture();
                     Thread.CurrentThread.CurrentUICulture = userCulture;
+                    Thread.CurrentThread.CurrentCulture = userCulture;
                 }
                 else
                 {
@@ -56,7 +55,7 @@ namespace GPOrder
                     }
                 }
 
-                return controller;
+                return base.CreateController(requestContext, controllerName);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace GPOrder
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/iln_datetimepicker").Include(
-                      "~/Scripts/moment.min.js"
+                      "~/Scripts/moment-with-locales.min.js"
                       ,"~/Scripts/bootstrap-datetimepicker.js"
                       ,"~/Scripts/iln/datetimepicker.js"
                       ));
