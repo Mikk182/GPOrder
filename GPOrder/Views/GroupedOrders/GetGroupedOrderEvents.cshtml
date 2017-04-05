@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<GPOrder.Models.IEvent>
 
-@foreach (var myevent in Model)
+@foreach (var myevent in Model.OrderBy(m => m.CreationDate))
 {
     @Html.DisplayFor(m => myevent)
 }

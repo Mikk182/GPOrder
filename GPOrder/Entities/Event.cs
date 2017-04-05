@@ -10,13 +10,14 @@ namespace GPOrder.Models
         NoType = 1 << 0,
         BecomingDeliveryBoy = 1 << 1,
         AcceptDeliveryBoyRequest = 1 << 2,
-        LeaveDeliveryBoyFunction = 1 << 3
+        LeaveDeliveryBoyFunction = 1 << 3,
+        DeleteOrder = 1 << 4
     }
 
     public interface IEvent
     {
         Guid Id { get; set; }
-        
+
         DateTime CreationDate { get; set; }
 
         string CreateUserId { get; set; }

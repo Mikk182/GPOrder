@@ -7,7 +7,10 @@
 }
 
 <h2>Edit</h2>
-
+@if (Model.GroupedOrder?.LimitDate != null && Model.GroupedOrder.LimitDate.Value < DateTime.UtcNow)
+{
+    <h3 class="text-danger">Warning, the limit date time of this order is passed. You're modifications may won't be taken by the delivery boy.</h3>
+}
 
 @using (Html.BeginForm())
 {

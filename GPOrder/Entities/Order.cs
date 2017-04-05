@@ -20,7 +20,7 @@ namespace GPOrder.Models
         public string DeliveryBoy_Id { get; set; }
         public virtual ApplicationUser DeliveryBoy { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime? LimitDate { get; set; }
         public bool IsLocked { get; set; }
 

@@ -242,13 +242,40 @@ namespace GPOrder.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             var groupedOrderIsRemoved = false;
-            var order = db.Orders.Include(o => o.GroupedOrder.Orders).Single(o => o.Id == id);
-            if (order.GroupedOrder?.Orders != null && order.GroupedOrder.Orders.Count == 1)
+            var deliveryOrderIsDeleted = false;
+            var order = db.Orders.Single(o => o.Id == id);
+
+            if (order.GroupedOrder != null)
             {
-                db.GroupedOrders.Remove(order.GroupedOrder);
-                groupedOrderIsRemoved = true;
+                if (order.GroupedOrder.Orders != null && order.GroupedOrder.Orders.Count == 1)
+                {
+                    db.GroupedOrders.Remove(order.GroupedOrder);
+                    groupedOrderIsRemoved = true;
+                }
+                else
+                {
+                    if (order.CreateUser_Id == order.GroupedOrder?.DeliveryBoy_Id)
+                    {
+                        order.GroupedOrder.DeliveryBoy_Id = null;
+                        deliveryOrderIsDeleted = true;
+                    }
+                }
             }
+
+            var groupedOrderEvent = new GroupedOrderEvent
+            {
+                CreateUserId = User.Identity.GetUserId(),
+                CreationDate = DateTime.UtcNow,
+                Description = deliveryOrderIsDeleted?"{0} has delete his order and has been removed from delivery boy function":"{0} has delete his order.",
+                EventType = EventType.DeleteOrder,
+                EventStatus = GroupedOrderEventStatus.Accepted,
+                GroupedOrderId = order.GroupedOrder_Id,
+                Users = order.GroupedOrder?.Orders?.Select(o => o.CreateUser).ToList()
+            };
+            db.GroupedOrderEvents.Add(groupedOrderEvent);
+
             db.Orders.Remove(order);
+
             db.SaveChanges();
 
             return !groupedOrderIsRemoved

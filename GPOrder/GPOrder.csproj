@@ -199,6 +199,7 @@
     <Compile Include="Helpers\ClaimsIdentity.Extensions.cs" />
     <Compile Include="Helpers\HtmlHelper.SelectListItems.cs" />
     <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\MomentJsHelper.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.Designer.cs">
       <DependentUpon>201703260149507_ShopPictureNameNotRequired.cs</DependentUpon>

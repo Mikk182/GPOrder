@@ -66,16 +66,28 @@ namespace GPOrder.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BecomingDeliveryBoy([Bind(Include = "Id,CreateUser,CreationDate,LinkedShop")] GroupedOrder groupedOrder)
+        public ActionResult BecomingDeliveryBoy([Bind(Include = "Id,CreateUser,CreationDate,LimitDate,LinkedShop")] GroupedOrder groupedOrder)
         {
             if (ModelState.IsValid)
             {
                 var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrder.Id);
-                var currentUserId = User.Identity.GetUserId();
-                var currentUser = db.Users.Single(u => u.Id == currentUserId);
-                dbGroupedOrder.DeliveryBoy = currentUser;
+                dbGroupedOrder.DeliveryBoy_Id = User.Identity.GetUserId();
+                dbGroupedOrder.LimitDate = groupedOrder.LimitDate;
 
                 db.Entry(dbGroupedOrder).State = EntityState.Modified;
+
+                var newGroupedOrderEvent = new GroupedOrderEvent
+                {
+                    CreateUserId = User.Identity.GetUserId(),
+                    CreationDate = DateTime.UtcNow,
+                    Description = "{0} became delivery boy by its own.",
+                    EventStatus = GroupedOrderEventStatus.Accepted,
+                    EventType = EventType.BecomingDeliveryBoy,
+                    GroupedOrderId = groupedOrder.Id,
+                    Users = dbGroupedOrder.Orders.Select(o => o.CreateUser).ToList()
+                };
+                db.Entry(newGroupedOrderEvent).State = EntityState.Added;
+
                 db.SaveChanges();
 
                 return RedirectToAction("Index", "GroupedOrders");
