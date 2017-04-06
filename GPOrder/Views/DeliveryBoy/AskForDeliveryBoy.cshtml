@@ -21,6 +21,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GroupedOrder.CreateUser.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(m => m.GroupedOrder.CreateUser.UserName)
                 @Html.DisplayFor(model => model.GroupedOrder.CreateUser.UserName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GroupedOrder.CreateUser.UserName, "", new { @class = "text-danger" })
             </div>
@@ -29,6 +30,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GroupedOrder.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(m => m.GroupedOrder.CreationDate)
                 @Html.DisplayFor(model => model.GroupedOrder.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GroupedOrder.CreationDate, "", new { @class = "text-danger" })
             </div>
@@ -37,6 +39,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GroupedOrder.LinkedShop.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(m => m.GroupedOrder.LinkedShop.Name)
+                @Html.HiddenFor(m => m.GroupedOrder.LinkedShop.Adress)
                 @Html.DisplayFor(model => model.GroupedOrder.LinkedShop.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GroupedOrder.LinkedShop.Name, "", new { @class = "text-danger" })
             </div>
@@ -45,6 +49,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.GroupedOrder.LimitDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(m => m.GroupedOrder.LimitDate)
                 @Html.DisplayFor(model => model.GroupedOrder.LimitDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.GroupedOrder.LimitDate, "", new { @class = "text-danger" })
             </div>
