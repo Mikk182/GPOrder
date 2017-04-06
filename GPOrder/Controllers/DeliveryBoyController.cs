@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -124,11 +125,16 @@ namespace GPOrder.Controllers
             {
                 ModelState.AddModelError("DeliveryBoy", "You have to join this order before becoming delivery boy.");
             }
+            if (dbGroupedOrder.GroupedOrderEvents.Any(goe =>
+                        goe.CreateUserId == currentUserId &&
+                        goe.EventStatus == GroupedOrderEventStatus.Submitted))
+                ModelState.AddModelError("DeliveryBoy", "You have already submit a request to become delivery boy.");
 
             if (ModelState.IsValid)
             {
                 var currentGroupedOrderDeliveryBoy = db.Users.Single(u => u.Id == dbGroupedOrder.DeliveryBoy_Id);
 
+                groupedOrderEventAskDeliveryBoy.GroupedOrder = null;
                 groupedOrderEventAskDeliveryBoy.CreationDate = DateTime.UtcNow;
                 groupedOrderEventAskDeliveryBoy.CreateUserId = currentUserId;
                 groupedOrderEventAskDeliveryBoy.EventType = EventType.BecomingDeliveryBoy;
