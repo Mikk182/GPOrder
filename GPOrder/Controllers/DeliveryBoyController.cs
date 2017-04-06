@@ -86,6 +86,7 @@ namespace GPOrder.Controllers
             if (ModelState.IsValid)
             {
                 dbGroupedOrder.DeliveryBoy_Id = currentUserId;
+                dbGroupedOrder.LimitDate = groupedOrder.LimitDate;
 
                 db.Entry(dbGroupedOrder).State = EntityState.Modified;
 

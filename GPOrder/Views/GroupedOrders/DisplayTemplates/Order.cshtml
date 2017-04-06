@@ -1,8 +1,9 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using GPOrder.Helpers
+@using Microsoft.AspNet.Identity
 @model GPOrder.Models.Order
 
 @Html.HiddenFor(model => model.Id)
-@{ var description = string.Format("Created by {0} on {1} for {2}. Price = {3}", Model.CreateUser.UserName, Model.CreationDate, Model.OrderDate, Model.EstimatedPrice); }
+@{ var description = string.Format("Created by {0} on {1} for {2}. Price = {3}", Model.CreateUser.UserName, Model.CreationDate.ConvertTimeFromUtc(User), Model.OrderDate.ConvertTimeFromUtc(User), Model.EstimatedPrice); }
 
 @Html.DisplayFor(m => description)
 

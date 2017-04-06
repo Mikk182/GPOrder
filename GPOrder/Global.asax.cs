@@ -22,6 +22,7 @@ namespace GPOrder
             ControllerBuilder.Current.SetControllerFactory(typeof(LocalizationControllerFactory));
 
             ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeNullableModelBinder());
         }
 
         /// <summary>
@@ -31,8 +32,21 @@ namespace GPOrder
         {
             public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
             {
-                return (base.BindModel(controllerContext, bindingContext) as DateTime?)
-                    ?.ConvertTimeToUtc(controllerContext.HttpContext.User);
+                var baseModel = base.BindModel(controllerContext, bindingContext) as DateTime?;
+                var utcDateTime = baseModel?.ConvertTimeToUtc(controllerContext.HttpContext.User);
+
+                return utcDateTime;
+            }
+        }
+
+        /// <summary>
+        /// toutes les dates venant de l'IHM sont remise en UTC
+        /// </summary>
+        public class DateTimeNullableModelBinder : DateTimeModelBinder
+        {
+            public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+            {
+                return base.BindModel(controllerContext, bindingContext) as DateTime?;
             }
         }
 

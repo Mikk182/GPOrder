@@ -1,5 +1,10 @@
 ﻿@using GPOrder.Helpers
 
 @model DateTime?
-         
-@(Model?.ConvertTimeFromUtc(User))
+
+@{
+ViewData.ModelMetadata.Model = ViewData.Model = Model?.ConvertTimeFromUtc(User);
+}
+
+@(Model)
+@Html.HiddenFor(m => m)
