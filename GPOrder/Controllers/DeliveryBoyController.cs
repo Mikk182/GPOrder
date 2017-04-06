@@ -206,6 +206,9 @@ namespace GPOrder.Controllers
                 db.Entry(newGroupedOrderEvent).State = EntityState.Added;
 
                 db.SaveChanges();
+
+                return RedirectToAction("Details", "GroupedOrders",
+                    new {Id = groupedOrderEventAskDeliveryBoy.GroupedOrderId});
             }
 
             return View(groupedOrderEventAskDeliveryBoy);
