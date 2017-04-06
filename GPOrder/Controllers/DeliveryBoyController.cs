@@ -48,8 +48,7 @@ namespace GPOrder.Controllers
         {
             var groupedOrder = db.GroupedOrders.Single(go => go.Id == id);
 
-            // dans 15min dans le tz user
-            var newDate = DateTime.UtcNow.AddMinutes(15).ConvertTimeFromUtc(User);
+            var newDate = DateTime.UtcNow.AddMinutes(15);
 
             if (groupedOrder.DeliveryBoy == null)
             {
@@ -79,11 +78,6 @@ namespace GPOrder.Controllers
             {
                 var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrder.Id);
                 dbGroupedOrder.DeliveryBoy_Id = User.Identity.GetUserId();
-
-                //stockage de la date en utc
-                dbGroupedOrder.LimitDate = groupedOrder.LimitDate.HasValue
-                    ? groupedOrder.LimitDate.Value.ConvertTimeToUtc(User)
-                    : (DateTime?)null;
 
                 db.Entry(dbGroupedOrder).State = EntityState.Modified;
 
@@ -126,10 +120,6 @@ namespace GPOrder.Controllers
                 groupedOrderEventAskDeliveryBoy.EventType = EventType.BecomingDeliveryBoy;
                 groupedOrderEventAskDeliveryBoy.Users = new List<ApplicationUser> { currentGroupedOrderDeliveryBoy };
                 groupedOrderEventAskDeliveryBoy.EventStatus = GroupedOrderEventStatus.Submitted;
-
-                //stockage de la date en utc
-                groupedOrderEventAskDeliveryBoy.LimitDateTime =
-                    groupedOrderEventAskDeliveryBoy.LimitDateTime.ConvertTimeToUtc(User);
 
                 db.Entry(groupedOrderEventAskDeliveryBoy).State = EntityState.Added;
                 db.SaveChanges();

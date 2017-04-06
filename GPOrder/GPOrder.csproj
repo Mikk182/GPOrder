@@ -597,6 +597,7 @@
     <Content Include="Views\GroupedOrders\GetGroupedOrderEvents.cshtml" />
     <Content Include="Views\DeliveryBoy\LeaveDeliveryBoy.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

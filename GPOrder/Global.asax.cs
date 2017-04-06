@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -19,6 +20,20 @@ namespace GPOrder
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ControllerBuilder.Current.SetControllerFactory(typeof(LocalizationControllerFactory));
+
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
+        }
+
+        /// <summary>
+        /// toutes les dates venant de l'IHM sont remise en UTC
+        /// </summary>
+        public class DateTimeModelBinder : DefaultModelBinder
+        {
+            public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+            {
+                return (base.BindModel(controllerContext, bindingContext) as DateTime?)
+                    ?.ConvertTimeToUtc(controllerContext.HttpContext.User);
+            }
         }
 
         /// <summary>
