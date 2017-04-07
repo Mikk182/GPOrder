@@ -86,9 +86,9 @@ namespace GPOrder.Controllers
 
             var order = new Order
             {
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.UtcNow,
                 CreateUser = currentUser,
-                OrderDate = DateTime.Now,
+                OrderDate = DateTime.UtcNow,
                 GroupedOrder = groupedOrder,
                 OrderLines = new List<OrderLine> { 
                     new OrderLine
@@ -262,17 +262,32 @@ namespace GPOrder.Controllers
                 }
             }
 
-            var groupedOrderEvent = new GroupedOrderEvent
+            if (groupedOrderIsRemoved)
             {
-                CreateUserId = User.Identity.GetUserId(),
-                CreationDate = DateTime.UtcNow,
-                Description = deliveryOrderIsDeleted?"{0} has delete his order and has been removed from delivery boy function":"{0} has delete his order.",
-                EventType = EventType.DeleteOrder,
-                EventStatus = GroupedOrderEventStatus.Accepted,
-                GroupedOrderId = order.GroupedOrder_Id,
-                Users = order.GroupedOrder?.Orders?.Select(o => o.CreateUser).ToList()
-            };
-            db.GroupedOrderEvents.Add(groupedOrderEvent);
+                var groupedOrderEvent = new Event
+                {
+                    CreateUserId = User.Identity.GetUserId(),
+                    CreationDate = DateTime.UtcNow,
+                    Description = "{0} has delete his order. It was the last so the grouped order was deleted",
+                    EventType = EventType.DeleteOrder,
+                    Users = order.GroupedOrder?.Orders?.Select(o => o.CreateUser).ToList()
+                };
+                db.Events.Add(groupedOrderEvent);
+            }
+            else
+            {
+                var groupedOrderEvent = new GroupedOrderEvent
+                {
+                    CreateUserId = User.Identity.GetUserId(),
+                    CreationDate = DateTime.UtcNow,
+                    Description = deliveryOrderIsDeleted?"{0} has delete his order and has been removed from delivery boy function":"{0} has delete his order.",
+                    EventType = EventType.DeleteOrder,
+                    EventStatus = GroupedOrderEventStatus.Accepted,
+                    GroupedOrderId = order.GroupedOrder_Id,
+                    Users = order.GroupedOrder?.Orders?.Select(o => o.CreateUser).ToList()
+                };
+                db.GroupedOrderEvents.Add(groupedOrderEvent);   
+            }
 
             db.Orders.Remove(order);
 

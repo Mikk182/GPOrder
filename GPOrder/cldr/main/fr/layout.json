@@ -1,0 +1,19 @@
+{
+  "main": {
+    "fr": {
+      "identity": {
+        "version": {
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
+        },
+        "language": "fr"
+      },
+      "layout": {
+        "orientation": {
+          "characterOrder": "left-to-right",
+          "lineOrder": "top-to-bottom"
+        }
+      }
+    }
+  }
+}

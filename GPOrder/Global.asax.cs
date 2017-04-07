@@ -22,6 +22,7 @@ namespace GPOrder
             ControllerBuilder.Current.SetControllerFactory(typeof(LocalizationControllerFactory));
 
             ModelBinders.Binders.Add(typeof(DateTime), new DateTimeModelBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeModelBinder());
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace GPOrder
                     ?.ConvertTimeToUtc(controllerContext.HttpContext.User);
             }
         }
-
+        
         /// <summary>
         /// seul moyen que j'ai trouvé pour injecter la culture de l'utilisateur dans le context...
         /// TODO: upgrade to NET Core!

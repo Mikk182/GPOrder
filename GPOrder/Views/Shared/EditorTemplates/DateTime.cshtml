@@ -7,6 +7,9 @@
 @{
     var userCulture = (User.Identity as ClaimsIdentity).GetUiCulture();
     ViewData.ModelMetadata.Model = ViewData.Model = Model?.ConvertTimeFromUtc(User);
+
+    var pattern = string.Format("{0} {1}", userCulture.DateTimeFormat.ShortDatePattern, userCulture.DateTimeFormat.ShortTimePattern);
+    var format = MomentJsHelpers.GenerateMomentJSFormatString(pattern, fTolerant: true, fCulture: userCulture);
 }
 
-@Html.DateTimeFor(m => m, new DatetimepickerOptions {locale = userCulture.TwoLetterISOLanguageName})
+@Html.DateTimeFor(m => m, new DatetimepickerOptions {locale = userCulture.TwoLetterISOLanguageName, format = format})

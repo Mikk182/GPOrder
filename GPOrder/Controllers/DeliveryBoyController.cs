@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -74,10 +75,18 @@ namespace GPOrder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BecomingDeliveryBoy([Bind(Include = "Id,CreateUser,CreationDate,LimitDate,LinkedShop")] GroupedOrder groupedOrder)
         {
+            var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrder.Id);
+            var currentUserId = User.Identity.GetUserId();
+
+            if (dbGroupedOrder.Orders.All(o => o.CreateUser_Id != currentUserId))
+            {
+                ModelState.AddModelError("DeliveryBoy", "You have to join this order before becoming delivery boy.");
+            }
+
             if (ModelState.IsValid)
             {
-                var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrder.Id);
-                dbGroupedOrder.DeliveryBoy_Id = User.Identity.GetUserId();
+                dbGroupedOrder.DeliveryBoy_Id = currentUserId;
+                dbGroupedOrder.LimitDate = groupedOrder.LimitDate;
 
                 db.Entry(dbGroupedOrder).State = EntityState.Modified;
 
@@ -110,13 +119,25 @@ namespace GPOrder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AskForDeliveryBoy([Bind(Include = "Id,GroupedOrderId,GroupedOrder,LimitDateTime")] GroupedOrderEventAskDeliveryBoy groupedOrderEventAskDeliveryBoy)
         {
+            var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrderEventAskDeliveryBoy.GroupedOrderId);
+            var currentUserId = User.Identity.GetUserId();
+
+            if (dbGroupedOrder.Orders.All(o => o.CreateUser_Id != currentUserId))
+            {
+                ModelState.AddModelError("DeliveryBoy", "You have to join this order before becoming delivery boy.");
+            }
+            if (dbGroupedOrder.GroupedOrderEvents.Any(goe =>
+                        goe.CreateUserId == currentUserId &&
+                        goe.EventStatus == GroupedOrderEventStatus.Submitted))
+                ModelState.AddModelError("DeliveryBoy", "You have already submit a request to become delivery boy.");
+
             if (ModelState.IsValid)
             {
-                var dbGroupedOrder = db.GroupedOrders.Single(go => go.Id == groupedOrderEventAskDeliveryBoy.GroupedOrderId);
                 var currentGroupedOrderDeliveryBoy = db.Users.Single(u => u.Id == dbGroupedOrder.DeliveryBoy_Id);
 
+                groupedOrderEventAskDeliveryBoy.GroupedOrder = null;
                 groupedOrderEventAskDeliveryBoy.CreationDate = DateTime.UtcNow;
-                groupedOrderEventAskDeliveryBoy.CreateUserId = User.Identity.GetUserId();
+                groupedOrderEventAskDeliveryBoy.CreateUserId = currentUserId;
                 groupedOrderEventAskDeliveryBoy.EventType = EventType.BecomingDeliveryBoy;
                 groupedOrderEventAskDeliveryBoy.Users = new List<ApplicationUser> { currentGroupedOrderDeliveryBoy };
                 groupedOrderEventAskDeliveryBoy.EventStatus = GroupedOrderEventStatus.Submitted;
@@ -186,6 +207,9 @@ namespace GPOrder.Controllers
                 db.Entry(newGroupedOrderEvent).State = EntityState.Added;
 
                 db.SaveChanges();
+
+                return RedirectToAction("Details", "GroupedOrders",
+                    new {Id = groupedOrderEventAskDeliveryBoy.GroupedOrderId});
             }
 
             return View(groupedOrderEventAskDeliveryBoy);

@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using GPOrder.Models
+@using Microsoft.AspNet.Identity
 @model GPOrder.Models.GroupedOrder
 
 @{
@@ -23,16 +24,31 @@
             }
             else
             {
-                @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
-                @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName))
+                if (Model.Orders.Any(o => o.CreateUser_Id == currentUserId) &&
+                    !Model.GroupedOrderEvents.Any(goe =>
+                        goe.CreateUserId == currentUserId &&
+                        goe.EventStatus == GroupedOrderEventStatus.Submitted))
+                {
+                    @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+                    @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName))
+                }
+                else
+                {
+                    @Model.DeliveryBoy.UserName
+                }
             }
         }
         else
         {
             @("This order hasn't any delivery boy. ")
-            @Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+            if (Model.Orders.Any(o => o.CreateUser_Id == currentUserId))
+            {
+                @Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+            }
         }
     </td>
+
+
     <td>
         @Html.DisplayFor(modelItem => modelItem.LimitDate)
     </td>

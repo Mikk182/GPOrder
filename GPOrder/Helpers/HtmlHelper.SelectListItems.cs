@@ -10,7 +10,7 @@ namespace GPOrder.Helpers
     {
         public static IEnumerable<SelectListItem> GetAllCultures(this HtmlHelper htmlHelper)
         {
-            return CultureInfo.GetCultures(CultureTypes.AllCultures)
+            return CultureInfo.GetCultures(CultureTypes.NeutralCultures)
                 .OrderBy(c => c.NativeName)
                 .Select(c => new SelectListItem
                 {
@@ -27,7 +27,7 @@ namespace GPOrder.Helpers
                 {
                     Value = t.Id,
                     Text = t.DisplayName,
-                    Selected = Equals(t, TimeZoneInfo.Local) // TODO: get TZ from CurrentUICulture
+                    Selected = Equals(t, TimeZoneInfo.Local)
                 });
         }
     }
