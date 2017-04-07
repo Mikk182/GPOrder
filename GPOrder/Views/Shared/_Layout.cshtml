@@ -4,7 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    
+    <style>
+        /*avant de link le Site.css*/
+        .logo {
+            background-image: url("../../images/logoGoldenMiam_bonApp.png");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            width: 87px;
+            height: 48px;
+            margin: 3px;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,6 +27,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("GPOrder", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img src="../../images/shim.gif" alt="logo" class="logo">
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

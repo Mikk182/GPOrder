@@ -438,6 +438,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <EmbeddedResource Include="images\logoGoldenMiam_bonApp.png" />
+    <Content Include="images\shim.gif" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
