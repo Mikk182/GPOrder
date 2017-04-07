@@ -10,7 +10,7 @@ namespace GPOrder.Helpers
     {
         public static void CheckCultureAndTimeZone(this ChangeCultureViewModel model, ModelStateDictionary modelState)
         {
-            if (CultureInfo.GetCultures(CultureTypes.AllCultures).All(c => c.Name != model.UiCulture))
+            if (CultureInfo.GetCultures(CultureTypes.NeutralCultures).All(c => c.Name != model.UiCulture))
             {
                 modelState.AddModelError("UiCulture", "invalid culture");
             }

@@ -12,6 +12,10 @@ namespace GPOrder.Helpers
         {
             try
             {
+                if (!claimsIdentity.IsAuthenticated)
+                {
+                    return CultureInfo.CurrentUICulture;
+                }
                 var cultureName = claimsIdentity.FindFirstValue("UiCulture");
                 return CultureInfo.GetCultureInfo(cultureName);
             }
@@ -30,6 +34,10 @@ namespace GPOrder.Helpers
         {
             try
             {
+                if (!claimsIdentity.IsAuthenticated)
+                {
+                    return TimeZoneInfo.Local;
+                }
                 var tzId = claimsIdentity.FindFirstValue("TimeZone");
                 return TimeZoneInfo.FindSystemTimeZoneById(tzId);
             }
