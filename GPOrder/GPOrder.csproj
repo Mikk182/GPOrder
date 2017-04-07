@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201704041410561_SpecializedEvents.Designer.cs">
       <DependentUpon>201704041410561_SpecializedEvents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.cs" />
+    <Compile Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.Designer.cs">
+      <DependentUpon>201704062155247_GroupedOrder_EventsCascadeDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -13288,6 +13292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704041410561_SpecializedEvents.resx">
       <DependentUpon>201704041410561_SpecializedEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.resx">
+      <DependentUpon>201704062155247_GroupedOrder_EventsCascadeDelete.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
