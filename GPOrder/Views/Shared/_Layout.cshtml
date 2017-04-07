@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using GPOrder.Helpers
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -47,6 +48,37 @@
     @Scripts.Render("~/bundles/modernizr")
 
     @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/globalize")
+
+    @{var locale = (User.Identity as ClaimsIdentity).GetUiCulture().TwoLetterISOLanguageName;}
+
+    <script type="text/javascript">
+        // Use $.getJSON instead of $.get if your server is not configured to return the
+        // right MIME type for .json files.
+        $.when(
+            $.getJSON('@Url.Content("~/cldr/supplemental/likelySubtags.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/numbers.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/numberingSystems.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/plurals.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/ordinals.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/currencies.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/currencyData.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/ca-gregorian.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/timeZoneNames.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/timeData.json")'),
+            $.getJSON('@Url.Content("~/cldr/supplemental/weekData.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/dateFields.json")'),
+            $.getJSON('@Url.Content($"~/cldr/main/{locale}/units.json")')
+        ).then(function () {
+            // Normalize $.get results, we only need the JSON, not the request statuses.
+            return [].slice.apply(arguments, [0]).map(function (result) {
+                return result[0];
+            });
+        }).then(Globalize.load).then(function () {
+            Globalize.locale('@locale');
+        });
+    </script>
 
     @RenderSection("Scripts", required: false)
 
