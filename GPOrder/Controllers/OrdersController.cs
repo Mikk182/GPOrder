@@ -115,6 +115,7 @@ namespace GPOrder.Controllers
             if (ModelState.IsValid)
             {
                 var createUser = db.Users.Single(u => u.Id == order.CreateUser.Id);
+                order.CreationDate = DateTime.UtcNow;
                 order.CreateUser = createUser;
                 if (order.GroupedOrder.Id != Guid.Empty)
                 {

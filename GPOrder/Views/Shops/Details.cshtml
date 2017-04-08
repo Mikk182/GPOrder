@@ -95,13 +95,3 @@
     @(" | ")
     @Html.ActionLink("Order", "Index", "GroupedOrders", new { shopId = Model.Id }, null)
 </p>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryajax")
-    @Scripts.Render("~/bundles/jqueryui")
-
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/base/css")
-}

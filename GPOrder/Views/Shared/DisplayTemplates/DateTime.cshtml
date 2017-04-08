@@ -2,9 +2,4 @@
 
 @model DateTime?
 
-@{
-ViewData.ModelMetadata.Model = ViewData.Model = Model?.ConvertTimeFromUtc(User);
-}
-
-@(Model)
-@Html.HiddenFor(m => m)
+@(Model?.ConvertTimeFromUtc(User))

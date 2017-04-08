@@ -1,14 +1,11 @@
 ﻿@using GPOrder.Models
 @using Microsoft.AspNet.Identity
-@model GPOrder.Models.GroupedOrder
-
+@model GroupedOrder
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Details</h2>
-
 <div>
     <h4>GroupedOrder</h4>
     <hr />
@@ -16,41 +13,34 @@
         <dt>
             @Html.DisplayNameFor(model => model.CreationDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.CreationDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.CreateUser)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.CreateUser.UserName)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.LinkedShop)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.LinkedShop.Name)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.DeliveryBoy)
         </dt>
-
         <dd>
             @{
                 var currentUserId = User.Identity.GetUserId();
             }
             @if (Model.DeliveryBoy != null)
             {
-                @Html.DisplayFor(model => model.DeliveryBoy.UserName)
+                <p>@Html.DisplayFor(model => model.DeliveryBoy.UserName)</p>
                 if (Model.DeliveryBoy_Id == currentUserId)
                 {
-                    @Html.ActionLink("Leave", "LeaveDeliveryBoy", "DeliveryBoy", new { Model.Id }, null)
+                    <p>@Html.ActionLink("Leave", "LeaveDeliveryBoy", "DeliveryBoy", new { Model.Id }, null)</p>
                 }
                 else
                 {
@@ -59,35 +49,32 @@
                             goe.CreateUserId == currentUserId &&
                             goe.EventStatus == GroupedOrderEventStatus.Submitted))
                     {
-                        @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
-                        @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName))
+                        <p>
+                            @Html.ActionLink("Se proposer", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+                            @(string.Format(" à la place de {0}", Model.DeliveryBoy.UserName))
+                        </p>
                     }
                 }
             }
             else
             {
-                @("This order hasn't any delivery boy. ")
+                <p>@("This order hasn't any delivery boy. ")</p>
                 if (Model.Orders.Any(o => o.CreateUser_Id == currentUserId))
                 {
-                    @Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)
+                    <p>@Html.ActionLink("Je suis partant", "AskForDeliveryBoy", "DeliveryBoy", new { id = Model.Id }, null)</p>
                 }
             }
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.LimitDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.LimitDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Orders)
         </dt>
-
         @Html.DisplayFor(model => model.Orders, "Orders")
-
         <dt>
             @Html.DisplayNameFor(model => model.GroupedOrderEvents)
         </dt>

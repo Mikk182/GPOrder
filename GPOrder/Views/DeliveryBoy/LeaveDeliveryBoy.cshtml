@@ -1,13 +1,9 @@
-﻿@using ILN.MVC.Datetimepicker
-@model GPOrder.Models.GroupedOrder
-
+﻿@model GPOrder.Models.GroupedOrder
 @{
     ViewBag.Title = "LeaveDeliveryBoy";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>LeaveDeliveryBoy</h2>
-
 @using (Html.BeginForm("LeaveDeliveryBoy", "DeliveryBoy"))
 {
     @Html.AntiForgeryToken()
@@ -17,7 +13,6 @@
         <hr />
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         @Html.HiddenFor(m => m.Id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.CreateUser.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -25,15 +20,14 @@
                 @Html.ValidationMessageFor(model => model.CreateUser.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(model => model.CreationDate)
                 @Html.DisplayFor(model => model.CreationDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.LinkedShop.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -41,15 +35,15 @@
                 @Html.ValidationMessageFor(model => model.LinkedShop.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.LimitDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @Html.HiddenFor(model => model.LimitDate)
                 @Html.DisplayFor(model => model.LimitDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LimitDate, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Valid" class="btn btn-default" />
@@ -57,7 +51,6 @@
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "Index", "GroupedOrders")
 </div>

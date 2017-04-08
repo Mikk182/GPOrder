@@ -1,18 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
-
 @model GPOrder.Models.Order
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Edit</h2>
 @if (Model.GroupedOrder?.LimitDate != null && DateTime.UtcNow > Model.GroupedOrder.LimitDate.Value)
 {
     <h3 class="text-danger">Warning, the limit date time of this order is passed. You're modifications may won't be taken by the delivery boy.</h3>
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -28,7 +24,6 @@
         <h4>Order</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         <div class="form-group">
             @Html.LabelFor(model => model.CreationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -37,15 +32,13 @@
                 @Html.ValidationMessageFor(model => model.CreationDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.JQueryUI().DatepickerFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.OrderDate)
                 @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.EstimatedPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -53,7 +46,6 @@
                 @Html.ValidationMessageFor(model => model.EstimatedPrice, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.OrderLines, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -62,7 +54,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -70,9 +61,8 @@
         </div>
     </div>
 }
-
 <p>
-    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
+    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder_Id }, null)
     @(" | ")
     @Html.ActionLink("Details", "Details", "Orders", new { Model.Id }, null)
     @if (Model.CreateUser.Id == User.Identity.GetUserId())
@@ -81,18 +71,12 @@
         @Html.ActionLink("Delete", "Delete", "Orders", new { Model.Id }, null)
     }
 </p>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryajax")
     @Scripts.Render("~/bundles/jqueryui")
-
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/base/css")
-
+    @Scripts.Render("~/bundles/iln_datetimepicker")
+    @Styles.Render("~/bundles/iln_datetimepicker_css")
     <script type="text/javascript" src="~/Scripts/Order.js"></script>
-
     <script type="text/javascript">
         var _order = new Order({ "IsOnCreation": false });
         $(document).ready(function () {
