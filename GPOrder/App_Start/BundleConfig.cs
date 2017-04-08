@@ -18,9 +18,9 @@ namespace GPOrder
                 "~/Scripts/cldr/unresolved.js",
                 "~/Scripts/globalize.js",
                 "~/Scripts/globalize/currency.js",
+                "~/Scripts/globalize/number.js",
                 "~/Scripts/globalize/date.js",
                 "~/Scripts/globalize/message.js",
-                "~/Scripts/globalize/number.js",
                 "~/Scripts/globalize/plural.js",
                 "~/Scripts/globalize/relative-time.js",
                 "~/Scripts/globalize/unit.js"));
