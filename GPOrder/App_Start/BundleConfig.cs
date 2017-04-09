@@ -11,7 +11,7 @@ namespace GPOrder
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/globalize").Include(
+            var bundle = new ScriptBundle("~/bundles/globalize").Include(
                 "~/Scripts/cldr.js",
                 "~/Scripts/cldr/event.js",
                 "~/Scripts/cldr/supplemental.js",
@@ -23,9 +23,11 @@ namespace GPOrder
                 "~/Scripts/globalize/message.js",
                 "~/Scripts/globalize/plural.js",
                 "~/Scripts/globalize/relative-time.js",
-                "~/Scripts/globalize/unit.js"));
+                "~/Scripts/globalize/unit.js");
+            bundle.Orderer = new AsIsBundleOrderer();
+            bundles.Add(bundle);
 
-            var bundle = new ScriptBundle("~/bundles/jqueryval").Include(
+            bundle = new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate.js",
                 "~/Scripts/jquery.validate.unobtrusive.js",
                 "~/Scripts/jquery.validate.globalize.js");
