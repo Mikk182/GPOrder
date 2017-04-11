@@ -26,3 +26,14 @@ textarea {
 input.watermark {
     color: #999;
 }
+
+/* Logo principal de l'application */
+.logo {
+    background-image: url("../images/logoGoldenMiam_bonApp.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 87px;
+    height: 48px;
+    margin: 3px;
+    text-indent: -9999px; /* hides the link text */
+}
