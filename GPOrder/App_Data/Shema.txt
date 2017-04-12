@@ -1,0 +1,64 @@
+                                                          +-----------+
+                                                          | ShopLinks |
+                                                          +-----------+
+                                                          | Id        |
+                                                          | Url       |
+                                                          | ShopId    |
+                                                          +-----+-----+
+                                                                |
+                                                                |
+                                                                |
+                                                         +------+-------+
+                                                         | Shops        |                                                                                      +--------------------+         +---------------------------------+
++---------------------+         +--------------+         +--------------+         +--------------+                                                             | GroupedOrderEvents |         | GroupedOrderEventAskDeliveryBoy |
+|       Files         |         | ShopPictures |         | Id           |         | GroupedOrder +-------------------------------------------+                 +--------------------+         +---------------------------------+
++---------------------+         +--------------+         | CreationDate |         +--------------+                                           |                 |   Id               +---------+         Id                      |
+| Id                  |         | Id           |         | CreateUserId |         | Id           +------------------+                        +-----------------+   GroupedOrderId   |         |         LimitDateTime           |
+| ContentType         |         | CreationDate |         | OwnerUserId  |         | CreationDate |                  |                                          |   E^entStatus      |         +---------------------------------+
+| Content             +---------+ CreateUserId +---------+ IsLocked     +---------+ CreationUser |                  |                                          +----------------+---+
+| FileType            |         | IsLocked     |         | Name         |         | Deli^eryBoy  |                  |                                                           |
+| ApplicationUser_Id  |         | Name         |         | Adress       |         | LimitDate    |         +--------+-------+                                                   +------------+  +--------------+
++----------+----------+         | ShopId       |         | PhoneNumber  |         | ShopId       |         |    Order       |                                                                |  |    Events    |
+           |                    +-------+------+         | Mail         |         +---+-----+----+         +----------------+         +-------------+         +-----------------------+      |  +--------------+
+           |                            |                | Description  |             |     |              | Id             |         |   OrderLine |         | EventApplicationUsers |      |  | Id           |
+           |                            |                +----+-----+---+             |     |              | CreationDate   |         +-------------+         +-----------------------+      +--+ CreationDate |
+           |                            |                     |     |                 |     |              | CreateUser     +---------+Id   Guid    |         |  Event_Id             +---+     | CreateUserId |
+           |                            |                     |     |                 |     |              | OwnerUser      |         |Text String  |         |  ApplicationUser_Id   |   +-----+ EventType    |
+           |                            |                     |     |                 |     |              | EstimatedPrice |         +-------------+         +-----------+-----------+         | Description  |
+           |                            |                     |     |                 |     |              | RealPrice      |                                             |                     +-------+------+
+           |                            |                     |     |                 |     |              +-------+--------+                                             |                             |
+           |                            |                     |     |                 |     |----------+           |                                                      |                             |
+           |                            |                     |     |                 |                |           |                                                      |                             |
+           |                            |                     |     |                 |----------+     |     +-----+                                                      |                             |
+           |                            |                     |     |                            |     |     |                                                            |                             |
+           |                            |                     |     |                     +------+-----+-----+---+                                                        |                             |
+           |                            |                     |     |                     |   ApplicationUser    |                                                        |                             |
+           |                            |                     |     |                     +----------------------+                                                        |                             |
+           |                            |                     |     +---------------------+ Id                   |                                                        |                             |
+           |                            |                     |                           | Email                +--------------------------------------------------------+                             |
+           |                            |                     |                           | EmailConfirmed       |                                                                                      |
+           |                            |                     +---------------------------+ PasswordHash         |                                                                                      |
+           |                            |                                                 | SecurityStamp        +--------------------------------------------------------------------------------------+
+           |                            |                                                 | PhoneNumber          |
+           |                            +-------------------------------------------------+ PhoneNumberConfirmed |
+           |                                                                              | TwoFactorEnabled     |
+           |                                                                              | LockoutEndDateUtc    |
+           +------------------------------------------------------------------------------+ LockoutEnabled       |
+                                                                                          | AccessFailedCount    |
+                                                                                          | UserName             |
+                                                                   +----------------------+ UiCulture            |
+                                                                   |                      | TimeZone             |
+                                                                   |                      +---+------+-----------+
+                                                        +----------+------------+             |      |
+                                                        | GroupApplicationUsers |             |      |
+                                                        |                       |             |      |
+                                                        |  Group_Id             |         +---+------+---+
+                                                        |  ApplicationUser_Id   |         |   Groups     |
+                                                        |                       |         |              |
+                                                        +----------+------------+         | Id           |
+                                                                   |                      | CreationDate |
+                                                                   |                      | CreateUserId |
+                                                                   +----------------------+ OwnerUserId  |
+                                                                                          | IsLocked     |
+                                                                                          | Name         |
+                                                                                          +--------------+

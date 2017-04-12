@@ -357,6 +357,7 @@
     <Compile Include="ViewModels\ShopGroupedOrders.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Shema.txt" />
     <Content Include="App_Data\TimeZones.txt" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
