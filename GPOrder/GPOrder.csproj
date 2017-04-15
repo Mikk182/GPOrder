@@ -194,6 +194,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\GroupedOrdersController.cs" />
+    <Compile Include="Entities\Bill.cs" />
     <Compile Include="Entities\Event.cs" />
     <Compile Include="Helpers\ChangeCulture.Validator.cs" />
     <Compile Include="Helpers\ClaimsIdentity.Extensions.cs" />
@@ -358,6 +359,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Shema.txt" />
+    <Content Include="App_Data\ShemaSprint6_tmp.txt" />
     <Content Include="App_Data\TimeZones.txt" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
