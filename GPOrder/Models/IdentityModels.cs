@@ -302,8 +302,10 @@ namespace GPOrder.Models
         public DbSet<GroupedOrderEvent> GroupedOrderEvents { get; set; }
         public DbSet<GroupedOrderEventAskDeliveryBoy> GroupedOrderEventsAskDeliveryBoy { get; set; }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.Bill> Bills { get; set; }
+        public DbSet<Bill> Bills { get; set; }
 
-        public System.Data.Entity.DbSet<GPOrder.Models.ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<BillEvent> BillEvents { get; set; }
+
+        public DbSet<BillPicture> BillPictures { get; set; }
     }
 }

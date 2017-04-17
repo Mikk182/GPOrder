@@ -66,18 +66,15 @@ namespace GPOrder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CreateUser_Id,GroupedOrder_Id")] Bill bill)
+        public ActionResult Create([Bind(Include = "Id,CreateUser_Id,GroupedOrder_Id,BillEvents")] Bill bill)
         {
             if (ModelState.IsValid)
             {
-                bill.Id = Guid.NewGuid();
                 db.Bills.Add(bill);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.CreateUser_Id = new SelectList(db.ApplicationUsers, "Id", "UiCulture", bill.CreateUser_Id);
-            ViewBag.Id = new SelectList(db.GroupedOrders, "Id", "CreateUser_Id", bill.Id);
+            
             return View(bill);
         }
 
@@ -93,8 +90,7 @@ namespace GPOrder.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CreateUser_Id = new SelectList(db.ApplicationUsers, "Id", "UiCulture", bill.CreateUser_Id);
-            ViewBag.Id = new SelectList(db.GroupedOrders, "Id", "CreateUser_Id", bill.Id);
+
             return View(bill);
         }
 
@@ -111,8 +107,7 @@ namespace GPOrder.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CreateUser_Id = new SelectList(db.ApplicationUsers, "Id", "UiCulture", bill.CreateUser_Id);
-            ViewBag.Id = new SelectList(db.GroupedOrders, "Id", "CreateUser_Id", bill.Id);
+
             return View(bill);
         }
 
