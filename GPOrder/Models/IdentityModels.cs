@@ -37,6 +37,11 @@ namespace GPOrder.Models
         public virtual ICollection<Shop> OwnedShop { get; set; }
         public virtual ICollection<ShopPicture> PostedPictures { get; set; }
 
+        public virtual ICollection<Bill> CreatedBills { get; set; }
+        public virtual ICollection<BillPicture> BillPictures { get; set; }
+        public virtual ICollection<BillEvent> DebitBillEvents { get; set; }
+        public virtual ICollection<BillEvent> CreditBillEvents { get; set; }
+
         public virtual ICollection<File> Files { get; set; }
 
         public virtual ICollection<GroupedOrder> CreateUserGroupedOrders { get; set; }
@@ -82,6 +87,9 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrder>()
                 .HasMany(go => go.GroupedOrderEvents)
                 .WithRequired(goe => goe.GroupedOrder).HasForeignKey(goe => goe.GroupedOrderId).WillCascadeOnDelete(true);
+            modelBuilder.Entity<GroupedOrder>()
+                .HasOptional(go => go.LinkedBill)
+                .WithRequired(b => b.GroupedOrder).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id)
@@ -90,6 +98,9 @@ namespace GPOrder.Models
             modelBuilder.Entity<Order>()
                 .HasRequired(o => o.GroupedOrder)
                 .WithMany(u => u.Orders).HasForeignKey(o => o.GroupedOrder_Id);
+            modelBuilder.Entity<Order>()
+                .HasMany(go => go.BillEvents)
+                .WithRequired(goe => goe.Order).HasForeignKey(goe => goe.Order_Id).WillCascadeOnDelete(true);
 
             modelBuilder.Entity<OrderLine>()
                 .HasKey(l => l.Id)
@@ -152,6 +163,9 @@ namespace GPOrder.Models
             modelBuilder.Entity<File>()
                 .HasOptional(f => f.ShopPicture)
                 .WithRequired(sp => sp.LinkedFile);
+            modelBuilder.Entity<File>()
+                .HasOptional(f => f.BillPicture)
+                .WithRequired(sp => sp.LinkedFile);
 
             modelBuilder.Entity<Event>()
                 .HasKey(e => e.Id)
@@ -162,6 +176,7 @@ namespace GPOrder.Models
             modelBuilder.Entity<Event>()
                 .HasMany(e => e.Users)
                 .WithMany(u => u.ConcernedUserByEvent);
+
             modelBuilder.Entity<GroupedOrderEvent>()
                 .HasKey(goe => goe.Id)
                 .ToTable("GroupedOrderEvents");
@@ -171,6 +186,55 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrderEventAskDeliveryBoy>()
                 .HasKey(goe => goe.Id)
                 .ToTable("GroupedOrderEventsAskDeliveryBoy");
+
+            #region Bill
+
+            modelBuilder.Entity<Bill>()
+                .HasKey(l => l.Id)
+                .HasRequired(c => c.CreateUser)
+                .WithMany(u => u.CreatedBills)
+                .HasForeignKey(u => u.CreateUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Bill>()
+                .HasRequired(c => c.GroupedOrder)
+                .WithOptional(go => go.LinkedBill).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Bill>()
+                .HasMany(b => b.BillPictures)
+                .WithRequired(be => be.Bill).HasForeignKey(be => be.Bill_Id).WillCascadeOnDelete(true);
+            modelBuilder.Entity<Bill>()
+                .HasMany(b => b.BillEvents)
+                .WithRequired(be => be.Bill).HasForeignKey(be => be.Bill_Id).WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<BillPicture>()
+                .HasKey(sp => sp.Id)
+                .HasRequired(c => c.CreateUser)
+                .WithMany(u => u.BillPictures)
+                .HasForeignKey(u => u.CreateUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<BillPicture>()
+                .HasKey(sp => sp.Id)
+                .HasRequired(c => c.Bill)
+                .WithMany(u => u.BillPictures)
+                .HasForeignKey(u => u.Bill_Id).WillCascadeOnDelete(true);
+            modelBuilder.Entity<BillPicture>()
+                .HasRequired(sp => sp.LinkedFile)
+                .WithOptional(lf => lf.BillPicture).WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<BillEvent>()
+                .HasKey(goe => goe.Id)
+                .ToTable("BillEvents");
+            modelBuilder.Entity<BillEvent>()
+                .HasRequired(be => be.DebitUser)
+                .WithMany(du => du.DebitBillEvents).HasForeignKey(be => be.DebitUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<BillEvent>()
+                .HasRequired(be => be.CreditUser)
+                .WithMany(du => du.CreditBillEvents).HasForeignKey(be => be.CreditUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<BillEvent>()
+                .HasRequired(goe => goe.Order)
+                .WithMany(go => go.BillEvents).HasForeignKey(goe => goe.Order_Id).WillCascadeOnDelete(true);
+            modelBuilder.Entity<BillEvent>()
+                .HasRequired(goe => goe.Bill)
+                .WithMany(go => go.BillEvents).HasForeignKey(goe => goe.Bill_Id).WillCascadeOnDelete(true);
+
+            #endregion
 
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.LinkedGroups)
@@ -193,6 +257,22 @@ namespace GPOrder.Models
             modelBuilder.Entity<ApplicationUser>().
                 HasMany(au => au.ConcernedUserByEvent)
                 .WithMany(e => e.Users);
+
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(u => u.CreatedBills)
+                .WithRequired(b => b.CreateUser)
+                .HasForeignKey(u => u.CreateUser_Id);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(u => u.BillPictures)
+                .WithRequired(b => b.CreateUser).HasForeignKey(bp => bp.CreateUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.DebitBillEvents)
+                .WithRequired(au => au.DebitUser)
+                .HasForeignKey(due => due.DebitUser_Id).WillCascadeOnDelete(false);
+            modelBuilder.Entity<ApplicationUser>().
+                HasMany(au => au.CreditBillEvents)
+                .WithRequired(au => au.CreditUser)
+                .HasForeignKey(due => due.CreditUser_Id).WillCascadeOnDelete(false);
 
             modelBuilder.Entity<IdentityUserLogin>().HasKey(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
@@ -221,5 +301,9 @@ namespace GPOrder.Models
         public DbSet<Event> Events { get; set; }
         public DbSet<GroupedOrderEvent> GroupedOrderEvents { get; set; }
         public DbSet<GroupedOrderEventAskDeliveryBoy> GroupedOrderEventsAskDeliveryBoy { get; set; }
+
+        public System.Data.Entity.DbSet<GPOrder.Models.Bill> Bills { get; set; }
+
+        public System.Data.Entity.DbSet<GPOrder.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

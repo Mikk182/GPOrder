@@ -1,0 +1,43 @@
+﻿@model GPOrder.Models.Bill
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bill</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateUser.UiCulture)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateUser.UiCulture)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupedOrder.CreateUser_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupedOrder.CreateUser_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupedOrder_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupedOrder_Id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

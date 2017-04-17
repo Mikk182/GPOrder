@@ -28,5 +28,7 @@ namespace GPOrder.Entities
         public FileType FileType { get; set; }
 
         public ShopPicture ShopPicture { get; set; }
+
+        public BillPicture BillPicture { get; set; }
     }
 }

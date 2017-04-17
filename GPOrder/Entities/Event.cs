@@ -11,7 +11,8 @@ namespace GPOrder.Models
         BecomingDeliveryBoy = 1 << 1,
         AcceptDeliveryBoyRequest = 1 << 2,
         LeaveDeliveryBoyFunction = 1 << 3,
-        DeleteOrder = 1 << 4
+        DeleteOrder = 1 << 4,
+        BillOrderEvent = 1 << 5
     }
 
     public interface IEvent

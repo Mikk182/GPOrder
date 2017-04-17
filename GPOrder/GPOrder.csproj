@@ -190,6 +190,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\DeliveryBoyController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -272,6 +273,10 @@
     <Compile Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.cs" />
     <Compile Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.Designer.cs">
       <DependentUpon>201704062155247_GroupedOrder_EventsCascadeDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704171538414_Bills.cs" />
+    <Compile Include="Migrations\201704171538414_Bills.Designer.cs">
+      <DependentUpon>201704171538414_Bills.cs</DependentUpon>
     </Compile>
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -711,6 +716,11 @@
     <Content Include="Views\DeliveryBoy\LeaveDeliveryBoy.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
+    <Content Include="Views\Bills\Create.cshtml" />
+    <Content Include="Views\Bills\Delete.cshtml" />
+    <Content Include="Views\Bills\Details.cshtml" />
+    <Content Include="Views\Bills\Edit.cshtml" />
+    <Content Include="Views\Bills\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -809,6 +819,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704062155247_GroupedOrder_EventsCascadeDelete.resx">
       <DependentUpon>201704062155247_GroupedOrder_EventsCascadeDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704171538414_Bills.resx">
+      <DependentUpon>201704171538414_Bills.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
