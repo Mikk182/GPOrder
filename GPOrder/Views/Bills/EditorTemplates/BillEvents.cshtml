@@ -1,0 +1,12 @@
+﻿@model IEnumerable<GPOrder.Models.BillEvent>
+
+<div id="BillEventDiv">
+    @if (Model != null)
+    {
+        foreach (var billEvent in Model)
+        {
+            @Html.EditorFor(m => billEvent)
+        }
+    }
+</div>
+

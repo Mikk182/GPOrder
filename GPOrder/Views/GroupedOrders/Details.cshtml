@@ -104,7 +104,7 @@
     {
         if (Model.DeliveryBoy_Id == currentUserId)
         {
-            @Html.ActionLink("Bill", "Create", "Bills", new { Id = Model.LinkedBill_Id }, null)
+            @Html.ActionLink("Bill", "Create", "Bills", new { groupedOrderId = Model.Id }, null)
         }
     }
 </p>

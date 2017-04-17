@@ -11,28 +11,28 @@ namespace GPOrder
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 
-            var bundle = new ScriptBundle("~/bundles/globalize").Include(
+            var globalizeBundle = new ScriptBundle("~/bundles/globalize").Include(
                 "~/Scripts/cldr.js",
                 "~/Scripts/cldr/event.js",
                 "~/Scripts/cldr/supplemental.js",
                 "~/Scripts/cldr/unresolved.js",
                 "~/Scripts/globalize.js",
                 "~/Scripts/globalize/currency.js",
-                "~/Scripts/globalize/number.js",
                 "~/Scripts/globalize/date.js",
                 "~/Scripts/globalize/message.js",
+                "~/Scripts/globalize/number.js",
                 "~/Scripts/globalize/plural.js",
                 "~/Scripts/globalize/relative-time.js",
                 "~/Scripts/globalize/unit.js");
-            bundle.Orderer = new AsIsBundleOrderer();
-            bundles.Add(bundle);
+            globalizeBundle.Orderer = new AsIsBundleOrderer();
+            bundles.Add(globalizeBundle);
 
-            bundle = new ScriptBundle("~/bundles/jqueryval").Include(
+            var jqueryValidateBundle = new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate.js",
                 "~/Scripts/jquery.validate.unobtrusive.js",
                 "~/Scripts/jquery.validate.globalize.js");
-            bundle.Orderer = new AsIsBundleOrderer();
-            bundles.Add(bundle);
+            jqueryValidateBundle.Orderer = new AsIsBundleOrderer();
+            bundles.Add(jqueryValidateBundle);
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.js"));
@@ -70,7 +70,7 @@ namespace GPOrder
     }
 
     /// <summary>
-    /// permet à ce que les js soit référencés dans l'ordre qu'il sont mis dans le bundle
+    /// permet que les js soient référencés dans l'ordre qu'ils sont mis dans le bundle
     /// </summary>
     internal class AsIsBundleOrderer : IBundleOrderer
     {

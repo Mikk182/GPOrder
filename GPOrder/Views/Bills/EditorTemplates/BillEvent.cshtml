@@ -1,0 +1,15 @@
+﻿@model GPOrder.Models.BillEvent
+
+@using (Html.BeginCollectionItem("BillEvents"))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-8">
+                @Html.EditorFor(m => m.Amount)
+                @Html.HiddenFor(m => m.CreditUser_Id)
+                @Html.DisplayFor(m => m.CreditUser.UserName)
+            </div>
+        </div>
+    </div>
+}
+

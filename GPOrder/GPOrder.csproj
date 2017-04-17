@@ -616,6 +616,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Bills\EditorTemplates\BillEvents.cshtml" />
     <Content Include="Views\GroupedOrders\DisplayTemplates\GroupedOrderEventAskDeliveryBoy.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -721,8 +722,11 @@
     <Content Include="Views\Bills\Details.cshtml" />
     <Content Include="Views\Bills\Edit.cshtml" />
     <Content Include="Views\Bills\Index.cshtml" />
+    <Content Include="Views\Bills\EditorTemplates\BillEvent.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Bills\DisplayTemplates\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Project_Readme.html" />
   </ItemGroup>

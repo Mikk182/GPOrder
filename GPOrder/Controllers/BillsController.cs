@@ -58,7 +58,7 @@ namespace GPOrder.Controllers
                 }
             ).ToList();
 
-            return View();
+            return View(newBill);
         }
 
         // POST: Bills/Create
