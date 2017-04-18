@@ -249,7 +249,6 @@ namespace GPOrder.Controllers
             var user = User.Identity as ClaimsIdentity;
             var model = new ChangeCultureViewModel
             {
-                //set view default
                 UiCulture = user.GetUiCulture().Name,
                 TimeZone = user.GetTimeZone().Id
             };

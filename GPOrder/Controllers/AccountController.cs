@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -137,7 +139,13 @@ namespace GPOrder.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel
+            {
+                //set defaults
+                UiCulture = Thread.CurrentThread.CurrentCulture.Name,
+                TimeZone = TimeZoneInfo.Local.Id
+            };
+            return View(model);
         }
 
         //
