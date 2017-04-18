@@ -1,11 +1,14 @@
-﻿@model GPOrder.Models.Bill
+﻿@using GPOrder.Resources
+@model GPOrder.Models.Bill
 
 @{
-    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = string.Format(Resources.Bill_Title, Model.GroupedOrder.LimitDate, Model.GroupedOrder.LinkedShop.Name);
+    var deliveryBoy = string.Format("deliveryBoy : {0}", Model.GroupedOrder.DeliveryBoy.UserName);
+    ViewBag.Title = title;
 }
 
-<h2>Create</h2>
+<h2>@title</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,19 +17,14 @@
     @Html.HiddenFor(m => m.CreateUser_Id)
 
     <div class="form-horizontal">
-        <h4>Bill</h4>
+        <h3>@deliveryBoy</h3>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.BillEvents, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-8">
+            <div class="col-md-offset-1 col-md-5">
                 @Html.EditorFor(model => model.BillEvents, "BillEvents")
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BillPictures, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-offset-8 col-md-4">
+            <div class="col-md-5">
                 @Html.EditorFor(model => model.BillPictures)
             </div>
         </div>

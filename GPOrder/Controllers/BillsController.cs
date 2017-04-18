@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using GPOrder.Models;
 using Microsoft.AspNet.Identity;
@@ -46,15 +44,17 @@ namespace GPOrder.Controllers
             var newBill = new Bill();
             newBill.CreateUser_Id = currentUserId;
             newBill.GroupedOrder_Id = groupedOrderId;
-            newBill.BillEvents = groupedorder.Orders.Select(o=> 
+            newBill.GroupedOrder = groupedorder;
+            newBill.BillEvents = groupedorder.Orders.Select(o =>
                 new BillEvent
                 {
                     Amount = o.EstimatedPrice,
                     CreateUserId = currentUserId, // The delivery boy of the grouped order
                     DebitUser_Id = currentUserId, // The delivery boy of the grouped order
                     EventType = EventType.BillOrderEvent,
-                    CreationDate= DateTime.UtcNow,
-                    CreditUser_Id = o.CreateUser_Id
+                    CreationDate = DateTime.UtcNow,
+                    CreditUser_Id = o.CreateUser_Id,
+                    CreditUser = o.CreateUser
                 }
             ).ToList();
 
@@ -70,11 +70,19 @@ namespace GPOrder.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Bills.Add(bill);
-                db.SaveChanges();
+                try
+                {
+                    db.Bills.Add(bill);
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException e)
+                {
+                    throw;
+                }
+
                 return RedirectToAction("Index");
             }
-            
+
             return View(bill);
         }
 

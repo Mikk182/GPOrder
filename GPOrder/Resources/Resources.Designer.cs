@@ -59,5 +59,14 @@ namespace GPOrder.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ordering {0} in {1}.
+        /// </summary>
+        public static string Bill_Title {
+            get {
+                return ResourceManager.GetString("Bill_Title", resourceCulture);
+            }
+        }
     }
 }
