@@ -750,9 +750,6 @@
     <Content Include="Views\Bills\Edit.cshtml" />
     <Content Include="Views\Bills\Index.cshtml" />
     <Content Include="Views\Bills\EditorTemplates\BillEvent.cshtml" />
-    <Content Include="Scripts\jquery.validate.globalize.min.js.map">
-      <DependentUpon>jquery.validate.globalize.min.js</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Bills\DisplayTemplates\" />
