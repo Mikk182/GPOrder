@@ -36,7 +36,7 @@ namespace GPOrder
                     ?.ConvertTimeToUtc(controllerContext.HttpContext.User);
             }
         }
-        
+
         /// <summary>
         /// seul moyen que j'ai trouvé pour injecter la culture de l'utilisateur dans le context...
         /// TODO: upgrade to NET Core!
@@ -50,8 +50,7 @@ namespace GPOrder
                 if (principal != null && principal.IsAuthenticated)
                 {
                     var userCulture = principal.GetUiCulture();
-                    Thread.CurrentThread.CurrentUICulture = userCulture;
-                    Thread.CurrentThread.CurrentCulture = userCulture;
+                    Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = userCulture;
                 }
                 else
                 {
@@ -62,7 +61,7 @@ namespace GPOrder
                         try
                         {
                             var userCulture = CultureInfo.GetCultureInfo(userLanguage.First());
-                            Thread.CurrentThread.CurrentUICulture = userCulture;
+                            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = GetNeutralCulture(userCulture);
                         }
                         catch (CultureNotFoundException ex)
                         {
@@ -72,6 +71,11 @@ namespace GPOrder
                 }
 
                 return base.CreateController(requestContext, controllerName);
+            }
+
+            private static CultureInfo GetNeutralCulture(CultureInfo culture)
+            {
+                return culture.IsNeutralCulture ? culture : GetNeutralCulture(culture.Parent);
             }
         }
     }

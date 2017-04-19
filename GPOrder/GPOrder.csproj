@@ -197,9 +197,8 @@
     <Compile Include="Controllers\GroupedOrdersController.cs" />
     <Compile Include="Entities\Bill.cs" />
     <Compile Include="Entities\Event.cs" />
-    <Compile Include="Helpers\ChangeCulture.Validator.cs" />
     <Compile Include="Helpers\ClaimsIdentity.Extensions.cs" />
-    <Compile Include="Helpers\HtmlHelper.SelectListItems.cs" />
+    <Compile Include="Helpers\CultureHelpers.cs" />
     <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\MomentJsHelper.cs" />
     <Compile Include="Migrations\201703260149507_ShopPictureNameNotRequired.cs" />
@@ -751,6 +750,9 @@
     <Content Include="Views\Bills\Edit.cshtml" />
     <Content Include="Views\Bills\Index.cshtml" />
     <Content Include="Views\Bills\EditorTemplates\BillEvent.cshtml" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js.map">
+      <DependentUpon>jquery.validate.globalize.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Bills\DisplayTemplates\" />
