@@ -26,9 +26,8 @@ namespace GPOrder.Models
 
         public Guid? LinkedShop_Id { get; set; }
         public virtual Shop LinkedShop { get; set; }
-        
-        public Guid? LinkedBill_Id { get; set; }
-        public Bill LinkedBill { get; set; }
+
+        public virtual Bill LinkedBill { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
 

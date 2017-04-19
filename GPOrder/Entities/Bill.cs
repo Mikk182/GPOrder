@@ -8,19 +8,17 @@ namespace GPOrder.Models
 {
     public class Bill
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+        [Key, ForeignKey("GroupedOrder")]
         public Guid Id { get; set; }
         
         public string CreateUser_Id { get; set; }
         public virtual ApplicationUser CreateUser { get; set; }
 
-        public Guid GroupedOrder_Id { get; set; }
         public virtual GroupedOrder GroupedOrder { get; set; }
 
-        public ICollection<BillPicture> BillPictures { get; set; }
+        public virtual ICollection<BillPicture> BillPictures { get; set; }
 
-        public ICollection<BillEvent> BillEvents { get; set; }
+        public virtual ICollection<BillEvent> BillEvents { get; set; }
     }
 
     public class BillPicture
@@ -54,13 +52,13 @@ namespace GPOrder.Models
         public decimal Amount { get; set; }
 
         public string DebitUser_Id { get; set; }
-        public ApplicationUser DebitUser { get; set; }
+        public virtual ApplicationUser DebitUser { get; set; }
 
         public string CreditUser_Id { get; set; }
-        public ApplicationUser CreditUser { get; set; }
+        public virtual ApplicationUser CreditUser { get; set; }
 
         public Guid? Order_Id { get; set; }
-        public Order Order { get; set; }
+        public virtual Order Order { get; set; }
         
         public Guid? Bill_Id { get; set; }
         public virtual Bill Bill { get; set; }

@@ -43,7 +43,7 @@ namespace GPOrder.Controllers
 
             var newBill = new Bill();
             newBill.CreateUser_Id = currentUserId;
-            newBill.GroupedOrder_Id = groupedOrderId;
+            newBill.Id = groupedOrderId;
             newBill.GroupedOrder = groupedorder;
             newBill.BillEvents = groupedorder.Orders.Select(o =>
                 new BillEvent
@@ -54,7 +54,8 @@ namespace GPOrder.Controllers
                     EventType = EventType.BillOrderEvent,
                     CreationDate = DateTime.UtcNow,
                     CreditUser_Id = o.CreateUser_Id,
-                    CreditUser = o.CreateUser
+                    CreditUser = o.CreateUser,
+                    Order_Id = o.Id
                 }
             ).ToList();
 
@@ -66,12 +67,21 @@ namespace GPOrder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CreateUser_Id,GroupedOrder_Id,BillEvents")] Bill bill)
+        public ActionResult Create([Bind(Include = "Id,CreateUser_Id,GroupedOrder,BillEvents")] Bill bill)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var groupedOrder = db.GroupedOrders.Single(go => go.Id == bill.GroupedOrder.Id);
+                    bill.Id = groupedOrder.Id;
+                    bill.GroupedOrder = groupedOrder;
+
+                    foreach (var billEvents in bill.BillEvents)
+                    {
+                        billEvents.CreationDate = DateTime.UtcNow;
+                    }
+
                     db.Bills.Add(bill);
                     db.SaveChanges();
                 }
@@ -107,11 +117,16 @@ namespace GPOrder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CreateUser_Id,GroupedOrder_Id")] Bill bill)
+        public ActionResult Edit([Bind(Include = "Id,CreateUser_Id,GroupedOrder,BillEvents")] Bill bill)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(bill).State = EntityState.Modified;
+                foreach (var billEvents in bill.BillEvents)
+                {
+                    db.Entry(billEvents).State = EntityState.Modified;
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

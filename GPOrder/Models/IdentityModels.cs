@@ -71,6 +71,8 @@ namespace GPOrder.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            #region GroupedOrder
+
             modelBuilder.Entity<GroupedOrder>()
                 .HasKey(l => l.Id)
                 .HasRequired(go => go.CreateUser)
@@ -87,9 +89,16 @@ namespace GPOrder.Models
             modelBuilder.Entity<GroupedOrder>()
                 .HasMany(go => go.GroupedOrderEvents)
                 .WithRequired(goe => goe.GroupedOrder).HasForeignKey(goe => goe.GroupedOrderId).WillCascadeOnDelete(true);
+            //modelBuilder.Entity<GroupedOrder>()
+            //    .HasOptional(go => go.LinkedBill)
+            //    .WithRequired(b => b.GroupedOrder).WillCascadeOnDelete(false);
+            //modelBuilder.Entity<GroupedOrder>()
+            //    .HasOptional(go => go.LinkedBill)
+            //    .WithOptionalPrincipal(b => b.GroupedOrder).WillCascadeOnDelete(false);
             modelBuilder.Entity<GroupedOrder>()
-                .HasOptional(go => go.LinkedBill)
-                .WithRequired(b => b.GroupedOrder).WillCascadeOnDelete(false);
+                .HasOptional(go => go.LinkedBill).WithOptionalPrincipal(c2 => c2.GroupedOrder);
+
+            #endregion
 
             modelBuilder.Entity<Order>()
                 .HasKey(l => l.Id)
@@ -194,9 +203,14 @@ namespace GPOrder.Models
                 .HasRequired(c => c.CreateUser)
                 .WithMany(u => u.CreatedBills)
                 .HasForeignKey(u => u.CreateUser_Id).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Bill>()
-                .HasRequired(c => c.GroupedOrder)
-                .WithOptional(go => go.LinkedBill).WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Bill>()
+            //    .HasRequired(c => c.GroupedOrder)
+            //    .WithOptional(go => go.LinkedBill).WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Bill>()
+            //    .HasRequired(c => c.GroupedOrder)
+            //    .WithRequiredPrincipal(go => go.LinkedBill).WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Bill>()
                 .HasMany(b => b.BillPictures)
                 .WithRequired(be => be.Bill).HasForeignKey(be => be.Bill_Id).WillCascadeOnDelete(true);

@@ -278,6 +278,34 @@
     <Compile Include="Migrations\201704171538414_Bills.Designer.cs">
       <DependentUpon>201704171538414_Bills.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704181201316_BillGroupedorder_FK.cs" />
+    <Compile Include="Migrations\201704181201316_BillGroupedorder_FK.Designer.cs">
+      <DependentUpon>201704181201316_BillGroupedorder_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704181215469_BillGroupedorder_FK2.cs" />
+    <Compile Include="Migrations\201704181215469_BillGroupedorder_FK2.Designer.cs">
+      <DependentUpon>201704181215469_BillGroupedorder_FK2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704181225330_BillGroupedorder_FK3.cs" />
+    <Compile Include="Migrations\201704181225330_BillGroupedorder_FK3.Designer.cs">
+      <DependentUpon>201704181225330_BillGroupedorder_FK3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704181232285_BillGroupedorder_FK4.cs" />
+    <Compile Include="Migrations\201704181232285_BillGroupedorder_FK4.Designer.cs">
+      <DependentUpon>201704181232285_BillGroupedorder_FK4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704181233119_BillGroupedorder_FK5.cs" />
+    <Compile Include="Migrations\201704181233119_BillGroupedorder_FK5.Designer.cs">
+      <DependentUpon>201704181233119_BillGroupedorder_FK5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704190927557_BillGroupedorder_FK6.cs" />
+    <Compile Include="Migrations\201704190927557_BillGroupedorder_FK6.Designer.cs">
+      <DependentUpon>201704190927557_BillGroupedorder_FK6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704191343544_BillGroupedorder_FK7.cs" />
+    <Compile Include="Migrations\201704191343544_BillGroupedorder_FK7.Designer.cs">
+      <DependentUpon>201704191343544_BillGroupedorder_FK7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -826,6 +854,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704171538414_Bills.resx">
       <DependentUpon>201704171538414_Bills.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181201316_BillGroupedorder_FK.resx">
+      <DependentUpon>201704181201316_BillGroupedorder_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181215469_BillGroupedorder_FK2.resx">
+      <DependentUpon>201704181215469_BillGroupedorder_FK2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181225330_BillGroupedorder_FK3.resx">
+      <DependentUpon>201704181225330_BillGroupedorder_FK3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181232285_BillGroupedorder_FK4.resx">
+      <DependentUpon>201704181232285_BillGroupedorder_FK4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181233119_BillGroupedorder_FK5.resx">
+      <DependentUpon>201704181233119_BillGroupedorder_FK5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704190927557_BillGroupedorder_FK6.resx">
+      <DependentUpon>201704190927557_BillGroupedorder_FK6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191343544_BillGroupedorder_FK7.resx">
+      <DependentUpon>201704191343544_BillGroupedorder_FK7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

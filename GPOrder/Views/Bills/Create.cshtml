@@ -13,8 +13,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.GroupedOrder_Id)
     @Html.HiddenFor(m => m.CreateUser_Id)
+    @Html.HiddenFor(m => m.GroupedOrder.Id)
 
     <div class="form-horizontal">
         <h3>@deliveryBoy</h3>

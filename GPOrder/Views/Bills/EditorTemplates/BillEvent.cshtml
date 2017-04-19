@@ -2,10 +2,17 @@
 
 @using (Html.BeginCollectionItem("BillEvents"))
 {
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.CreationDate)
+    @Html.HiddenFor(m => m.Bill_Id)
+    @Html.HiddenFor(m => m.Order_Id)
+    @Html.HiddenFor(m => m.CreateUserId)
+    @Html.HiddenFor(m => m.EventType)
+    @Html.HiddenFor(m => m.DebitUser_Id)
+    @Html.HiddenFor(m => m.CreditUser_Id)
     @*<div class="form-horizontal">*@
         <div class="form-group">
             <div class="col-md-2">
-                @Html.HiddenFor(m => m.CreditUser_Id)
                 @Html.DisplayFor(m => m.CreditUser.UserName)
             </div>
             <div class="col-md-2">

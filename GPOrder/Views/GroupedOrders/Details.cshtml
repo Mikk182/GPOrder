@@ -93,11 +93,11 @@
     {
         if (Model.DeliveryBoy_Id == currentUserId)
         {
-            @Html.ActionLink("Bill", "Edit", "Bills", new { Id = Model.LinkedBill_Id }, null)
+            @Html.ActionLink("Bill", "Edit", "Bills", new { Model.Id }, null)
         }
         else
         {
-            @Html.ActionLink("Bill", "Details", "Bills", new { Id = Model.LinkedBill_Id }, null)
+            @Html.ActionLink("Bill", "Details", "Bills", new { Model.Id }, null)
         }
     }
     else

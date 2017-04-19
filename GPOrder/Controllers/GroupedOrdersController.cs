@@ -75,7 +75,7 @@ namespace GPOrder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var groupedOrder = db.GroupedOrders.Include(o => o.CreateUser).Include(o => o.DeliveryBoy).Include(o => o.LinkedShop).Include(o => o.Orders).Single(o => o.Id == id);
+            var groupedOrder = db.GroupedOrders.Single(o => o.Id == id);
             if (groupedOrder == null)
             {
                 return HttpNotFound();
