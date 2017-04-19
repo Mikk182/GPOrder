@@ -612,6 +612,7 @@
     <Content Include="Scripts\globalize\plural.js" />
     <Content Include="Scripts\globalize\relative-time.js" />
     <Content Include="Scripts\globalize\unit.js" />
+    <Content Include="Scripts\Bill.js" />
     <Content Include="Scripts\iln\datetimepicker.js" />
     <Content Include="Scripts\jquery.validate.globalize.js" />
     <Content Include="Scripts\jquery.validate.globalize.min.js" />
@@ -745,10 +746,8 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <Content Include="Views\Bills\Create.cshtml" />
-    <Content Include="Views\Bills\Delete.cshtml" />
     <Content Include="Views\Bills\Details.cshtml" />
     <Content Include="Views\Bills\Edit.cshtml" />
-    <Content Include="Views\Bills\Index.cshtml" />
     <Content Include="Views\Bills\EditorTemplates\BillEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -32,3 +32,4 @@
 /// <reference path="globalize/currency.js" />
 /// <reference path="cldr/supplemental.js" />
 /// <reference path="cldr/event.js" />
+/// <reference path="bill.js" />

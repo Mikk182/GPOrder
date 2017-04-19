@@ -1,4 +1,5 @@
-﻿@using GPOrder.Resources
+﻿@using System.Globalization
+@using GPOrder.Resources
 @model GPOrder.Models.Bill
 
 @{
@@ -23,6 +24,13 @@
         <div class="form-group">
             <div class="col-md-offset-1 col-md-5">
                 @Html.EditorFor(model => model.BillEvents, "BillEvents")
+                <div class="col-md-2">
+                    @Html.Label("Total")
+                </div>
+                <div class="col-md-2">
+                    @{var totalAmount = Model.BillEvents.Sum(be => be.Amount);}
+                    @Html.Label("total", totalAmount.ToString(CultureInfo.CurrentCulture), new { id = "total" })
+                </div>
             </div>
             <div class="col-md-5">
                 @Html.EditorFor(model => model.BillPictures)
@@ -38,5 +46,18 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Grouped Order", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryajax")
+
+    <script type="text/javascript" src="~/Scripts/Bill.js"></script>
+    <script type="text/javascript">
+        var _bill = new Bill();
+        $(document).ready(function () {
+            _bill.ReadyJS();
+        });
+    </script>
+}

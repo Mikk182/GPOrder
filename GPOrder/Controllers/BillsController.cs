@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,13 +12,6 @@ namespace GPOrder.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Bills
-        public ActionResult Index()
-        {
-            var bills = db.Bills.Include(b => b.CreateUser).Include(b => b.GroupedOrder);
-            return View(bills.ToList());
-        }
-
         // GET: Bills/Details/5
         public ActionResult Details(Guid? id)
         {
@@ -27,7 +19,7 @@ namespace GPOrder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Bill bill = db.Bills.Find(id);
+            var bill = db.Bills.Find(id);
             if (bill == null)
             {
                 return HttpNotFound();
@@ -41,23 +33,28 @@ namespace GPOrder.Controllers
             var currentUserId = User.Identity.GetUserId();
             var groupedorder = db.GroupedOrders.Single(go => go.Id == groupedOrderId);
 
-            var newBill = new Bill();
-            newBill.CreateUser_Id = currentUserId;
-            newBill.Id = groupedOrderId;
-            newBill.GroupedOrder = groupedorder;
-            newBill.BillEvents = groupedorder.Orders.Select(o =>
-                new BillEvent
-                {
-                    Amount = o.EstimatedPrice,
-                    CreateUserId = currentUserId, // The delivery boy of the grouped order
-                    DebitUser_Id = currentUserId, // The delivery boy of the grouped order
-                    EventType = EventType.BillOrderEvent,
-                    CreationDate = DateTime.UtcNow,
-                    CreditUser_Id = o.CreateUser_Id,
-                    CreditUser = o.CreateUser,
-                    Order_Id = o.Id
-                }
-            ).ToList();
+            if (groupedorder.DeliveryBoy_Id != currentUserId)
+                throw new Exception("Cannot create a bill if youre not the delivery boy.");
+
+            var newBill = new Bill
+            {
+                CreateUser_Id = currentUserId,
+                Id = groupedOrderId,
+                GroupedOrder = groupedorder,
+                BillEvents = groupedorder.Orders.Select(o =>
+                    new BillEvent
+                    {
+                        Amount = o.EstimatedPrice,
+                        CreateUserId = currentUserId, // The delivery boy of the grouped order
+                        DebitUser_Id = currentUserId, // The delivery boy of the grouped order
+                        EventType = EventType.BillOrderEvent,
+                        CreationDate = DateTime.UtcNow,
+                        CreditUser_Id = o.CreateUser_Id,
+                        CreditUser = o.CreateUser,
+                        Order_Id = o.Id
+                    }
+                ).ToList()
+            };
 
             return View(newBill);
         }
@@ -71,26 +68,24 @@ namespace GPOrder.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var groupedOrder = db.GroupedOrders.Single(go => go.Id == bill.GroupedOrder.Id);
-                    bill.Id = groupedOrder.Id;
-                    bill.GroupedOrder = groupedOrder;
+                var groupedOrder = db.GroupedOrders.Single(go => go.Id == bill.GroupedOrder.Id);
 
-                    foreach (var billEvents in bill.BillEvents)
-                    {
-                        billEvents.CreationDate = DateTime.UtcNow;
-                    }
+                var currentUserId = User.Identity.GetUserId();
+                if (groupedOrder.DeliveryBoy_Id != currentUserId)
+                    throw new Exception("Cannot create a bill if youre not the delivery boy.");
 
-                    db.Bills.Add(bill);
-                    db.SaveChanges();
-                }
-                catch (DbUpdateException e)
+                bill.Id = groupedOrder.Id;
+                bill.GroupedOrder = groupedOrder;
+
+                foreach (var billEvents in bill.BillEvents)
                 {
-                    throw;
+                    billEvents.CreationDate = DateTime.UtcNow;
                 }
 
-                return RedirectToAction("Index");
+                db.Bills.Add(bill);
+                db.SaveChanges();
+
+                return RedirectToAction("Details", "GroupedOrders", new { bill.GroupedOrder.Id });
             }
 
             return View(bill);
@@ -103,11 +98,15 @@ namespace GPOrder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Bill bill = db.Bills.Find(id);
+            var bill = db.Bills.Find(id);
             if (bill == null)
             {
                 return HttpNotFound();
             }
+
+            var currentUserId = User.Identity.GetUserId();
+            if (bill.GroupedOrder.DeliveryBoy_Id != currentUserId)
+                throw new Exception("Cannot create a bill if youre not the delivery boy.");
 
             return View(bill);
         }
@@ -121,45 +120,23 @@ namespace GPOrder.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(bill).State = EntityState.Modified;
+                var currentUserId = User.Identity.GetUserId();
+                var groupedOrder = db.GroupedOrders.Single(go => go.Id == bill.GroupedOrder.Id);
+                if (groupedOrder.DeliveryBoy_Id != currentUserId)
+                    throw new Exception("Cannot create a bill if youre not the delivery boy.");
+
                 foreach (var billEvents in bill.BillEvents)
                 {
                     db.Entry(billEvents).State = EntityState.Modified;
                 }
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "GroupedOrders", new { bill.GroupedOrder.Id });
             }
 
             return View(bill);
         }
-
-        // GET: Bills/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Bill bill = db.Bills.Find(id);
-            if (bill == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bill);
-        }
-
-        // POST: Bills/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
-        {
-            Bill bill = db.Bills.Find(id);
-            db.Bills.Remove(bill);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)

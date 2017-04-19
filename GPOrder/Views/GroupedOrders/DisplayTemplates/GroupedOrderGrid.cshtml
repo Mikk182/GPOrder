@@ -58,5 +58,23 @@
         {
             @Html.ActionLink("Join", "Create", "Orders", new { shopId = Model.LinkedShop.Id, groupedOrderId = Model.Id }, null)
         }
+        @if (Model.LinkedBill != null)
+        {
+            if (Model.DeliveryBoy_Id == currentUserId)
+            {
+                @Html.ActionLink("Bill", "Edit", "Bills", new { Model.Id }, null)
+            }
+            else
+            {
+                @Html.ActionLink("Bill", "Details", "Bills", new { Model.Id }, null)
+            }
+        }
+        else
+        {
+            if (Model.DeliveryBoy_Id == currentUserId)
+            {
+                @Html.ActionLink("Bill", "Create", "Bills", new { groupedOrderId = Model.Id }, null)
+            }
+        }
     </td>
 </tr>
