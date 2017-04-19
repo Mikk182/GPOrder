@@ -23,7 +23,6 @@ namespace GPOrder.Models
 
     public class BillPicture
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
 
@@ -41,9 +40,9 @@ namespace GPOrder.Models
         /// <summary>
         /// JPG, GIF, BMP, PNG ...
         /// </summary>
-        public File LinkedFile { get; set; }
+        public virtual File LinkedFile { get; set; }
 
-        public Guid? Bill_Id { get; set; }
+        public Guid Bill_Id { get; set; }
         public virtual Bill Bill { get; set; }
     }
 

@@ -253,7 +253,7 @@ namespace GPOrder.Controllers
                     shopPic.LinkedFile.Content = reader.ReadBytes(upload.ContentLength);
                 }
 
-                var spv = new ShopPictureValidation();
+                var spv = new PictureValidation<ShopPicture>();
                 spv.Validate(shopPicture, ModelState);
                 spv.Validate(upload, ModelState);
 

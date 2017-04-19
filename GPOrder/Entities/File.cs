@@ -11,7 +11,8 @@ namespace GPOrder.Entities
     public enum FileType
     {
         UserAvatar = 1 << 0,
-        ShopPicture = 1 << 1
+        ShopPicture = 1 << 1,
+        BillPicture = 1 << 2
     }
 
     public class File

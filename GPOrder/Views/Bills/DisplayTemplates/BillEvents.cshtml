@@ -1,0 +1,10 @@
+﻿@model IEnumerable<GPOrder.Models.BillEvent>
+
+@if (Model != null)
+{
+    foreach (var billEvent in Model)
+    {
+        @Html.DisplayFor(m => billEvent)
+    }
+}
+

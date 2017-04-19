@@ -1,0 +1,16 @@
+﻿@model IEnumerable<GPOrder.Models.BillPicture>
+
+<div id="ShopPicturesDiv">
+    @if (Model != null)
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @foreach (var billPicture in Model)
+                {
+                    @Html.DisplayFor(m => billPicture)
+                }
+            </div>
+        </div>
+    }
+</div>
+

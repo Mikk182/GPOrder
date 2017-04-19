@@ -1,43 +1,44 @@
-﻿@model GPOrder.Models.Bill
+﻿@using System.Globalization
+@using GPOrder.Resources
+@model GPOrder.Models.Bill
 
 @{
-    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = string.Format(Resources.Bill_Title, Model.GroupedOrder.LimitDate, Model.GroupedOrder.LinkedShop.Name);
+    var deliveryBoy = string.Format("deliveryBoy : {0}", Model.GroupedOrder.DeliveryBoy.UserName);
+    ViewBag.Title = title;
 }
 
-<h2>Details</h2>
+<h2>@title</h2>
 
 <div>
-    <h4>Bill</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateUser.UiCulture)
-        </dt>
+    <div class="form-horizontal">
+        <h3>@deliveryBoy</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-5">
+                @Html.DisplayFor(model => model.BillEvents, "BillEvents")
+                <div class="col-md-2">
+                    @Html.Label("Total")
+                </div>
+                <div class="col-md-2">
+                    @{var totalAmount = Model.BillEvents.Sum(be => be.Amount);}
+                    @Html.Label("total", totalAmount.ToString(CultureInfo.CurrentCulture), new { id = "total" })
+                </div>
+            </div>
+            <div class="col-md-5">
+                @Html.DisplayFor(model => model.BillPictures, "BillPictures")
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreateUser.UiCulture)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GroupedOrder.CreateUser_Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GroupedOrder.CreateUser_Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GroupedOrder_Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GroupedOrder_Id)
-        </dd>
-
-    </dl>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Grouped Order", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
 </p>

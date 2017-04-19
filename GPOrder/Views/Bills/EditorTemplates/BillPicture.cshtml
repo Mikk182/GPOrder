@@ -1,0 +1,13 @@
+﻿@model GPOrder.Models.BillPicture
+
+@using (Html.BeginCollectionItem("BillPictures"))
+{
+    var description = string.Format("{0} by {1} on {2}", Model.Name, Model.CreateUser.UserName, Model.CreationDate);
+    <div class="col-md-3">
+        @Html.ActionLink("X", string.Empty, null, new { @class = "deleteLink" })
+        @Html.HiddenFor(m => m.Id)
+        <a href="@Url.Action("ShowPicture", new {Model.Id})">
+            <img id="@Model.Id" class="img-thumbnail" alt="@description" title="@description" src="data:@Model.LinkedFile.ContentType;base64,@Convert.ToBase64String(Model.LinkedFile.Content)" />
+        </a>
+    </div>
+}

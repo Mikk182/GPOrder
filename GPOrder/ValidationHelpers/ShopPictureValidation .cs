@@ -5,13 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
-using GPOrder.Models;
 
 namespace GPOrder.ValidationHelpers
 {
-    public class ShopPictureValidation
+    public class PictureValidation<T>
     {
-        public void Validate(ShopPicture sp, ModelStateDictionary modelState)
+        public void Validate(T sp, ModelStateDictionary modelState)
         {
         }
 

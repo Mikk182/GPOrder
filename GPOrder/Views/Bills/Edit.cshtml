@@ -33,7 +33,8 @@
                 </div>
             </div>
             <div class="col-md-5">
-                @Html.EditorFor(model => model.BillPictures)
+                @Html.ActionLink("Add a pic", "AddPictures", new { Model.Id })
+                @Html.EditorFor(model => model.BillPictures, "BillPictures")
             </div>
         </div>
 

@@ -2,6 +2,7 @@
 
     this.ReadyJS = function () {
         this.SubscribeAmountChangeEvent();
+        this.SubscribeDeleteLinkClick();
     };
 
     this.SubscribeAmountChangeEvent = function () {
@@ -13,6 +14,15 @@
                     total = parseFloat($(this).val()) + total;
                 });
                 $("#total").text(total);
+            });
+        });
+    }
+
+    this.SubscribeDeleteLinkClick = function () {
+        $.each($(".deleteLink"), function (index, value) {
+            $(this).click(function (event) {
+                event.preventDefault();
+                $(this).parent().remove();
             });
         });
     }

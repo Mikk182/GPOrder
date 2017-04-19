@@ -10,13 +10,13 @@
     @Html.HiddenFor(m => m.EventType)
     @Html.HiddenFor(m => m.DebitUser_Id)
     @Html.HiddenFor(m => m.CreditUser_Id)
-    <div class="form-group">
-        <div class="col-md-2">
-            @Html.DisplayFor(m => m.CreditUser.UserName)
+        <div class="form-group">
+            <div class="col-md-2">
+                @Html.DisplayFor(m => m.CreditUser.UserName)
+            </div>
+            <div class="col-md-2">
+                @Html.DisplayFor(m => m.Amount)
+            </div>
         </div>
-        <div class="col-md-2">
-            @Html.EditorFor(m => m.Amount)
-        </div>
-    </div>
 }
 

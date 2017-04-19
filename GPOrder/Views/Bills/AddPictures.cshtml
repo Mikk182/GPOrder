@@ -1,0 +1,50 @@
+﻿@model GPOrder.Models.BillPicture
+
+@{
+    ViewBag.Title = "Add a bill pic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("AddPictures", "Bills", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Shop</h4>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Bill_Id)
+
+        <div class="col-md-12">
+            @Html.Label("Max 5MB, Images only (jpeg, jpg, png, bmp, gif)")
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LinkedFile, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="LinkedFile" name="upload" class="btn btn-default" accept=".jpeg,.jpg,.png,.bmp,.gif" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to Shop", "Details", new { Id = Model.Bill_Id })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
