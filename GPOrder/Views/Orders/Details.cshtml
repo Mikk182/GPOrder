@@ -48,7 +48,7 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
+    @Html.ActionLink("Back to Grouped Order", "Details", "GroupedOrders", new { Model.GroupedOrder.Id }, null)
     @if (Model.CreateUser.Id == User.Identity.GetUserId())
     {
         @(" | ")
